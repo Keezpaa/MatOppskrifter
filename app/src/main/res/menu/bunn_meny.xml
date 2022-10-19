@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="Hjem"
+        android:icon="@drawable/ic_hjem"
+        android:id="@+id/hjemFragment"/>
+    <item android:title="Favoritter"
+        android:icon="@drawable/ic_favoritter"
+        android:id="@+id/favoritterFragment"/>
+    <item android:title="Kategorier"
+        android:icon="@drawable/ic_kategorier"
+        android:id="@+id/kategorierFragment"/>
+</menu>

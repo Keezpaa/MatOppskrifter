@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/hjemFragment">
+
+    <fragment
+        android:id="@+id/hjemFragment"
+        android:name="no.kasperi.matoppskrifter.fragmenter.HjemFragment"
+        android:label="fragment_hjem"
+        tools:layout="@layout/fragment_hjem" />
+    <fragment
+        android:id="@+id/favoritterFragment"
+        android:name="no.kasperi.matoppskrifter.fragmenter.FavorittFragment"
+        android:label="fragment_favoritt"
+        tools:layout="@layout/fragment_favoritt" />
+    <fragment
+        android:id="@+id/kategorierFragment"
+        android:name="no.kasperi.matoppskrifter.fragmenter.KategorierFragment"
+        android:label="fragment_kategorier"
+        tools:layout="@layout/fragment_kategorier" />
+</navigation>
