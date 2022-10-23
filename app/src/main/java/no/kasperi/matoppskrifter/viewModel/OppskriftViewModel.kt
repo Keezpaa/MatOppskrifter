@@ -10,13 +10,12 @@ import no.kasperi.matoppskrifter.retrofit.RetrofitInstance
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
 
 class OppskriftViewModel(): ViewModel() {
     private var oppskriftDetaljerLiveData = MutableLiveData<Meal>()
 
-    fun getOppskriftDetaljer(id:String){
-        RetrofitInstance.api.getOppskriftDetaljer(id).enqueue(object : Callback<OppskriftListe>{
+    fun hentOppskriftDetaljer(id:String){
+        RetrofitInstance.api.hentOppskriftDetaljer(id).enqueue(object : Callback<OppskriftListe>{
             override fun onResponse(
                 call: Call<OppskriftListe>,
                 response: Response<OppskriftListe>

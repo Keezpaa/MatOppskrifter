@@ -10,17 +10,16 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import no.kasperi.matoppskrifter.R
 import no.kasperi.matoppskrifter.databinding.ActivityOppskriftBinding
-import no.kasperi.matoppskrifter.fragmenter.HjemFragment
+import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.OPPSKRIFT_BILDE
 import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.OPPSKRIFT_ID
-import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.OPPSKRIFT_NAME
-import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.OPPSKRIFT_THUMB
+import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.OPPSKRIFT_NAVN
 import no.kasperi.matoppskrifter.pojo.Meal
 import no.kasperi.matoppskrifter.viewModel.OppskriftViewModel
 
 class OppskriftActivity : AppCompatActivity() {
-    private lateinit var mealId:String
-    private lateinit var mealName:String
-    private lateinit var mealThumb:String
+    private lateinit var oppskriftId:String
+    private lateinit var oppskriftNavn:String
+    private lateinit var oppskriftBilde:String
     private lateinit var binding: ActivityOppskriftBinding
     private lateinit var oppskriftMvvm:OppskriftViewModel
 
@@ -33,11 +32,11 @@ class OppskriftActivity : AppCompatActivity() {
 
         oppskriftMvvm = ViewModelProvider(this)[OppskriftViewModel::class.java]
 
-        getOppskriftInformasjonFraIntent()
-        setInfoInViews()
+        hentOppskriftInformasjonFraIntent()
+        setInfoIViews()
 
         loadingCase()
-        oppskriftMvvm.getOppskriftDetaljer(mealId)
+        oppskriftMvvm.hentOppskriftDetaljer(oppskriftId)
         observerOppskriftDetaljerLiveData()
 
         onYoutubeClick()
@@ -65,21 +64,21 @@ class OppskriftActivity : AppCompatActivity() {
         })
     }
 
-    private fun setInfoInViews() {
+    private fun setInfoIViews() {
         Glide.with(applicationContext)
-            .load(mealThumb)
+            .load(oppskriftBilde)
             .into(binding.imgOppskriftDetaljer)
 
-        binding.collapsingToolbar.title = mealName
+        binding.collapsingToolbar.title = oppskriftNavn
         binding.collapsingToolbar.setCollapsedTitleTextColor((resources.getColor(R.color.white)))
         binding.collapsingToolbar.setExpandedTitleColor(resources.getColor(R.color.white))
     }
 
-    private fun getOppskriftInformasjonFraIntent() {
+    private fun hentOppskriftInformasjonFraIntent() {
             val intent = intent
-            this.mealId = intent.getStringExtra(OPPSKRIFT_ID)!!
-            this.mealName = intent.getStringExtra(OPPSKRIFT_NAME)!!
-            this.mealThumb = intent.getStringExtra(OPPSKRIFT_THUMB)!!
+            this.oppskriftId = intent.getStringExtra(OPPSKRIFT_ID)!!
+            this.oppskriftNavn = intent.getStringExtra(OPPSKRIFT_NAVN)!!
+            this.oppskriftBilde = intent.getStringExtra(OPPSKRIFT_BILDE)!!
         }
 
     private fun loadingCase(){
