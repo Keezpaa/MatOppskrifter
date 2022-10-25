@@ -5,16 +5,19 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import no.kasperi.matoppskrifter.R
 import no.kasperi.matoppskrifter.databinding.ActivityOppskriftBinding
+import no.kasperi.matoppskrifter.db.OppskriftDB
 import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.OPPSKRIFT_BILDE
 import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.OPPSKRIFT_ID
 import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.OPPSKRIFT_NAVN
 import no.kasperi.matoppskrifter.pojo.Meal
 import no.kasperi.matoppskrifter.viewModel.OppskriftViewModel
+import no.kasperi.matoppskrifter.viewModel.OppskriftViewModelFactory
 
 class OppskriftActivity : AppCompatActivity() {
     private lateinit var oppskriftId:String
@@ -30,7 +33,10 @@ class OppskriftActivity : AppCompatActivity() {
         binding = ActivityOppskriftBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        oppskriftMvvm = ViewModelProvider(this)[OppskriftViewModel::class.java]
+
+        val oppskriftDB = OppskriftDB.hentInstance(this)
+        val viewModelFactory = OppskriftViewModelFactory(oppskriftDB)
+        oppskriftMvvm = ViewModelProvider(this, viewModelFactory)[OppskriftViewModel::class.java]
 
         hentOppskriftInformasjonFraIntent()
         setInfoIViews()
@@ -40,6 +46,16 @@ class OppskriftActivity : AppCompatActivity() {
         observerOppskriftDetaljerLiveData()
 
         onYoutubeClick()
+        onFavorittClick()
+    }
+
+    private fun onFavorittClick() {
+        binding.btnFavoritt.setOnClickListener{
+            oppskriftTilLagring?.let{
+                oppskriftMvvm.insertOppskrift(it)
+                Toast.makeText(this,"Matrett lagret!", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun onYoutubeClick() {
@@ -49,12 +65,13 @@ class OppskriftActivity : AppCompatActivity() {
         }
     }
 
+    private var oppskriftTilLagring:Meal? = null
     private fun observerOppskriftDetaljerLiveData() {
         oppskriftMvvm.observeOppskriftDetaljerLiveData().observe(this, object : Observer<Meal>{
             override fun onChanged(t: Meal?) {
                 onResponseCase()
                 val oppskrift = t
-
+                oppskriftTilLagring = oppskrift
                 //Hvilken kategori tilhører retten?
                 binding.tvKategori.text = "Kategori: ${oppskrift!!.strCategory}"
 
@@ -68,7 +85,7 @@ class OppskriftActivity : AppCompatActivity() {
                 binding.tvIngredienser.text = "${oppskrift.strIngredient1}, \n${oppskrift.strIngredient2}, \n${oppskrift.strIngredient3}, \n${oppskrift.strIngredient4}, \n${oppskrift.strIngredient5}, \n${oppskrift.strIngredient6}, \n${oppskrift.strIngredient7}, \n${oppskrift.strIngredient8}, \n${oppskrift.strIngredient9}, \n${oppskrift.strIngredient10}, \n${oppskrift.strIngredient11}, \n${oppskrift.strIngredient12}, \n${oppskrift.strIngredient13}, \n${oppskrift.strIngredient14}, \n${oppskrift.strIngredient15}, \n${oppskrift.strIngredient16}, \n${oppskrift.strIngredient17}, \n${oppskrift.strIngredient18}, \n${oppskrift.strIngredient19}, \n${oppskrift.strIngredient20}"
 
                 // Youtube link
-                ytLink = oppskrift.strYoutube
+                ytLink = oppskrift.strYoutube.toString()
             }
         })
     }
