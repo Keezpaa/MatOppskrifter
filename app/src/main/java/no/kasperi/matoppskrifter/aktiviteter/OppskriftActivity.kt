@@ -55,14 +55,19 @@ class OppskriftActivity : AppCompatActivity() {
                 onResponseCase()
                 val oppskrift = t
 
+                //Hvilken kategori tilhører retten?
                 binding.tvKategori.text = "Kategori: ${oppskrift!!.strCategory}"
+
+                //Hvordan type rett det er, eksempel: indisk, amerikansk, britisk osv.
                 binding.tvSted.text = "${oppskrift.strArea}"
+
+                //Instruksjoner
                 binding.tvInstruksjonerText.text = oppskrift.strInstructions
 
                 //Ingrediensene
                 binding.tvIngredienser.text = "${oppskrift.strIngredient1}, \n${oppskrift.strIngredient2}, \n${oppskrift.strIngredient3}, \n${oppskrift.strIngredient4}, \n${oppskrift.strIngredient5}, \n${oppskrift.strIngredient6}, \n${oppskrift.strIngredient7}, \n${oppskrift.strIngredient8}, \n${oppskrift.strIngredient9}, \n${oppskrift.strIngredient10}, \n${oppskrift.strIngredient11}, \n${oppskrift.strIngredient12}, \n${oppskrift.strIngredient13}, \n${oppskrift.strIngredient14}, \n${oppskrift.strIngredient15}, \n${oppskrift.strIngredient16}, \n${oppskrift.strIngredient17}, \n${oppskrift.strIngredient18}, \n${oppskrift.strIngredient19}, \n${oppskrift.strIngredient20}"
 
-
+                // Youtube link
                 ytLink = oppskrift.strYoutube
             }
         })
