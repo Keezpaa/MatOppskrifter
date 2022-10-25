@@ -13,6 +13,9 @@
         android:theme="@style/Theme.MatOppskrifter"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".aktiviteter.KategoriActivity"
+            android:exported="false" />
+        <activity
             android:name=".aktiviteter.OppskriftActivity"
             android:exported="false" />
         <activity

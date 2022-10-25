@@ -5,14 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import no.kasperi.matoppskrifter.databinding.PopulareRetterBinding
-import no.kasperi.matoppskrifter.pojo.KategoriListe
-import no.kasperi.matoppskrifter.pojo.OppskriftKategori
+import no.kasperi.matoppskrifter.pojo.OppskriftFraKategori
 
 class MestPopulareAdapter(): RecyclerView.Adapter<MestPopulareAdapter.PopularOppskriftViewHolder>() {
-    lateinit var onItemClick:((OppskriftKategori) -> Unit)
-    private var oppskriftListe = ArrayList<OppskriftKategori>()
+    lateinit var onItemClick:((OppskriftFraKategori) -> Unit)
+    private var oppskriftListe = ArrayList<OppskriftFraKategori>()
 
-    fun setOppskrifter(oppskriftListe:ArrayList<OppskriftKategori>){
+    fun setOppskrifter(oppskriftListe:ArrayList<OppskriftFraKategori>){
         this.oppskriftListe = oppskriftListe
         notifyDataSetChanged()
     }

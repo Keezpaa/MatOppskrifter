@@ -4,10 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import no.kasperi.matoppskrifter.pojo.KategoriListe
-import no.kasperi.matoppskrifter.pojo.Meal
-import no.kasperi.matoppskrifter.pojo.OppskriftKategori
-import no.kasperi.matoppskrifter.pojo.OppskriftListe
+import no.kasperi.matoppskrifter.pojo.*
 import no.kasperi.matoppskrifter.retrofit.RetrofitInstance
 import retrofit2.Call
 import retrofit2.Callback
@@ -16,7 +13,9 @@ import retrofit2.Response
 class HjemViewModel():ViewModel() {
 
     private var randomOppskriftLiveData = MutableLiveData<Meal>()
-    private var populareRetterLiveData = MutableLiveData<List<OppskriftKategori>>()
+    private var populareRetterLiveData = MutableLiveData<List<OppskriftFraKategori>>()
+    private var kategorierLiveData = MutableLiveData<List<Kategori>>()
+
 
     fun hentTilfeldigOppskrift(){
         RetrofitInstance.api.hentTilfeldigOppskrift().enqueue(object : Callback<OppskriftListe> {
@@ -39,24 +38,42 @@ class HjemViewModel():ViewModel() {
     }
 
     fun hentPopulareRetter() {
-       RetrofitInstance.api.hentPopulareRetter("Beef").enqueue(object : Callback<KategoriListe>{
-           override fun onResponse(call: Call<KategoriListe>, response: Response<KategoriListe>) {
+       RetrofitInstance.api.hentPopulareRetter("Beef").enqueue(object : Callback<OppskriftFraKategoriListe>{
+           override fun onResponse(call: Call<OppskriftFraKategoriListe>, response: Response<OppskriftFraKategoriListe>) {
                if(response.body() != null){
                    populareRetterLiveData.value = response.body()!!.meals
                }
            }
 
-           override fun onFailure(call: Call<KategoriListe>, t: Throwable) {
+           override fun onFailure(call: Call<OppskriftFraKategoriListe>, t: Throwable) {
                Log.d("HjemFragment", t.message.toString())
            }
        })
+    }
+
+    fun hentKategorier() {
+        RetrofitInstance.api.hentKategorier().enqueue(object : Callback<KategoriListe>{
+            override fun onResponse(call: Call<KategoriListe>, response: Response<KategoriListe>) {
+                response.body()?.let { kategoriListe ->  
+                    kategorierLiveData.postValue(kategoriListe.categories)
+                }
+            }
+
+            override fun onFailure(call: Call<KategoriListe>, t: Throwable) {
+                Log.e("HjemViewModel", t.message.toString())
+            }
+        })
     }
 
     fun observeTilfeldigOppskriftLiveData():LiveData<Meal>{
         return randomOppskriftLiveData
     }
 
-    fun observePopulareRetterLiveData():LiveData<List<OppskriftKategori>>{
+    fun observePopulareRetterLiveData():LiveData<List<OppskriftFraKategori>>{
         return populareRetterLiveData
+    }
+
+    fun observeKategorierLiveData():LiveData<List<Kategori>>{
+        return kategorierLiveData
     }
 }

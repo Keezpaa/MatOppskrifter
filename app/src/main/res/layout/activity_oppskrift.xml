@@ -51,74 +51,95 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="451dp"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            
+
             <LinearLayout
                 android:id="@+id/linear_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
                 android:layout_marginTop="5dp"
-                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginEnd="5dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
                     android:id="@+id/tv_kategori"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="Kategori: Biff"
-                    android:textStyle="bold"
                     android:textColor="@color/g_black"
+                    android:textStyle="bold"
                     app:drawableLeftCompat="@drawable/ic_kategorier"
-                    app:drawableTint="@color/g_black"
-                    android:layout_weight="1"/>
+                    app:drawableTint="@color/g_black" />
+
                 <TextView
                     android:id="@+id/tv_sted"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="India"
-                    android:textStyle="bold"
                     android:textColor="@color/g_black"
+                    android:textStyle="bold"
                     app:drawableLeftCompat="@drawable/ic_area"
-                    app:drawableTint="@color/g_black"
-                    android:layout_weight="1"/>
-
+                    app:drawableTint="@color/g_black" />
 
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/tv_ingredienser_tittel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:text="Ingredienser:"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/linear_layout" />
+
+            <TextView
+                android:id="@+id/tv_ingredienser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="@id/tv_ingredienser_tittel"
+                app:layout_constraintTop_toBottomOf="@id/tv_ingredienser_tittel" />
 
             <TextView
                 android:id="@+id/tv_instruksjoner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="-2dp"
+                android:layout_marginTop="10dp"
                 android:text="Instruksjoner:"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/linear_layout"
-                android:layout_marginTop="15dp"
-                android:layout_marginStart="10dp"
-                android:textStyle="bold"
                 android:textColor="@color/black"
-                android:textSize="20sp"/>
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/tv_ingredienser"
+                app:layout_constraintTop_toBottomOf="@id/tv_ingredienser" />
 
             <TextView
                 android:id="@+id/tv_instruksjoner_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/tv_instruksjoner"
-                app:layout_constraintTop_toBottomOf="@id/tv_instruksjoner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginStart="2dp"
                 android:textColor="@color/black"
-                />
+                app:layout_constraintStart_toStartOf="@id/tv_instruksjoner"
+                app:layout_constraintTop_toBottomOf="@id/tv_instruksjoner" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

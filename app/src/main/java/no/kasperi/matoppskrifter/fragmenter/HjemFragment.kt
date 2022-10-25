@@ -6,15 +6,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import no.kasperi.matoppskrifter.adapters.KategorierAdapter
 import no.kasperi.matoppskrifter.adapters.MestPopulareAdapter
+import no.kasperi.matoppskrifter.aktiviteter.KategoriActivity
 import no.kasperi.matoppskrifter.aktiviteter.OppskriftActivity
 import no.kasperi.matoppskrifter.databinding.FragmentHjemBinding
 import no.kasperi.matoppskrifter.pojo.Meal
-import no.kasperi.matoppskrifter.pojo.OppskriftKategori
+import no.kasperi.matoppskrifter.pojo.OppskriftFraKategori
 import no.kasperi.matoppskrifter.viewModel.HjemViewModel
 
 
@@ -24,12 +26,13 @@ class HjemFragment : Fragment() {
     private lateinit var hjemMvvm:HjemViewModel
     private lateinit var randomOppskrift:Meal
     private lateinit var populareRetterAdapter:MestPopulareAdapter
+    private lateinit var kategorierAdapter:KategorierAdapter
 
     companion object {
         const val OPPSKRIFT_ID = "no.kasperi.matoppskrifter.fragmenter.idOppskrift"
         const val OPPSKRIFT_NAVN = "no.kasperi.matoppskrifter.fragmenter.navnOppskrift"
         const val OPPSKRIFT_BILDE = "no.kasperi.matoppskrifter.fragmenter.bildeOppskrift"
-
+        const val KATEGORI_NAVN = "no.kasperi.matoppskrifter.fragmenter.kategoriNavn"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,6 +40,7 @@ class HjemFragment : Fragment() {
         hjemMvvm = ViewModelProvider(this)[HjemViewModel::class.java]
 
         populareRetterAdapter = MestPopulareAdapter()
+        kategorierAdapter = KategorierAdapter()
         }
 
     override fun onCreateView(
@@ -52,7 +56,7 @@ class HjemFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         preparePopulareRetterRecyclerView()
-
+        prepareKategorierRecyclerView()
 
         hjemMvvm.hentTilfeldigOppskrift()
         observeTilfeldigOppskrift()
@@ -61,6 +65,34 @@ class HjemFragment : Fragment() {
         hjemMvvm.hentPopulareRetter()
         observePopulareRetterLiveData()
         onPopularItemClick()
+
+        hjemMvvm.hentKategorier()
+        observeKategorierLiveData()
+
+        onKategoriClick()
+    }
+
+    private fun onKategoriClick() {
+        kategorierAdapter.onItemClick = { kategori ->
+            val intent = Intent(activity, KategoriActivity::class.java)
+            intent.putExtra(KATEGORI_NAVN, kategori.strCategory)
+            startActivity(intent)
+
+        }
+    }
+
+    private fun prepareKategorierRecyclerView() {
+        binding.recyclerViewKategorier.apply {
+            adapter = kategorierAdapter
+            layoutManager = GridLayoutManager(context, 3, GridLayoutManager.VERTICAL, false)
+
+        }
+    }
+
+    private fun observeKategorierLiveData() {
+        hjemMvvm.observeKategorierLiveData().observe(viewLifecycleOwner) { categories ->
+            kategorierAdapter.setKategoriListe(categories)
+        }
     }
 
     private fun onPopularItemClick() {
@@ -83,7 +115,7 @@ class HjemFragment : Fragment() {
     private fun observePopulareRetterLiveData() {
         hjemMvvm.observePopulareRetterLiveData().observe(viewLifecycleOwner)
         { oppskriftListe ->
-            populareRetterAdapter.setOppskrifter(oppskriftListe = oppskriftListe as ArrayList<OppskriftKategori>)
+            populareRetterAdapter.setOppskrifter(oppskriftListe = oppskriftListe as ArrayList<OppskriftFraKategori>)
         }
     }
 
