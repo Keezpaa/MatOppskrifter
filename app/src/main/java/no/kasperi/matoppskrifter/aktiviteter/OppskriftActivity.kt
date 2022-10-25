@@ -51,10 +51,10 @@ class OppskriftActivity : AppCompatActivity() {
 
     private fun onFavorittClick() {
         binding.btnFavoritt.setOnClickListener{
-            oppskriftTilLagring?.let{
-                oppskriftMvvm.insertOppskrift(it)
-                Toast.makeText(this,"Matrett lagret!", Toast.LENGTH_SHORT).show()
-            }
+                oppskriftTilLagring?.let{
+                    oppskriftMvvm.insertOppskrift(it)
+                    Toast.makeText(this,"Matrett lagret!", Toast.LENGTH_SHORT).show()
+                }
         }
     }
 

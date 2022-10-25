@@ -23,4 +23,7 @@ interface OppskriftApi {
 
     @GET("filter.php")
     fun hentOppskrftFraKategori(@Query("c") kategoriNavn: String) : Call<OppskriftFraKategoriListe>
+
+    @GET("filter.php")
+    fun hentOppskrftFraFavoritt(@Query("c") kategoriNavn: String) : Call<OppskriftFraKategoriListe>
 }

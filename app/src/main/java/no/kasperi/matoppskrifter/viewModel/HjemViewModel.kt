@@ -4,18 +4,23 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import no.kasperi.matoppskrifter.pojo.*
+import no.kasperi.matoppskrifter.db.OppskriftDB
 import no.kasperi.matoppskrifter.retrofit.RetrofitInstance
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class HjemViewModel():ViewModel() {
+class HjemViewModel(
+    private val oppskriftDB: OppskriftDB
+):ViewModel() {
 
     private var randomOppskriftLiveData = MutableLiveData<Meal>()
     private var populareRetterLiveData = MutableLiveData<List<OppskriftFraKategori>>()
     private var kategorierLiveData = MutableLiveData<List<Kategori>>()
-
+    private var favorittOppskriftLiveData = oppskriftDB.oppskriftDao().hentAlleOppskrifter()
 
     fun hentTilfeldigOppskrift(){
         RetrofitInstance.api.hentTilfeldigOppskrift().enqueue(object : Callback<OppskriftListe> {
@@ -65,6 +70,16 @@ class HjemViewModel():ViewModel() {
         })
     }
 
+    fun slettOppskrift(oppskrift:Meal){
+        viewModelScope.launch {
+            oppskriftDB.oppskriftDao().slettOppskrift(oppskrift)
+        }
+    }
+    fun insertOppskrift(oppskrift: Meal) {
+        viewModelScope.launch {
+            oppskriftDB.oppskriftDao().upsert(oppskrift)
+        }
+    }
     fun observeTilfeldigOppskriftLiveData():LiveData<Meal>{
         return randomOppskriftLiveData
     }
@@ -75,5 +90,9 @@ class HjemViewModel():ViewModel() {
 
     fun observeKategorierLiveData():LiveData<List<Kategori>>{
         return kategorierLiveData
+    }
+
+    fun observerFavorittOppskrifterLiveData():LiveData<List<Meal>>{
+        return favorittOppskriftLiveData
     }
 }

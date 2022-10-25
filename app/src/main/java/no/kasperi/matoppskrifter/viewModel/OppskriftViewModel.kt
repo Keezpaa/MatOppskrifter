@@ -15,7 +15,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class OppskriftViewModel(
-    val oppskriftDatabase:OppskriftDB
+    val oppskriftDB:OppskriftDB
 ): ViewModel() {
     private var oppskriftDetaljerLiveData = MutableLiveData<Meal>()
 
@@ -45,12 +45,8 @@ class OppskriftViewModel(
 
     fun insertOppskrift(oppskrift:Meal){
         viewModelScope.launch {
-            oppskriftDatabase.oppskriftDao().upsert(oppskrift)
+            oppskriftDB.oppskriftDao().upsert(oppskrift)
         }
     }
-    fun slettOppskrift(oppskrift:Meal){
-        viewModelScope.launch {
-            oppskriftDatabase.oppskriftDao().slettOppskrift(oppskrift)
-        }
-    }
+
 }
