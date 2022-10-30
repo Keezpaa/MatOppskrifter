@@ -11,6 +11,7 @@ import no.kasperi.matoppskrifter.pojo.Meal
 
 class FavorittAdapter : RecyclerView.Adapter<FavorittAdapter.FavorittAdapterViewHolder>() {
      var onItemClick:((Meal) -> Unit)?= null
+    private lateinit var onFavorittClickListener: OnFavorittClickListener
     inner class FavorittAdapterViewHolder(val binding:OppskriftElementBinding) : RecyclerView.ViewHolder(binding.root)
 
     private val diffUtil = object : DiffUtil.ItemCallback<Meal>() {
@@ -41,6 +42,13 @@ class FavorittAdapter : RecyclerView.Adapter<FavorittAdapter.FavorittAdapterView
 
     override fun getItemCount(): Int {
         return differ.currentList.size
+    }
+    interface OnFavorittClickListener {
+        fun onFavorittClick(oppskrift: Meal)
+    }
+
+    fun setOnFavorittClickListener(onFavorittClickListener: OnFavorittClickListener) {
+        this.onFavorittClickListener = onFavorittClickListener
     }
 
 

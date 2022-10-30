@@ -31,6 +31,8 @@ class FavorittFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = (activity as MainActivity).viewModel
+
+        favorittAdapter = FavorittAdapter()
     }
 
     override fun onCreateView(
@@ -80,14 +82,15 @@ class FavorittFragment : Fragment() {
     }
 
     private fun onFavorittOppskriftClick() {
-        favorittAdapter = FavorittAdapter()
-        favorittAdapter.onItemClick= { oppskrift ->
-            val intent = Intent(activity, OppskriftActivity::class.java)
-            intent.putExtra(OPPSKRIFT_ID, oppskrift.idMeal)
-            intent.putExtra(OPPSKRIFT_NAVN, oppskrift.strMeal)
-            intent.putExtra(OPPSKRIFT_BILDE, oppskrift.strMealThumb)
-            startActivity(intent)
-        }
+        favorittAdapter.setOnFavorittClickListener(object : FavorittAdapter.OnFavorittClickListener{
+            override fun onFavorittClick(oppskrift: Meal) {
+                val intent = Intent(context, OppskriftActivity::class.java)
+                intent.putExtra(OPPSKRIFT_ID,oppskrift.idMeal)
+                intent.putExtra(OPPSKRIFT_NAVN, oppskrift.strMeal)
+                intent.putExtra(OPPSKRIFT_BILDE, oppskrift.strMealThumb)
+                startActivity(intent)
+            }
+        })
     }
 
     private fun prepareRecyclerView(v:View) {

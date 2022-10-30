@@ -37,6 +37,7 @@ class KategoriActivity : AppCompatActivity() {
             })
     }
 
+
     private fun prepareRecyclerView() {
         oppskriftKategoriAdapter = OppskriftKategoriAdapter()
         binding.recOppskrifter.apply {

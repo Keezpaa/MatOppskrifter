@@ -6,7 +6,8 @@
     tools:context="no.kasperi.matoppskrifter.fragmenter.KategorierFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rec_kategorier"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="Kategori fragment" />

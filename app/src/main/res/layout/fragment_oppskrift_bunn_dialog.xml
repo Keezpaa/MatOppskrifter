@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragmenter.bunnDialog.OppskriftBunnDialogFragment">
+
+    <ImageView
+        android:id="@+id/img_bunn_dialog"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_margin="5dp"
+        android:src="@color/accent"
+        android:scaleType="centerCrop"/>
+    
+    <LinearLayout
+        android:id="@+id/linear_bunn_dialog"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toEndOf="@id/img_bunn_dialog"
+        app:layout_constraintTop_toTopOf="@id/img_bunn_dialog"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="5dp">
+
+        <TextView
+            android:id="@+id/bunn_dialog_sted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Norge"
+            android:textColor="@color/g_black"
+            android:drawableStart="@drawable/ic_area"
+            android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/bunn_dialog_kategori"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Beef"
+            android:textColor="@color/g_black"
+            android:drawableStart="@drawable/ic_kategorier"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_bunn_kategori_navn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="English breakfast"
+        app:layout_constraintStart_toStartOf="@id/linear_bunn_dialog"
+        app:layout_constraintTop_toBottomOf="@id/linear_bunn_dialog"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/g_black"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Les mer..."
+        app:layout_constraintStart_toStartOf="@id/tv_bunn_kategori_navn"
+        app:layout_constraintTop_toBottomOf="@id/tv_bunn_kategori_navn"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/g_black"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

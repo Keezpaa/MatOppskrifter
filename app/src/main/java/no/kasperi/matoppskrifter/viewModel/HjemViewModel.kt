@@ -21,6 +21,8 @@ class HjemViewModel(
     private var populareRetterLiveData = MutableLiveData<List<OppskriftFraKategori>>()
     private var kategorierLiveData = MutableLiveData<List<Kategori>>()
     private var favorittOppskriftLiveData = oppskriftDB.oppskriftDao().hentAlleOppskrifter()
+    private var bunnDialogOppskriftLiveData = MutableLiveData<Meal>()
+
 
     fun hentTilfeldigOppskrift(){
         RetrofitInstance.api.hentTilfeldigOppskrift().enqueue(object : Callback<OppskriftListe> {
@@ -70,6 +72,24 @@ class HjemViewModel(
         })
     }
 
+    fun hentOppskriftMedId(id:String) {
+        RetrofitInstance.api.hentOppskriftDetaljer(id).enqueue(object : Callback<OppskriftListe>{
+            override fun onResponse(
+                call: Call<OppskriftListe>,
+                response: Response<OppskriftListe>
+            ) {
+                val oppskrift = response.body()?.meals?.first()
+                oppskrift?.let{ oppskrift ->
+                    bunnDialogOppskriftLiveData.postValue(oppskrift)
+                }
+            }
+
+            override fun onFailure(call: Call<OppskriftListe>, t: Throwable) {
+                Log.e("HjemViewModel",t.message.toString())
+            }
+        })
+    }
+
     fun slettOppskrift(oppskrift:Meal){
         viewModelScope.launch {
             oppskriftDB.oppskriftDao().slettOppskrift(oppskrift)
@@ -95,4 +115,5 @@ class HjemViewModel(
     fun observerFavorittOppskrifterLiveData():LiveData<List<Meal>>{
         return favorittOppskriftLiveData
     }
+    fun observerBunnDialogOppskrift() : LiveData<Meal> = bunnDialogOppskriftLiveData
 }

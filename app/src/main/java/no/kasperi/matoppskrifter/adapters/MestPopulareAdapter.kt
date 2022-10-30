@@ -9,6 +9,7 @@ import no.kasperi.matoppskrifter.pojo.OppskriftFraKategori
 
 class MestPopulareAdapter(): RecyclerView.Adapter<MestPopulareAdapter.PopularOppskriftViewHolder>() {
     lateinit var onItemClick:((OppskriftFraKategori) -> Unit)
+    var onLongItemClick:((OppskriftFraKategori) -> Unit)?=null
     private var oppskriftListe = ArrayList<OppskriftFraKategori>()
 
     fun setOppskrifter(oppskriftListe:ArrayList<OppskriftFraKategori>){
@@ -29,6 +30,12 @@ class MestPopulareAdapter(): RecyclerView.Adapter<MestPopulareAdapter.PopularOpp
         holder.itemView.setOnClickListener {
             onItemClick.invoke(oppskriftListe[position])
         }
+
+        holder.itemView.setOnLongClickListener {
+            onLongItemClick?.invoke(oppskriftListe[position])
+            true
+        }
+
     }
 
     override fun getItemCount(): Int {

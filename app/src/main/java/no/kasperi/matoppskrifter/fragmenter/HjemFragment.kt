@@ -15,6 +15,7 @@ import no.kasperi.matoppskrifter.aktiviteter.KategoriActivity
 import no.kasperi.matoppskrifter.aktiviteter.MainActivity
 import no.kasperi.matoppskrifter.aktiviteter.OppskriftActivity
 import no.kasperi.matoppskrifter.databinding.FragmentHjemBinding
+import no.kasperi.matoppskrifter.fragmenter.bunnDialog.OppskriftBunnDialogFragment
 import no.kasperi.matoppskrifter.pojo.Meal
 import no.kasperi.matoppskrifter.pojo.OppskriftFraKategori
 import no.kasperi.matoppskrifter.viewModel.HjemViewModel
@@ -68,8 +69,16 @@ class HjemFragment : Fragment() {
 
         viewModel.hentKategorier()
         observeKategorierLiveData()
-
         onKategoriClick()
+
+        onPopularItemLongClick()
+    }
+
+    private fun onPopularItemLongClick() {
+        populareRetterAdapter.onLongItemClick = { oppskrift ->
+            val oppskriftBunnDialogFragment = OppskriftBunnDialogFragment.newInstance(oppskrift.idMeal)
+            oppskriftBunnDialogFragment.show(childFragmentManager,"Oppskriftinfo ")
+        }
     }
 
     private fun onKategoriClick() {
