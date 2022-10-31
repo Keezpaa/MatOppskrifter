@@ -1,5 +1,6 @@
 package no.kasperi.matoppskrifter.fragmenter.bunnDialog
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,7 +11,9 @@ import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import no.kasperi.matoppskrifter.R
 import no.kasperi.matoppskrifter.aktiviteter.MainActivity
+import no.kasperi.matoppskrifter.aktiviteter.OppskriftActivity
 import no.kasperi.matoppskrifter.databinding.FragmentOppskriftBunnDialogBinding
+import no.kasperi.matoppskrifter.fragmenter.HjemFragment
 import no.kasperi.matoppskrifter.viewModel.HjemViewModel
 
 
@@ -45,7 +48,24 @@ class OppskriftBunnDialogFragment : BottomSheetDialogFragment() {
         oppskriftId?.let { viewModel.hentOppskriftMedId(it) }
 
         observerBunnDialog()
+        onBunnDialogClick()
     }
+
+    private fun onBunnDialogClick() {
+        binding.bunnDialog.setOnClickListener{
+            if (oppskriftNavn != null && oppskriftBilde != null){
+                val intent = Intent(activity,OppskriftActivity::class.java)
+                intent.apply {
+                    putExtra(HjemFragment.OPPSKRIFT_ID, oppskriftId)
+                    putExtra(HjemFragment.OPPSKRIFT_NAVN, oppskriftNavn)
+                    putExtra(HjemFragment.OPPSKRIFT_BILDE, oppskriftBilde)
+                }
+                startActivity(intent)
+            }
+        }
+    }
+    private var oppskriftNavn:String? = null
+    private var oppskriftBilde:String? = null
 
     private fun observerBunnDialog() {
         viewModel.observerBunnDialogOppskrift().observe(viewLifecycleOwner, Observer { oppskrift ->
@@ -53,6 +73,9 @@ class OppskriftBunnDialogFragment : BottomSheetDialogFragment() {
             binding.bunnDialogSted.text = oppskrift.strArea
             binding.bunnDialogKategori.text = oppskrift.strCategory
             binding.tvBunnKategoriNavn.text = oppskrift.strMeal
+
+            oppskriftNavn = oppskrift.strMeal
+            oppskriftBilde = oppskrift.strMealThumb
         })
     }
 

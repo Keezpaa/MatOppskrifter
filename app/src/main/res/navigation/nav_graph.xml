@@ -9,7 +9,11 @@
         android:id="@+id/hjemFragment"
         android:name="no.kasperi.matoppskrifter.fragmenter.HjemFragment"
         android:label="fragment_hjem"
-        tools:layout="@layout/fragment_hjem" />
+        tools:layout="@layout/fragment_hjem" >
+        <action
+            android:id="@+id/action_hjemFragment_to_sokFragment"
+            app:destination="@id/sokFragment" />
+    </fragment>
     <fragment
         android:id="@+id/favoritterFragment"
         android:name="no.kasperi.matoppskrifter.fragmenter.FavorittFragment"
@@ -20,4 +24,9 @@
         android:name="no.kasperi.matoppskrifter.fragmenter.KategorierFragment"
         android:label="fragment_kategorier"
         tools:layout="@layout/fragment_kategorier" />
+    <fragment
+        android:id="@+id/sokFragment"
+        android:name="no.kasperi.matoppskrifter.fragmenter.SokFragment"
+        android:label="fragment_sok"
+        tools:layout="@layout/fragment_sok" />
 </navigation>

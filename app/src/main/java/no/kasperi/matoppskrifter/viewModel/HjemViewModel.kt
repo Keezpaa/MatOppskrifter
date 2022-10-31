@@ -12,6 +12,7 @@ import no.kasperi.matoppskrifter.retrofit.RetrofitInstance
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.http.Query
 
 class HjemViewModel(
     private val oppskriftDB: OppskriftDB
@@ -22,6 +23,9 @@ class HjemViewModel(
     private var kategorierLiveData = MutableLiveData<List<Kategori>>()
     private var favorittOppskriftLiveData = oppskriftDB.oppskriftDao().hentAlleOppskrifter()
     private var bunnDialogOppskriftLiveData = MutableLiveData<Meal>()
+    private var soktOppskriftLiveData = MutableLiveData<List<Meal>>()
+
+
 
 
     fun hentTilfeldigOppskrift(){
@@ -100,6 +104,26 @@ class HjemViewModel(
             oppskriftDB.oppskriftDao().upsert(oppskrift)
         }
     }
+
+    fun soktEtterOppskrift(sokQuery:String) = RetrofitInstance.api.sokEtterOppskrift(sokQuery).enqueue(
+        object : Callback<OppskriftListe>{
+            override fun onResponse(
+                call: Call<OppskriftListe>,
+                response: Response<OppskriftListe>
+            ) {
+                val oppskriftListe = response.body()?.meals
+                oppskriftListe?.let{
+                    soktOppskriftLiveData.postValue(it)
+                }
+            }
+
+            override fun onFailure(call: Call<OppskriftListe>, t: Throwable) {
+                Log.e("HjemViewModel", t.message.toString())
+            }
+        }
+    )
+
+    fun observerSokteOppskrifterLiveData() : LiveData<List<Meal>> = soktOppskriftLiveData
     fun observeTilfeldigOppskriftLiveData():LiveData<Meal>{
         return randomOppskriftLiveData
     }

@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import no.kasperi.matoppskrifter.R
-import no.kasperi.matoppskrifter.adapters.FavorittAdapter
+import no.kasperi.matoppskrifter.adapters.OppskriftAdapter
 import no.kasperi.matoppskrifter.aktiviteter.MainActivity
 import no.kasperi.matoppskrifter.aktiviteter.OppskriftActivity
 import no.kasperi.matoppskrifter.databinding.FragmentFavorittBinding
@@ -26,13 +26,15 @@ import no.kasperi.matoppskrifter.viewModel.HjemViewModel
 class FavorittFragment : Fragment() {
     private lateinit var binding:FragmentFavorittBinding
     private lateinit var viewModel:HjemViewModel
-    private lateinit var favorittAdapter:FavorittAdapter
+    private lateinit var oppskriftAdapter:OppskriftAdapter
     lateinit var recView:RecyclerView
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = (activity as MainActivity).viewModel
 
-        favorittAdapter = FavorittAdapter()
+        oppskriftAdapter = OppskriftAdapter()
     }
 
     override fun onCreateView(
@@ -51,6 +53,7 @@ class FavorittFragment : Fragment() {
         prepareRecyclerView(view)
         observerFavoritter()
 
+
         val itemTouchHelper = object : ItemTouchHelper.SimpleCallback(
             ItemTouchHelper.UP or ItemTouchHelper.DOWN,
             ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT
@@ -65,7 +68,7 @@ class FavorittFragment : Fragment() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
-                val favorittOppskrift = favorittAdapter.differ.currentList[position]
+                val favorittOppskrift = oppskriftAdapter.differ.currentList[position]
                 viewModel.slettOppskrift(favorittOppskrift)
                 visSlettSnackbar(favorittOppskrift)
             }
@@ -82,7 +85,7 @@ class FavorittFragment : Fragment() {
     }
 
     private fun onFavorittOppskriftClick() {
-        favorittAdapter.setOnFavorittClickListener(object : FavorittAdapter.OnFavorittClickListener{
+        oppskriftAdapter.setOnFavorittClickListener(object : OppskriftAdapter.OnFavorittClickListener{
             override fun onFavorittClick(oppskrift: Meal) {
                 val intent = Intent(context, OppskriftActivity::class.java)
                 intent.putExtra(OPPSKRIFT_ID,oppskrift.idMeal)
@@ -95,12 +98,12 @@ class FavorittFragment : Fragment() {
 
     private fun prepareRecyclerView(v:View) {
         recView =v.findViewById<RecyclerView>(R.id.rec_favoritter)
-        recView.adapter = favorittAdapter
+        recView.adapter = oppskriftAdapter
         recView.layoutManager = GridLayoutManager(context,2,GridLayoutManager.VERTICAL,false)
     }
     private fun observerFavoritter() {
         viewModel.observerFavorittOppskrifterLiveData().observe(requireActivity(), Observer{ oppskrifter ->
-             favorittAdapter.differ.submitList(oppskrifter)
+             oppskriftAdapter.differ.submitList(oppskrifter)
         })
     }
 

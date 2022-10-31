@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context="no.kasperi.matoppskrifter.fragmenter.FavorittFragment">
 
+    <TextView
+        android:id="@+id/tv_fav_tom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/accent"
+        android:text="Ingen favoritter..."
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rec_favoritter"

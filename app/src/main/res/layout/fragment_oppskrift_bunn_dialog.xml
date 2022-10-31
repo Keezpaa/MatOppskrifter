@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragmenter.bunnDialog.OppskriftBunnDialogFragment">
+    tools:context=".fragmenter.bunnDialog.OppskriftBunnDialogFragment"
+    android:id="@+id/bunn_dialog">
 
     <ImageView
         android:id="@+id/img_bunn_dialog"
