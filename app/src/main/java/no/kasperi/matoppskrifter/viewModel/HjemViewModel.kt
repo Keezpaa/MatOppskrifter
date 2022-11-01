@@ -123,7 +123,6 @@ class HjemViewModel(
         }
     )
 
-    fun observerSokteOppskrifterLiveData() : LiveData<List<Meal>> = soktOppskriftLiveData
     fun observeTilfeldigOppskriftLiveData():LiveData<Meal>{
         return randomOppskriftLiveData
     }

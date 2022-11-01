@@ -3,6 +3,7 @@
     package="no.kasperi.matoppskrifter">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -12,14 +13,32 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MatOppskrifter"
         android:usesCleartextTraffic="true">
+
+        <activity
+            android:name="no.kasperi.matoppskrifter.ui.glemtPassord.GlemtPassordActivity"
+            android:exported="false" />
+        <activity
+            android:name="no.kasperi.matoppskrifter.ui.registrer.RegistrerActivity"
+            android:exported="false" />
+        <activity
+            android:name="no.kasperi.matoppskrifter.ui.loggInn.LoggInnActivity"
+            android:exported="false" />
+        <activity
+            android:name="no.kasperi.matoppskrifter.ui.komIGang.KomIGangActivity"
+            android:exported="false" />
+        <activity
+            android:name="no.kasperi.matoppskrifter.ui.intro.IntroActivity"
+            android:exported="false" />
         <activity
             android:name=".aktiviteter.KategoriActivity"
             android:exported="false" />
         <activity
             android:name=".aktiviteter.OppskriftActivity"
             android:exported="false" />
+        <activity android:name=".aktiviteter.MainActivity"
+            android:exported="false"/>
         <activity
-            android:name=".aktiviteter.MainActivity"
+            android:name=".ui.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,6 +46,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service
+            android:name="no.kasperi.matoppskrifter.varsler.FirebasePushService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

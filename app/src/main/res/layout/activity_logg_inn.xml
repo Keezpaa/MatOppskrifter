@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/md_theme_light_onBackground"
+    tools:context="no.kasperi.matoppskrifter.ui.loggInn.LoggInnActivity">
+
+    <ImageView
+        android:id="@+id/intro_bakgrunn_bilde"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/matoppskrifter_bakgrunn" />
+
+    <View
+        android:id="@+id/morkere_bakgrunnsbilde"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.5"
+        android:background="@color/black" />
+
+    <TextView
+        android:id="@+id/logginn_skjerm_header"
+        style="@style/h1_tittel_bold"
+        android:textColor="@color/md_theme_light_primary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Food4U"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/logginn_btn"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/logginn_skjerm_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Velkommen tilbake!"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/logginn_skjerm_header"
+        app:layout_constraintTop_toBottomOf="@+id/logginn_skjerm_header" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/logginn_email_layout"
+        style="@style/OutlineBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Email"
+        app:layout_constraintBottom_toTopOf="@+id/logginn_passord_layout"
+        app:layout_constraintEnd_toEndOf="@id/logginn_btn"
+        app:layout_constraintStart_toStartOf="@id/logginn_btn"
+        app:layout_constraintTop_toBottomOf="@+id/logginn_skjerm_txt"
+        app:layout_constraintVertical_chainStyle="packed">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/logginn_email_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ikon_email"
+            android:drawablePadding="10dp"
+            android:singleLine='true'
+            android:textColor="@color/white"
+            android:textCursorDrawable="@null" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/logginn_passord_layout"
+        style="@style/OutlineBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Passord"
+        app:endIconMode="password_toggle"
+        app:layout_constraintBottom_toTopOf="@id/glemt_pass_btn"
+        app:layout_constraintEnd_toEndOf="@id/logginn_btn"
+        app:layout_constraintStart_toStartOf="@id/logginn_btn"
+        app:layout_constraintTop_toBottomOf="@+id/logginn_email_layout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/logginn_passord_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ikon_passord"
+            android:drawablePadding="10dp"
+            android:inputType="textPassword"
+            android:singleLine='true'
+            android:textColor="@color/white"
+            android:textCursorDrawable="@null" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/glemt_pass_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="Glemt passord?"
+        android:textAllCaps="false"
+        android:textColor="@color/md_theme_dark_onSurface"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/logginn_btn"
+        app:layout_constraintEnd_toEndOf="@id/logginn_passord_layout"
+        app:layout_constraintTop_toBottomOf="@id/logginn_passord_layout" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/logginn_btn"
+        style="@style/blue_button"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginBottom="20dp"
+        android:text="Logg inn"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

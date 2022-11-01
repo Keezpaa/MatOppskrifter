@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="no.kasperi.matoppskrifter.ui.intro.IntroActivity">
+
+    <ImageView
+        android:id="@+id/intro_bakgrunn_bilde"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/matoppskrifter_bakgrunn" />
+
+    <View
+        android:id="@+id/morkere_bakgrunnsbilde"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.5"
+        android:background="@color/black" />
+
+    <ImageView
+        android:id="@+id/intro_app_bilde"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_marginTop="160dp"
+        android:src="@drawable/matoppskrifter_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/splash_skjerm_logo"
+        android:layout_width="413dp"
+        android:layout_height="95dp"
+        android:paddingStart="80dp"
+        android:paddingEnd="80dp"
+        android:src="@drawable/app_text_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/intro_app_bilde"
+        tools:ignore="ContentDescription" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/intro_logginn_btn"
+        style="@style/blue_button"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="Logg inn"
+        app:layout_constraintBottom_toTopOf="@id/intro_registrer_btn" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/intro_registrer_btn"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="70dp"
+        android:text="Registrer"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:cornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:strokeColor="@color/md_theme_dark_onBackground" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,7 +10,7 @@
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="280dp"
-        android:backgroundTint="@color/g_black"
+        android:backgroundTint="@color/accent"
         android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -76,10 +76,10 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Kategori: Biff"
-                    android:textColor="@color/g_black"
+                    android:textColor="@color/black"
                     android:textStyle="bold"
                     app:drawableLeftCompat="@drawable/ic_kategorier"
-                    app:drawableTint="@color/g_black" />
+                    app:drawableTint="@color/black" />
 
                 <TextView
                     android:id="@+id/tv_sted"
@@ -87,10 +87,10 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="India"
-                    android:textColor="@color/g_black"
+                    android:textColor="@color/black"
                     android:textStyle="bold"
                     app:drawableLeftCompat="@drawable/ic_area"
-                    app:drawableTint="@color/g_black" />
+                    app:drawableTint="@color/black" />
 
 
             </LinearLayout>
