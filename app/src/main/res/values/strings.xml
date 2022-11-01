@@ -1,25 +1,6 @@
 <resources>
     <string name="app_name">MatOppskrifter</string>
-
-
-    <!-- Logg inn Activity -->
-    <!-- Logg ut -->
-    <string name="logg_ut">Logg ut</string>
-    <!-- Registrer Activity -->
-
-    <!-- Skjermdetaljer -->
-    <string name="nav_filter">Filter</string>
-    <string name="kalori_range_min_max_verdi">Kaloriområde: fra 35 opptil 200 kcal</string>
-
-    <!-- Filter Skjerm -->
-    <string name="fyll_alle_felt">Vennligst fyll inn alle felt</string>
-
     <string name="kategorier">Kategorier</string>
-    <string name="title_activity_logg_inn">LoggInnActivity</string>
-    <string name="profil_dummy_email">test@test.com</string>
-    <string name="ingen_resultater">Ingen resultater funnet</string>
     <string name="glemt_pass_main">Fyll inn din email \n assosiert med din konto</string>
     <string name="reset_pass">Vi sender deg en mail med link for å nullstille ditt passord</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

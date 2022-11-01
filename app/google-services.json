@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1091231386256",
+    "project_id": "matoppskrifter-3e825",
+    "storage_bucket": "matoppskrifter-3e825.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1091231386256:android:42bd63b5b2729e7e2ce615",
+        "android_client_info": {
+          "package_name": "no.kasperi.matoppskrifter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1091231386256-rpjuhu6k9bvj5ahddlk77bffdama3uou.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARtTeERo4gorDctOZwBzVs0ZdL8UMFZok"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1091231386256-rpjuhu6k9bvj5ahddlk77bffdama3uou.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
