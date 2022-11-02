@@ -14,16 +14,23 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.fragment_profil.*
 import kotlinx.android.synthetic.main.last_opp_profilbilde_valg.view.*
 import no.kasperi.matoppskrifter.R
 import no.kasperi.matoppskrifter.abstraction.AbstractFragment
+import no.kasperi.matoppskrifter.adapters.OppskriftAdapter
 import no.kasperi.matoppskrifter.aktiviteter.MainActivity
+import no.kasperi.matoppskrifter.databinding.FragmentHjemBinding
 import no.kasperi.matoppskrifter.databinding.FragmentProfilBinding
+import no.kasperi.matoppskrifter.listeners.OppskriftClickListener
+import no.kasperi.matoppskrifter.pojo.OppskriftFraKategori
 import no.kasperi.matoppskrifter.ui.redigerProfil.RedigerProfilActivity
 import no.kasperi.matoppskrifter.viewModel.HjemViewModel
 
@@ -31,6 +38,8 @@ class ProfilFragment: AbstractFragment(R.layout.fragment_profil) {
     private lateinit var binding:FragmentProfilBinding
     private lateinit var profilViewModel: ProfilViewModel
     private lateinit var viewModel: HjemViewModel
+    private lateinit var oppskriftAdapter:OppskriftAdapter
+    lateinit var recView:RecyclerView
     private val REQUEST_IMAGE_CAPTURE = 100
     private val IMAGE_PICK_CODE = 200
     private val PERMISSION_CODE = 201
@@ -40,19 +49,22 @@ class ProfilFragment: AbstractFragment(R.layout.fragment_profil) {
         super.onCreate(savedInstanceState)
 
         viewModel = (activity as MainActivity).viewModel
-
+        oppskriftAdapter = OppskriftAdapter()
     }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentProfilBinding.inflate(inflater)
+        binding = FragmentProfilBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        observerFavoritter()
+        prepareRecyclerView(view)
     }
 
 
@@ -87,7 +99,17 @@ class ProfilFragment: AbstractFragment(R.layout.fragment_profil) {
             profil_brukernavn.text = it
         })
     }
+    private fun prepareRecyclerView(v:View) {
+        recView =v.findViewById<RecyclerView>(R.id.rec_favoritter)
+        recView.adapter = oppskriftAdapter
+        recView.layoutManager = GridLayoutManager(context,2, GridLayoutManager.VERTICAL,false)
+    }
 
+    private fun observerFavoritter() {
+        viewModel.observerFavorittOppskrifterLiveData().observe(requireActivity(), Observer{ oppskrifter ->
+            oppskriftAdapter.differ.submitList(oppskrifter)
+        })
+    }
     override fun stop() {
         profilViewModel.userEmail.removeObservers(this)
         profilViewModel.userImageLink.removeObservers(this)

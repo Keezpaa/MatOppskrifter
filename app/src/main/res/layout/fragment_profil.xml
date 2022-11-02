@@ -75,25 +75,28 @@
         app:layout_constraintTop_toBottomOf="@id/profil_brukernavn"
         tools:text="Email" />
 
-    <TextView
-        android:id="@+id/profil_favoritter_tittel"
-        style="@style/h3_tittel_bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:padding="16dp"
-        android:text="Mine favoritter"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profil_email" />
+
+
+        <TextView
+            android:id="@+id/profil_favoritter_tittel"
+            style="@style/h3_tittel_bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="16dp"
+            android:text="Mine favoritter"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profil_email" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/profil_favoritter_recycler"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="horizontal"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profil_favoritter_tittel"
-        tools:listitem="@layout/holder_favoritt_element" />
+        android:id="@+id/rec_favoritter"
+        android:layout_width="408dp"
+        android:layout_height="438dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profil_favoritter_tittel" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

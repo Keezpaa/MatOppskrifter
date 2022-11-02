@@ -4,12 +4,12 @@
         android:icon="@drawable/ic_hjem"
         android:id="@+id/hjemFragment"/>
     <item android:title="Favoritter"
-        android:icon="@drawable/ic_hjerte"
+        android:icon="@drawable/ic_fylt_hjerte"
         android:id="@+id/favoritterFragment"/>
     <item android:title="Kategorier"
         android:icon="@drawable/ic_kategorier"
         android:id="@+id/kategorierFragment"/>
     <item android:title="Profil"
-        android:icon="@drawable/ic_profil"
+        android:icon="@drawable/ikon_profil"
         android:id="@+id/profilFragment"/>
 </menu>

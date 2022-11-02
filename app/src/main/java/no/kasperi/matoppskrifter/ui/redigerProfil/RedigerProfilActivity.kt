@@ -2,9 +2,11 @@ package no.kasperi.matoppskrifter.ui.redigerProfil
 
 import android.content.Intent
 import android.view.LayoutInflater
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_rediger_profil.*
 import kotlinx.android.synthetic.main.oppdater_bruker_detaljer.view.*
 import no.kasperi.matoppskrifter.R
@@ -52,6 +54,7 @@ class RedigerProfilActivity : AbstractActivity(R.layout.activity_rediger_profil)
             if (oldUserEmail != rediger_profil_email.text.toString()) {
                 val newEmail = rediger_profil_email.text.toString()
                 showLoginDialogue(newEmail)
+                Toast.makeText(this,"Informasjon lagret!", Toast.LENGTH_SHORT).show()
             }
 
             viewModel.saveUsernameToDb(rediger_profil_brukernavn.text.toString())
