@@ -4,7 +4,7 @@
         android:icon="@drawable/ic_hjem"
         android:id="@+id/hjemFragment"/>
     <item android:title="Favoritter"
-        android:icon="@drawable/ic_favoritter"
+        android:icon="@drawable/ic_hjerte"
         android:id="@+id/favoritterFragment"/>
     <item android:title="Kategorier"
         android:icon="@drawable/ic_kategorier"

@@ -30,15 +30,15 @@
             android:name="no.kasperi.matoppskrifter.ui.intro.IntroActivity"
             android:exported="false" />
         <activity
-            android:name=".aktiviteter.KategoriActivity"
+            android:name="no.kasperi.matoppskrifter.aktiviteter.KategoriActivity"
             android:exported="false" />
         <activity
-            android:name=".aktiviteter.OppskriftActivity"
+            android:name="no.kasperi.matoppskrifter.aktiviteter.OppskriftActivity"
             android:exported="false" />
-        <activity android:name=".aktiviteter.MainActivity"
+        <activity android:name="no.kasperi.matoppskrifter.aktiviteter.MainActivity"
             android:exported="false"/>
         <activity
-            android:name=".ui.SplashActivity"
+            android:name="no.kasperi.matoppskrifter.ui.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

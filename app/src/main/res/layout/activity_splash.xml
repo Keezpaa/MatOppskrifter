@@ -23,38 +23,13 @@
         tools:layout_editor_absoluteX="202dp"
         tools:layout_editor_absoluteY="-58dp" />
 
-    <ImageView
-        android:id="@+id/intro_app_bilde"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
-        android:layout_marginTop="250dp"
-        android:src="@drawable/matoppskrifter_logo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/splash_skjerm_logo"
-        android:layout_width="413dp"
-        android:layout_height="95dp"
-        android:layout_marginTop="180dp"
-        android:paddingStart="80dp"
-        android:paddingEnd="80dp"
-        android:src="@drawable/app_text_logo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/intro_bakgrunn_bilde"
-        tools:ignore="ContentDescription" />
-
 
     <com.airbnb.lottie.LottieAnimationView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginBottom="204dp"
+        android:layout_width="261dp"
+        android:layout_height="270dp"
+        android:layout_marginBottom="220dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:lottie_autoPlay="true"
         app:lottie_fileName="walking_broccoli.json"

@@ -14,7 +14,7 @@ class RegistrerActivity : AbstractActivity(R.layout.activity_registrer) {
     private lateinit var viewModel: RegistrerViewModel
 
     override fun init() {
-        viewModel = ViewModelProvider(this).get(RegistrerViewModel::class.java)
+        viewModel = ViewModelProvider(this)[RegistrerViewModel::class.java]
     }
 
     override fun running() {

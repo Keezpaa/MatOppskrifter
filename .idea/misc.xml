@@ -3,9 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/drawable/ic_favoritter.xml" value="0.1155" />
+        <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/drawable/ic_fylt_hjerte.xml" value="0.1155" />
         <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/drawable/ic_hjem.xml" value="0.175" />
+        <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/drawable/ic_hjerte.xml" value="0.1155" />
         <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/drawable/ic_hoyre_pil.xml" value="0.1385" />
         <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/drawable/ic_yt_logo.xml" value="0.175" />
+        <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/drawable/ikon_email.xml" value="0.168" />
         <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/drawable/ikon_passord.xml" value="0.1375" />
         <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/drawable/ikon_profil.xml" value="0.1375" />
         <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/drawable/komigang_viewpager_kort.xml" value="0.1375" />
@@ -20,7 +24,7 @@
         <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/layout/activity_oppskrift.xml" value="0.16" />
         <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/layout/activity_registrer.xml" value="0.2" />
-        <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/layout/activity_splash.xml" value="0.176" />
+        <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/layout/activity_splash.xml" value="0.2" />
         <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/layout/fragment_favoritt.xml" value="0.3555253623188406" />
         <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/layout/fragment_hjem.xml" value="0.19270833333333334" />
         <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/layout/fragment_kategorier.xml" value="0.3555253623188406" />
