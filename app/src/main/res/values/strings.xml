@@ -3,4 +3,6 @@
     <string name="kategorier">Kategorier</string>
     <string name="glemt_pass_main">Fyll inn din email \n assosiert med din konto</string>
     <string name="reset_pass">Vi sender deg en mail med link for å nullstille ditt passord</string>
+    <string name="logg_ut">Logg ut</string>
+    <string name="profil_dummy_email">Email</string>
 </resources>

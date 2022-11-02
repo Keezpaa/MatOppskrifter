@@ -13,7 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MatOppskrifter"
         android:usesCleartextTraffic="true">
-
+        <activity
+            android:name="no.kasperi.matoppskrifter.ui.redigerProfil.RedigerProfilActivity"
+            android:exported="false" />
         <activity
             android:name="no.kasperi.matoppskrifter.ui.glemtPassord.GlemtPassordActivity"
             android:exported="false" />
@@ -35,8 +37,9 @@
         <activity
             android:name="no.kasperi.matoppskrifter.aktiviteter.OppskriftActivity"
             android:exported="false" />
-        <activity android:name="no.kasperi.matoppskrifter.aktiviteter.MainActivity"
-            android:exported="false"/>
+        <activity
+            android:name="no.kasperi.matoppskrifter.aktiviteter.MainActivity"
+            android:exported="false" />
         <activity
             android:name="no.kasperi.matoppskrifter.ui.SplashActivity"
             android:exported="true">
@@ -46,6 +49,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <service
             android:name="no.kasperi.matoppskrifter.varsler.FirebasePushService"
             android:exported="false">

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/oppskrift_element_bilde"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:scaleType="centerCrop"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:background="@color/md_theme_light_inversePrimary" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/heart_icon"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@drawable/svart_sirkel"
+            android:backgroundTint="@color/md_theme_light_error"
+            android:padding="10dp"
+            android:src="@drawable/ic_hjerte"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/oppskrift_element_tittel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:padding="5dp"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="@id/oppskrift_element_bilde"
+            app:layout_constraintStart_toStartOf="@id/oppskrift_element_bilde"
+            app:layout_constraintTop_toBottomOf="@id/oppskrift_element_bilde"
+            tools:text="Oppskriftstittel" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
