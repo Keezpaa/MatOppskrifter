@@ -13,6 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MatOppskrifter"
         android:usesCleartextTraffic="true">
+
         <activity
             android:name="no.kasperi.matoppskrifter.ui.redigerProfil.RedigerProfilActivity"
             android:exported="false" />

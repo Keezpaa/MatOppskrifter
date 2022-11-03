@@ -18,7 +18,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:alpha="0.5"
-        android:background="@color/black" />
+        android:background="@color/black"
+        tools:layout_editor_absoluteX="53dp"
+        tools:layout_editor_absoluteY="-16dp" />
 
     <ImageView
         android:id="@+id/intro_app_bilde"
@@ -49,6 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:text="Logg inn"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@id/intro_registrer_btn" />
 
     <com.google.android.material.button.MaterialButton
@@ -58,12 +61,36 @@
         android:layout_height="56dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="70dp"
+        android:layout_marginBottom="130dp"
         android:text="Registrer"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:textSize="16sp"
+        android:textSize="20sp"
         app:cornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:strokeColor="@color/md_theme_dark_onBackground" />
+
+    <TextView
+        android:id="@+id/alt_logg_inn"
+        android:layout_width="192dp"
+        android:layout_height="32dp"
+        android:layout_marginBottom="80dp"
+        android:text="eller logg inn med"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginStart="100dp"
+        app:layout_constraintStart_toStartOf="@id/intro_registrer_btn"
+        app:layout_constraintTop_toBottomOf="@id/intro_registrer_btn"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <ImageView
+        android:id="@+id/google_knapp"
+        android:layout_width="178dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ikon_google"
+        android:layout_centerHorizontal="true"
+        app:layout_constraintStart_toStartOf="@id/alt_logg_inn"
+        app:layout_constraintTop_toBottomOf="@+id/alt_logg_inn" />
 </androidx.constraintlayout.widget.ConstraintLayout>

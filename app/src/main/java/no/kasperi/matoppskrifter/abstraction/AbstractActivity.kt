@@ -43,4 +43,6 @@ abstract class AbstractActivity(contentLayoutId : Int) : AppCompatActivity(conte
     override fun onDestroy() {
         super.onDestroy()
     }
+
+
 }

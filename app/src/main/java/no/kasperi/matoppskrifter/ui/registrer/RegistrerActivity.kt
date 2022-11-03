@@ -37,7 +37,7 @@ class RegistrerActivity : AbstractActivity(R.layout.activity_registrer) {
                     startActivity(Intent(this, KomIGangActivity::class.java))
                 }
                 false -> {
-                    Toast.makeText(this, "Please enter valid credentials", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Fyll inn gyldig brukerinformasjon", Toast.LENGTH_LONG).show()
                 }
             }
         })
