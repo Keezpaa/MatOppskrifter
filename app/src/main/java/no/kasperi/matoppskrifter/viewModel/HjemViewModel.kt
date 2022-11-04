@@ -105,24 +105,6 @@ class HjemViewModel(
         }
     }
 
-    fun soktEtterOppskrift(sokQuery:String) = RetrofitInstance.api.sokEtterOppskrift(sokQuery).enqueue(
-        object : Callback<OppskriftListe>{
-            override fun onResponse(
-                call: Call<OppskriftListe>,
-                response: Response<OppskriftListe>
-            ) {
-                val oppskriftListe = response.body()?.meals
-                oppskriftListe?.let{
-                    soktOppskriftLiveData.postValue(it)
-                }
-            }
-
-            override fun onFailure(call: Call<OppskriftListe>, t: Throwable) {
-                Log.e("HjemViewModel", t.message.toString())
-            }
-        }
-    )
-
     fun observeTilfeldigOppskriftLiveData():LiveData<Meal>{
         return randomOppskriftLiveData
     }

@@ -136,7 +136,7 @@ class ProfilFragment: AbstractFragment(R.layout.fragment_profil) {
         }
     }
 
-    @SuppressLint("QueryPermissionsNeeded")
+
     private fun takePictureIntent() {
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { pictureIntent ->
             pictureIntent.resolveActivity(activity?.packageManager!!)?.also {
@@ -151,7 +151,7 @@ class ProfilFragment: AbstractFragment(R.layout.fragment_profil) {
         startActivityForResult(intent, IMAGE_PICK_CODE)
     }
 
-    @Deprecated("Deprecated in Java")
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -169,7 +169,7 @@ class ProfilFragment: AbstractFragment(R.layout.fragment_profil) {
         }
     }
 
-    @Deprecated("Deprecated in Java")
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,

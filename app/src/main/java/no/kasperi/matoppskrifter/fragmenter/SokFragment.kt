@@ -6,15 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.addTextChangedListener
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.GridLayoutManager
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import no.kasperi.matoppskrifter.adapters.KategorierAdapter
+import com.bumptech.glide.Glide
 import no.kasperi.matoppskrifter.adapters.OppskriftAdapter
 import no.kasperi.matoppskrifter.aktiviteter.OppskriftActivity
 import no.kasperi.matoppskrifter.databinding.FragmentSokBinding
@@ -22,13 +17,13 @@ import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.OPPSKRIFT_BIL
 import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.OPPSKRIFT_ID
 import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.OPPSKRIFT_NAVN
 import no.kasperi.matoppskrifter.pojo.Meal
+import no.kasperi.matoppskrifter.pojo.OppskriftListe
 import no.kasperi.matoppskrifter.viewModel.SokViewModel
 
 
 class SokFragment : Fragment() {
     private lateinit var binding:FragmentSokBinding
     private lateinit var sokViewModel: SokViewModel
-    private lateinit var sokRecyclerViewAdapter:OppskriftAdapter
     private lateinit var oppskriftAdapter: OppskriftAdapter
     private var oppskriftId = "no.kasperi.matoppskrifter.fragmenter.idOppskrift"
     private var oppskriftNavn = "no.kasperi.matoppskrifter.fragmenter.navnOppskrift"
@@ -37,10 +32,8 @@ class SokFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-     //   sokViewModel = (activity as MainActivity).sokViewModel
-        sokViewModel = ViewModelProvider(this)[SokViewModel::class.java]
-        sokRecyclerViewAdapter = OppskriftAdapter()
         oppskriftAdapter = OppskriftAdapter()
+        sokViewModel = ViewModelProvider(this)[SokViewModel::class.java]
         }
 
 
@@ -54,46 +47,56 @@ class SokFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        prepareRecyclerView()
+        onSokClick()
         observerSokLiveData()
-        binding.imgSok.setOnClickListener{ sokEtterOppskrifter() }
-
-        // Kodenbiten under gjør at søkeresultatene oppdateres samtidig som brukeren skriver inn en oppskrift,
-        // uten at du trenger å klikke på søkeikonet
-        var sokJobb: Job? = null
-        binding.edtSokBox.addTextChangedListener { searchQuery ->
-            sokJobb?.cancel()
-            sokJobb = lifecycleScope.launch{
-                delay(500)
-                sokViewModel.sokEtterOppskrifter(searchQuery.toString())
-            }
-        }
+        setOnOppskriftKortClick()
 
     }
 
-    private fun sokEtterOppskrifter() {
-        val searchQuery = binding.edtSokBox.text.toString()
-        if(searchQuery.isNotEmpty()){
-            sokViewModel.sokEtterOppskrifter(searchQuery)
-        }
-    }
+    private fun setOnOppskriftKortClick() {
+        binding.oppskriftKort.setOnClickListener {
+            val intent = Intent(context, OppskriftActivity::class.java)
 
-    private fun prepareRecyclerView() {
-        sokRecyclerViewAdapter = OppskriftAdapter()
-        binding.recSokOppskrift.apply {
-            layoutManager = GridLayoutManager(context,2,GridLayoutManager.VERTICAL,false)
-            adapter = sokRecyclerViewAdapter
+            intent.putExtra(OPPSKRIFT_ID, oppskriftId)
+            intent.putExtra(OPPSKRIFT_NAVN, oppskriftNavn)
+            intent.putExtra(OPPSKRIFT_BILDE, oppskriftBilde)
+
+            startActivity(intent)
+
+
         }
     }
 
 
+    private fun onSokClick() {
+        binding.ikonSokeknapp.setOnClickListener {
+            sokViewModel.sokOppskriftDetaljer(binding.etSokefelt.text.toString(),context)
+
+        }
+    }
 
     private fun observerSokLiveData() {
         sokViewModel.observerSoktLiveData()
-            .observe(viewLifecycleOwner, Observer { oppskriftListe ->
-                sokRecyclerViewAdapter.differ.submitList(oppskriftListe)
+            .observe(viewLifecycleOwner, object : Observer<Meal> {
+                override fun onChanged(t: Meal?) {
+                    if (t == null) {
+                        Toast.makeText(context, "Ingen oppskrift med det navnet", Toast.LENGTH_SHORT).show()
+                    } else {
+                        binding.apply {
 
+                            oppskriftId = t.idMeal
+                            oppskriftNavn = t.strMeal.toString()
+                            oppskriftBilde = t.strMealThumb.toString()
+
+                            Glide.with(context!!.applicationContext)
+                                .load(t.strMealThumb)
+                                .into(bildeOppskriftKort)
+
+                            tvOppskriftKort.text = t.strMeal
+                            oppskriftKort.visibility = View.VISIBLE
+                        }
+                    }
+                }
             })
     }
 
