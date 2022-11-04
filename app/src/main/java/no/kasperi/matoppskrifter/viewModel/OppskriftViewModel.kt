@@ -5,7 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import no.kasperi.matoppskrifter.db.OppskriftDB
 import no.kasperi.matoppskrifter.pojo.Meal
 import no.kasperi.matoppskrifter.pojo.OppskriftListe
@@ -18,7 +20,6 @@ class OppskriftViewModel(
     val oppskriftDB:OppskriftDB
 ): ViewModel() {
     private var oppskriftDetaljerLiveData = MutableLiveData<Meal>()
-
     fun hentOppskriftDetaljer(id:String){
         RetrofitInstance.api.hentOppskriftDetaljer(id).enqueue(object : Callback<OppskriftListe>{
             override fun onResponse(
@@ -46,6 +47,11 @@ class OppskriftViewModel(
     fun insertOppskrift(oppskrift:Meal){
         viewModelScope.launch {
             oppskriftDB.oppskriftDao().upsert(oppskrift)
+        }
+    }
+    fun slettOppskrift(oppskrift:Meal){
+        viewModelScope.launch {
+            oppskriftDB.oppskriftDao().slettOppskrift(oppskrift)
         }
     }
 

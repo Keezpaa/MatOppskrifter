@@ -49,12 +49,16 @@ class OppskriftActivity : AppCompatActivity() {
         onFavorittClick()
     }
 
+
+
     private fun onFavorittClick() {
+
         binding.btnFavoritt.setOnClickListener{
-                oppskriftTilLagring?.let{
-                    oppskriftMvvm.insertOppskrift(it)
+            oppskriftTilLagring?.let{
+                oppskriftMvvm.insertOppskrift(it)
+                    binding.btnFavoritt.setImageResource(R.drawable.ic_fylt_hjerte)
                     Toast.makeText(this,"Matrett lagret!", Toast.LENGTH_SHORT).show()
-                }
+            }
         }
     }
 

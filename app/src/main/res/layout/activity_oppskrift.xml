@@ -42,12 +42,13 @@
         android:id="@+id/btn_favoritt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
         android:src="@drawable/ic_hjerte"
         app:backgroundTint="#F80C43"
         app:layout_anchor="@id/appbar"
         app:layout_anchorGravity="bottom|end"
-        app:tint="@color/white" />
+        app:tint="@color/white"
+        tools:layout_editor_absoluteX="343dp"
+        tools:layout_editor_absoluteY="27dp" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -140,6 +141,7 @@
                 android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="@id/tv_instruksjoner"
                 app:layout_constraintTop_toBottomOf="@id/tv_instruksjoner" />
+
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
