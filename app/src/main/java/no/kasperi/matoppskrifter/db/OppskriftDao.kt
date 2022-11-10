@@ -3,19 +3,31 @@ package no.kasperi.matoppskrifter.db
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import no.kasperi.matoppskrifter.pojo.Meal
+import no.kasperi.matoppskrifter.pojo.MealDB
 
 @Dao
 interface OppskriftDao {
 
 
-    // Oppdaterer og setter inn oppskrift = upsert (update og insert), med onConflict slipper man to funksjoner; insert og update.
-    // 2 funksjoner i 1
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun upsert(oppskrift: Meal)
+    @Insert
+    fun insertFavorite(meal: MealDB)
+
+    @Update
+    fun updateFavorite(meal:MealDB)
+
+    @Query("SELECT * FROM meal_information order by mealId asc")
+    fun getAllSavedMeals():LiveData<List<MealDB>>
+
+    @Query("SELECT * FROM meal_information WHERE mealId =:id")
+    fun getMealById(id:String):MealDB
+
+    @Query("DELETE FROM meal_information WHERE mealId =:id")
+    fun deleteMealById(id:String)
 
     @Delete
-    suspend fun slettOppskrift(oppskrift: Meal)
+    fun deleteMeal(meal:MealDB)
 
-    @Query("SELECT * FROM oppskriftInfo")
-    fun hentAlleOppskrifter():LiveData<List<Meal>>
+
+
+
 }

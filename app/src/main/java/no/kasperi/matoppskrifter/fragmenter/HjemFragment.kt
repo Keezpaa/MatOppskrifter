@@ -6,155 +6,236 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.fragment_hjem.*
 import no.kasperi.matoppskrifter.R
 import no.kasperi.matoppskrifter.adapters.KategorierAdapter
 import no.kasperi.matoppskrifter.adapters.MestPopulareAdapter
-import no.kasperi.matoppskrifter.aktiviteter.KategoriActivity
+import no.kasperi.matoppskrifter.adapters.OnItemClick
+import no.kasperi.matoppskrifter.adapters.OnLongItemClick
 import no.kasperi.matoppskrifter.aktiviteter.MainActivity
 import no.kasperi.matoppskrifter.aktiviteter.OppskriftActivity
+import no.kasperi.matoppskrifter.aktiviteter.OppskriftDetaljerActivity
 import no.kasperi.matoppskrifter.databinding.FragmentHjemBinding
 import no.kasperi.matoppskrifter.fragmenter.bunnDialog.OppskriftBunnDialogFragment
-import no.kasperi.matoppskrifter.pojo.Meal
-import no.kasperi.matoppskrifter.pojo.OppskriftFraKategori
+import no.kasperi.matoppskrifter.pojo.*
+import no.kasperi.matoppskrifter.viewModel.DetaljerViewModel
 import no.kasperi.matoppskrifter.viewModel.HjemViewModel
 
 
 class HjemFragment : Fragment() {
-
-    private lateinit var binding:FragmentHjemBinding
-    private lateinit var viewModel:HjemViewModel
-    private lateinit var randomOppskrift:Meal
-    private lateinit var populareRetterAdapter:MestPopulareAdapter
-    private lateinit var kategorierAdapter:KategorierAdapter
+    private lateinit var meal: RandomMealResponse
+    private lateinit var detailMvvm: DetaljerViewModel
+    private var randomMealId = "no.kasperi.matoppskrifter.fragmenter.randomMealId"
 
     companion object {
-        const val OPPSKRIFT_ID = "no.kasperi.matoppskrifter.fragmenter.idOppskrift"
-        const val OPPSKRIFT_NAVN = "no.kasperi.matoppskrifter.fragmenter.navnOppskrift"
-        const val OPPSKRIFT_BILDE = "no.kasperi.matoppskrifter.fragmenter.bildeOppskrift"
-        const val KATEGORI_NAVN = "no.kasperi.matoppskrifter.fragmenter.kategoriNavn"
+        const val OPPSKRIFT_ID = "no.kasperi.matoppskrifter.fragmenter.idMeal"
+        const val OPPSKRIFT_NAVN = "no.kasperi.matoppskrifter.fragmenter.strMeal"
+        const val OPPSKRIFT_BILDE= "no.kasperi.matoppskrifter.fragmenter.mealThumb"
+        const val CATEGORY_NAME = "no.kasperi.matoppskrifter.fragmenter.categoryName"
+        const val MEAL_AREA = "no.kasperi.matoppskrifter.fragmenter.strArea"
+        const val MEAL_NAME = "no.kasperi.matoppskrifter.fragmenter.strMeal"
     }
+
+    private lateinit var myAdapter: KategorierAdapter
+    private lateinit var mostPopularFoodAdapter: MestPopulareAdapter
+    lateinit var binding: FragmentHjemBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = (activity as MainActivity).viewModel
-
-        populareRetterAdapter = MestPopulareAdapter()
-        kategorierAdapter = KategorierAdapter()
-        }
+        detailMvvm = ViewModelProviders.of(this)[DetaljerViewModel::class.java]
+        binding = FragmentHjemBinding.inflate(layoutInflater)
+        myAdapter = KategorierAdapter()
+        mostPopularFoodAdapter = MestPopulareAdapter()
+    }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentHjemBinding.inflate(inflater, container, false)
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val mainFragMVVM = ViewModelProvider(this)[HjemViewModel::class.java]
+        showLoadingCase()
 
-        preparePopulareRetterRecyclerView()
-        prepareKategorierRecyclerView()
 
-        viewModel.hentTilfeldigOppskrift()
-        observeTilfeldigOppskrift()
-        onTilfeldigOppskriftClick()
+        prepareCategoryRecyclerView()
+        preparePopularMeals()
+        onRndomMealClick()
+        onRandomLongClick()
 
-        viewModel.hentPopulareRetter()
-        observePopulareRetterLiveData()
-        onPopularItemClick()
 
-        viewModel.hentKategorier()
-        observeKategorierLiveData()
-        onKategoriClick()
+        mainFragMVVM.observeMealByCategory().observe(viewLifecycleOwner, object :
+            Observer<MealsResponse> {
+            override fun onChanged(t: MealsResponse?) {
+                val meals = t!!.meals
+                setMealsByCategoryAdapter(meals)
+                cancelLoadingCase()
+            }
 
-        onPopularItemLongClick()
-        onSokIkonClick()
-    }
 
-    private fun onSokIkonClick() {
-        binding.imgSearch.setOnClickListener{
+        })
+
+        mainFragMVVM.observeCategories().observe(viewLifecycleOwner, object :
+            Observer<KategoriListe> {
+            override fun onChanged(t: KategoriListe?) {
+                val categories = t!!.categories
+                setCategoryAdapter(categories)
+
+            }
+        })
+
+        mainFragMVVM.observeRandomMeal().observe(viewLifecycleOwner, object :
+            Observer<RandomMealResponse> {
+            override fun onChanged(t: RandomMealResponse?) {
+                val mealImage = view.findViewById<ImageView>(R.id.img_random_oppskrift)
+                val imageUrl = t!!.meals[0].strMealThumb
+                randomMealId = t.meals[0].idMeal
+                Glide.with(this@HjemFragment)
+                    .load(imageUrl)
+                    .into(mealImage)
+                meal = t
+            }
+
+        })
+
+        mostPopularFoodAdapter.setOnClickListener(object : OnItemClick {
+            override fun onItemClick(meal: Meal) {
+                val intent = Intent(activity, OppskriftDetaljerActivity::class.java)
+                intent.putExtra(OPPSKRIFT_ID, meal.idMeal)
+                intent.putExtra(OPPSKRIFT_NAVN, meal.strMeal)
+                intent.putExtra(OPPSKRIFT_BILDE, meal.strMealThumb)
+                startActivity(intent)
+            }
+
+        })
+
+        myAdapter.onItemClicked(object : KategorierAdapter.OnItemCategoryClicked {
+            override fun onClickListener(category: Kategori) {
+                val intent = Intent(activity, OppskriftActivity::class.java)
+                intent.putExtra(CATEGORY_NAME, category.strCategory)
+                startActivity(intent)
+            }
+
+        })
+
+        mostPopularFoodAdapter.setOnLongCLickListener(object : OnLongItemClick {
+            override fun onItemLongClick(meal: Meal) {
+                detailMvvm.getMealByIdBottomSheet(meal.idMeal)
+            }
+
+        })
+
+        detailMvvm.observeMealBottomSheet()
+            .observe(viewLifecycleOwner, object : Observer<List<MealDetail>> {
+                override fun onChanged(t: List<MealDetail>?) {
+                    val bottomSheetFragment = OppskriftBunnDialogFragment()
+                    val b = Bundle()
+                    b.putString(CATEGORY_NAME, t!![0].strCategory)
+                    b.putString(MEAL_AREA, t[0].strArea)
+                    b.putString(MEAL_NAME, t[0].strMeal)
+                    b.putString(OPPSKRIFT_BILDE, t[0].strMealThumb)
+                    b.putString(OPPSKRIFT_ID, t[0].idMeal)
+
+                    bottomSheetFragment.arguments = b
+
+                    bottomSheetFragment.show(childFragmentManager, "BottomSheetDialog")
+                }
+
+            })
+
+
+        // on search icon click
+        binding.imgSearch.setOnClickListener {
             findNavController().navigate(R.id.action_hjemFragment_to_sokFragment)
         }
     }
 
-    private fun onPopularItemLongClick() {
-        populareRetterAdapter.onLongItemClick = { oppskrift ->
-            val oppskriftBunnDialogFragment = OppskriftBunnDialogFragment.newInstance(oppskrift.idMeal)
-            oppskriftBunnDialogFragment.show(childFragmentManager,"Oppskriftinfo ")
-        }
-    }
 
-    private fun onKategoriClick() {
-        kategorierAdapter.onItemClick = { kategori ->
-            val intent = Intent(activity, KategoriActivity::class.java)
-            intent.putExtra(KATEGORI_NAVN, kategori.strCategory)
-            startActivity(intent)
-
-        }
-    }
-
-    private fun prepareKategorierRecyclerView() {
-        binding.recyclerViewKategorier.apply {
-            adapter = kategorierAdapter
-            layoutManager = GridLayoutManager(context, 3, GridLayoutManager.VERTICAL, false)
-
-        }
-    }
-
-    private fun observeKategorierLiveData() {
-        viewModel.observeKategorierLiveData().observe(viewLifecycleOwner) { categories ->
-            kategorierAdapter.setKategoriListe(categories)
-        }
-    }
-
-    private fun onPopularItemClick() {
-        populareRetterAdapter.onItemClick = { oppskrift ->
-            val intent = Intent(activity, OppskriftActivity::class.java)
-            intent.putExtra(OPPSKRIFT_ID, oppskrift.idMeal)
-            intent.putExtra(OPPSKRIFT_NAVN, oppskrift.strMeal)
-            intent.putExtra(OPPSKRIFT_BILDE, oppskrift.strMealThumb)
-            startActivity(intent)
-        }
-    }
-
-    private fun preparePopulareRetterRecyclerView() {
-        binding.recSePopRetter.apply {
-            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-            adapter = populareRetterAdapter
-        }
-    }
-
-    private fun observePopulareRetterLiveData() {
-        viewModel.observePopulareRetterLiveData().observe(viewLifecycleOwner)
-        { oppskriftListe ->
-            populareRetterAdapter.setOppskrifter(oppskriftListe = oppskriftListe as ArrayList<OppskriftFraKategori>)
-        }
-    }
-
-    private fun onTilfeldigOppskriftClick() {
+    private fun onRndomMealClick() {
         binding.randomOppskrift.setOnClickListener {
-            val intent = Intent(activity, OppskriftActivity::class.java)
-            intent.putExtra(OPPSKRIFT_ID, randomOppskrift.idMeal)
-            intent.putExtra(OPPSKRIFT_NAVN, randomOppskrift.strMeal)
-            intent.putExtra(OPPSKRIFT_BILDE, randomOppskrift.strMealThumb)
+            val temp = meal.meals[0]
+            val intent = Intent(activity, OppskriftDetaljerActivity::class.java)
+            intent.putExtra(OPPSKRIFT_ID, temp.idMeal)
+            intent.putExtra(OPPSKRIFT_NAVN, temp.strMeal)
+            intent.putExtra(OPPSKRIFT_BILDE, temp.strMealThumb)
             startActivity(intent)
+        }
+
+    }
+
+    private fun onRandomLongClick() {
+
+        binding.randomOppskrift.setOnLongClickListener(object : View.OnLongClickListener {
+            override fun onLongClick(p0: View?): Boolean {
+                detailMvvm.getMealByIdBottomSheet(randomMealId)
+                return true
+            }
+
+        })
+    }
+
+    private fun showLoadingCase() {
+        binding.apply {
+            linear_header.visibility = View.INVISIBLE
+            tvSubheader.visibility = View.INVISIBLE
+            randomOppskrift.visibility = View.INVISIBLE
+            tvPopRetter.visibility = View.INVISIBLE
+            recyclerViewKategorier.visibility = View.INVISIBLE
+            tvKategori.visibility = View.INVISIBLE
+            categoryCard.visibility = View.INVISIBLE
+            rootHjem.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
+
         }
     }
 
-    private fun observeTilfeldigOppskrift() {
-            viewModel.observeTilfeldigOppskriftLiveData().observe(viewLifecycleOwner)
-             { oppskrift ->
-                Glide.with(this@HjemFragment)
-                    .load(oppskrift!!.strMealThumb)
-                    .into(binding.imgRandomOppskrift)
+    private fun cancelLoadingCase() {
+        binding.apply {
+            linear_header.visibility = View.VISIBLE
+            tvSubheader.visibility = View.VISIBLE
+            randomOppskrift.visibility = View.VISIBLE
+            tvPopRetter.visibility = View.VISIBLE
+            recyclerViewKategorier.visibility = View.VISIBLE
+            tvKategori.visibility = View.VISIBLE
+            categoryCard.visibility = View.VISIBLE
+            rootHjem.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
 
-                this.randomOppskrift = oppskrift
-            }
+        }
     }
+
+    private fun setMealsByCategoryAdapter(meals: List<Meal>) {
+        mostPopularFoodAdapter.setMealList(meals)
+    }
+
+    private fun setCategoryAdapter(categories: List<Kategori>) {
+        myAdapter.setKategoriListe(categories)
+    }
+
+    private fun prepareCategoryRecyclerView() {
+        binding.recyclerViewKategorier.apply {
+            adapter = myAdapter
+            layoutManager = GridLayoutManager(context, 3, GridLayoutManager.VERTICAL, false)
+        }
+    }
+
+    private fun preparePopularMeals() {
+        binding.recSePopRetter.apply {
+            adapter = mostPopularFoodAdapter
+            layoutManager = GridLayoutManager(context, 1, GridLayoutManager.HORIZONTAL, false)
+        }
+    }
+
 }

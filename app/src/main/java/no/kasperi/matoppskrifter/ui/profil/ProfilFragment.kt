@@ -32,6 +32,7 @@ import no.kasperi.matoppskrifter.databinding.FragmentProfilBinding
 import no.kasperi.matoppskrifter.listeners.OppskriftClickListener
 import no.kasperi.matoppskrifter.pojo.OppskriftFraKategori
 import no.kasperi.matoppskrifter.ui.redigerProfil.RedigerProfilActivity
+import no.kasperi.matoppskrifter.viewModel.DetaljerViewModel
 import no.kasperi.matoppskrifter.viewModel.HjemViewModel
 
 class ProfilFragment: AbstractFragment(R.layout.fragment_profil) {
@@ -48,7 +49,7 @@ class ProfilFragment: AbstractFragment(R.layout.fragment_profil) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = (activity as MainActivity).viewModel
+        viewModel = ViewModelProvider(this)[HjemViewModel::class.java]
         oppskriftAdapter = OppskriftAdapter()
     }
     override fun onCreateView(
@@ -63,8 +64,6 @@ class ProfilFragment: AbstractFragment(R.layout.fragment_profil) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        observerFavoritter()
-        prepareRecyclerView(view)
     }
 
 
@@ -99,17 +98,9 @@ class ProfilFragment: AbstractFragment(R.layout.fragment_profil) {
             profil_brukernavn.text = it
         })
     }
-    private fun prepareRecyclerView(v:View) {
-        recView =v.findViewById<RecyclerView>(R.id.rec_favoritter)
-        recView.adapter = oppskriftAdapter
-        recView.layoutManager = GridLayoutManager(context,2, GridLayoutManager.VERTICAL,false)
-    }
 
-    private fun observerFavoritter() {
-        viewModel.observerFavorittOppskrifterLiveData().observe(requireActivity(), Observer{ oppskrifter ->
-            oppskriftAdapter.differ.submitList(oppskrifter)
-        })
-    }
+
+
     override fun stop() {
         profilViewModel.userEmail.removeObservers(this)
         profilViewModel.userImageLink.removeObservers(this)

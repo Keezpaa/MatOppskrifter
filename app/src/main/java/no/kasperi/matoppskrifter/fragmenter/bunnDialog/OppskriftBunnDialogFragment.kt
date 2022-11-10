@@ -6,88 +6,79 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import no.kasperi.matoppskrifter.R
 import no.kasperi.matoppskrifter.aktiviteter.MainActivity
 import no.kasperi.matoppskrifter.aktiviteter.OppskriftActivity
+import no.kasperi.matoppskrifter.aktiviteter.OppskriftDetaljerActivity
 import no.kasperi.matoppskrifter.databinding.FragmentOppskriftBunnDialogBinding
 import no.kasperi.matoppskrifter.fragmenter.HjemFragment
+import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.CATEGORY_NAME
+import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.MEAL_AREA
+import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.OPPSKRIFT_BILDE
+import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.OPPSKRIFT_ID
+import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.OPPSKRIFT_NAVN
 import no.kasperi.matoppskrifter.viewModel.HjemViewModel
 
 
-private const val OPPSKRIFT_ID = "param1"
-
-
-class OppskriftBunnDialogFragment : BottomSheetDialogFragment() {
-    private var oppskriftId: String? = null
-    private lateinit var binding:FragmentOppskriftBunnDialogBinding
-    private lateinit var viewModel:HjemViewModel
-
+class OppskriftBunnDialogFragment  : BottomSheetDialogFragment() {
+    private var mealName = "no.kasperi.matoppskrifter.mealName"
+    private var mealId ="no.kasperi.matoppskrifter.mealId"
+    private var mealImg = "no.kasperi.matoppskrifter.thumbMeal"
+    private var mealCountry = "no.kasperi.matoppskrifter.mealCountry"
+    private var mealCategory = "no.kasperi.matoppskrifter.mealCategory"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            oppskriftId = it.getString(OPPSKRIFT_ID)
-        }
-        viewModel = (activity as MainActivity).viewModel
+        val b = arguments
+        mealName = b!!.getString(OPPSKRIFT_NAVN).toString()
+        mealId =b!!.getString(OPPSKRIFT_ID).toString()
+        mealImg =b!!.getString(OPPSKRIFT_BILDE).toString()
+        mealCategory =b!!.getString(CATEGORY_NAME).toString()
+        mealCountry =b!!.getString(MEAL_AREA).toString()
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentOppskriftBunnDialogBinding.inflate(inflater)
-        return binding.root
+        val v = LayoutInflater.from(context).inflate(R.layout.fragment_oppskrift_bunn_dialog, container, false)
+        return v
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        oppskriftId?.let { viewModel.hentOppskriftMedId(it) }
+        prepareView(view)
 
-        observerBunnDialog()
-        onBunnDialogClick()
-    }
-
-    private fun onBunnDialogClick() {
-        binding.bunnDialog.setOnClickListener{
-            if (oppskriftNavn != null && oppskriftBilde != null){
-                val intent = Intent(activity,OppskriftActivity::class.java)
-                intent.apply {
-                    putExtra(HjemFragment.OPPSKRIFT_ID, oppskriftId)
-                    putExtra(HjemFragment.OPPSKRIFT_NAVN, oppskriftNavn)
-                    putExtra(HjemFragment.OPPSKRIFT_BILDE, oppskriftBilde)
-                }
-                startActivity(intent)
-            }
+        view.setOnClickListener {
+            val intent = Intent(context, OppskriftDetaljerActivity::class.java)
+            intent.putExtra(OPPSKRIFT_ID,mealId)
+            intent.putExtra(OPPSKRIFT_NAVN,mealName)
+            intent.putExtra(OPPSKRIFT_BILDE,mealImg)
+            startActivity(intent)
         }
-    }
-    private var oppskriftNavn:String? = null
-    private var oppskriftBilde:String? = null
 
-    private fun observerBunnDialog() {
-        viewModel.observerBunnDialogOppskrift().observe(viewLifecycleOwner, Observer { oppskrift ->
-            Glide.with(this).load(oppskrift.strMealThumb).into(binding.imgBunnDialog)
-            binding.bunnDialogSted.text = oppskrift.strArea
-            binding.bunnDialogKategori.text = oppskrift.strCategory
-            binding.tvBunnKategoriNavn.text = oppskrift.strMeal
-
-            oppskriftNavn = oppskrift.strMeal
-            oppskriftBilde = oppskrift.strMealThumb
-        })
     }
 
-    companion object {
+    fun prepareView(view:View){
+        val tvMealName = view.findViewById<TextView>(R.id.tv_bunn_kategori_navn)
+        val tvMealCategory = view.findViewById<TextView>(R.id.bunn_dialog_kategori)
+        val tvMealCountry = view.findViewById<TextView>(R.id.bunn_dialog_sted)
+        val imgMeal = view.findViewById<ImageView>(R.id.img_kategori)
 
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String) =
-            OppskriftBunnDialogFragment().apply {
-                arguments = Bundle().apply {
-                    putString(OPPSKRIFT_ID, param1)
-                }
-            }
+        Glide.with(view)
+            .load(mealImg)
+            .into(imgMeal)
+        tvMealName.text = mealName
+        tvMealCategory.text = mealCategory
+        tvMealCountry.text = mealCountry
     }
+
+
 }

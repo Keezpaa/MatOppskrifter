@@ -3,8 +3,8 @@ package no.kasperi.matoppskrifter.pojo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "oppskrift_informasjon")
-data class OppskriftDB(
+@Entity(tableName = "meal_information")
+data class MealDB(
         @PrimaryKey
         val mealId: Int,
         val mealName: String,

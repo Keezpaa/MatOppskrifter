@@ -7,71 +7,66 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
+import no.kasperi.matoppskrifter.R
 import no.kasperi.matoppskrifter.adapters.KategorierAdapter
-import no.kasperi.matoppskrifter.adapters.MestPopulareAdapter
-import no.kasperi.matoppskrifter.aktiviteter.KategoriActivity
-import no.kasperi.matoppskrifter.aktiviteter.MainActivity
 import no.kasperi.matoppskrifter.aktiviteter.OppskriftActivity
 import no.kasperi.matoppskrifter.databinding.FragmentKategorierBinding
-import no.kasperi.matoppskrifter.viewModel.HjemViewModel
+import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.CATEGORY_NAME
+import no.kasperi.matoppskrifter.pojo.Kategori
+import no.kasperi.matoppskrifter.viewModel.KategoriViewModel
 
 
-class KategorierFragment : Fragment() {
+class KategorierFragment : Fragment(R.layout.fragment_kategorier) {
     private lateinit var binding:FragmentKategorierBinding
-    private lateinit var kategorierAdapter:KategorierAdapter
-    private lateinit var viewModel:HjemViewModel
+    private lateinit var myAdapter:KategorierAdapter
+    private lateinit var categoryMvvm: KategoriViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        viewModel = (activity as MainActivity).viewModel
-        kategorierAdapter = KategorierAdapter()
-
+        myAdapter = KategorierAdapter()
+        categoryMvvm = ViewModelProviders.of(this)[KategoriViewModel::class.java]
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentKategorierBinding.inflate(inflater)
+        binding = FragmentKategorierBinding.inflate(inflater,container,false)
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         prepareRecyclerView()
-        observerKategorier()
-        viewModel.hentKategorier()
-
-        onKategoriClick()
+        observeCategories()
+        onCategoryClick()
     }
 
-
-
-    private fun onKategoriClick() {
-        kategorierAdapter.onItemClick = { kategori ->
-            val intent = Intent(activity, KategoriActivity::class.java)
-            intent.putExtra(HjemFragment.KATEGORI_NAVN, kategori.strCategory)
-            startActivity(intent)
-
-        }
-    }
-
-    private fun observerKategorier() {
-        viewModel.observeKategorierLiveData().observe(viewLifecycleOwner, Observer{ kategorier ->
-            kategorierAdapter.setKategoriListe(kategorier)
-
+    private fun onCategoryClick() {
+        myAdapter.onItemClicked(object : KategorierAdapter.OnItemCategoryClicked{
+            override fun onClickListener(category: Kategori) {
+                val intent = Intent(context, OppskriftActivity::class.java)
+                intent.putExtra(CATEGORY_NAME,category.strCategory)
+                startActivity(intent)
+            }
         })
     }
 
+    private fun observeCategories() {
+        categoryMvvm.observeCategories().observe(viewLifecycleOwner
+        ) { t -> myAdapter.setKategoriListe(t!!) }
+    }
+
     private fun prepareRecyclerView() {
-        kategorierAdapter = KategorierAdapter()
-        binding.recKategorier.apply{
-            layoutManager = GridLayoutManager(context, 3, GridLayoutManager.VERTICAL,false)
-            adapter = kategorierAdapter
+        binding.recKategorier.apply {
+            adapter = myAdapter
+            layoutManager = GridLayoutManager(context,3,GridLayoutManager.VERTICAL,false)
         }
     }
+
+
 }

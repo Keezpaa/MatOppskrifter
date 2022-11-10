@@ -10,49 +10,30 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import no.kasperi.matoppskrifter.db.OppskriftDB
 import no.kasperi.matoppskrifter.pojo.Meal
+import no.kasperi.matoppskrifter.pojo.MealsResponse
 import no.kasperi.matoppskrifter.pojo.OppskriftListe
 import no.kasperi.matoppskrifter.retrofit.RetrofitInstance
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class OppskriftViewModel(
-    val oppskriftDB:OppskriftDB
-): ViewModel() {
-    private var oppskriftDetaljerLiveData = MutableLiveData<Meal>()
-    fun hentOppskriftDetaljer(id:String){
-        RetrofitInstance.api.hentOppskriftDetaljer(id).enqueue(object : Callback<OppskriftListe>{
-            override fun onResponse(
-                call: Call<OppskriftListe>,
-                response: Response<OppskriftListe>
-            ) {
-                if(response.body()!=null){
-                    oppskriftDetaljerLiveData.value = response.body()!!.meals[0]
-                }
-                else
-                    return
+class OppskriftViewModel():ViewModel() {
+    private var mutableMeal = MutableLiveData<List<Meal>>()
 
+    fun getMealsByCategory(category:String){
+        RetrofitInstance.api.hentOppskriftFraKategori(category).enqueue(object : Callback<MealsResponse>{
+            override fun onResponse(call: Call<MealsResponse>, response: Response<MealsResponse>) {
+                mutableMeal.value = response.body()!!.meals
             }
 
-            override fun onFailure(call: Call<OppskriftListe>, t: Throwable) {
-                Log.d("OppskriftActivity", t.message.toString())
+            override fun onFailure(call: Call<MealsResponse>, t: Throwable) {
+                Log.d(TAG,t.message.toString())
             }
+
         })
     }
 
-    fun observeOppskriftDetaljerLiveData():LiveData<Meal>{
-        return oppskriftDetaljerLiveData
+    fun observeMeal():LiveData<List<Meal>>{
+        return mutableMeal
     }
-
-    fun insertOppskrift(oppskrift:Meal){
-        viewModelScope.launch {
-            oppskriftDB.oppskriftDao().upsert(oppskrift)
-        }
-    }
-    fun slettOppskrift(oppskrift:Meal){
-        viewModelScope.launch {
-            oppskriftDB.oppskriftDao().slettOppskrift(oppskrift)
-        }
-    }
-
 }

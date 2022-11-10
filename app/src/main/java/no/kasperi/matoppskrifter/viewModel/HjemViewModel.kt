@@ -14,111 +14,71 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.http.Query
 
-class HjemViewModel(
-    private val oppskriftDB: OppskriftDB
-):ViewModel() {
+const val TAG = "HjemViewModel"
 
-    private var randomOppskriftLiveData = MutableLiveData<Meal>()
-    private var populareRetterLiveData = MutableLiveData<List<OppskriftFraKategori>>()
-    private var kategorierLiveData = MutableLiveData<List<Kategori>>()
-    private var favorittOppskriftLiveData = oppskriftDB.oppskriftDao().hentAlleOppskrifter()
-    private var bunnDialogOppskriftLiveData = MutableLiveData<Meal>()
-    private var soktOppskriftLiveData = MutableLiveData<List<Meal>>()
+class HjemViewModel : ViewModel() {
+
+    private val mutableCategory = MutableLiveData<KategoriListe>()
+    private val mutableRandomMeal = MutableLiveData<RandomMealResponse>()
+    private val mutableMealsByCategory = MutableLiveData<MealsResponse>()
 
 
-
-
-    fun hentTilfeldigOppskrift(){
-        RetrofitInstance.api.hentTilfeldigOppskrift().enqueue(object : Callback<OppskriftListe> {
-            override fun onResponse(
-                call: Call<OppskriftListe>,
-                response: Response<OppskriftListe>
-            ) {
-                if(response.body() != null) {
-                    val tilfeldigOppskrift: Meal = response.body()!!.meals[0]
-                    randomOppskriftLiveData.value = tilfeldigOppskrift
-                }else {
-                    return
-                }
-            }
-
-            override fun onFailure(call: Call<OppskriftListe>, t: Throwable) {
-                Log.d("HjemFragment", t.message.toString())
-            }
-        })
+    init {
+        getRandomMeal()
+        getAllCategories()
+        getMealsByCategory("beef")
     }
 
-    fun hentPopulareRetter() {
-       RetrofitInstance.api.hentPopulareRetter("Beef").enqueue(object : Callback<OppskriftFraKategoriListe>{
-           override fun onResponse(call: Call<OppskriftFraKategoriListe>, response: Response<OppskriftFraKategoriListe>) {
-               if(response.body() != null){
-                   populareRetterLiveData.value = response.body()!!.meals
-               }
-           }
 
-           override fun onFailure(call: Call<OppskriftFraKategoriListe>, t: Throwable) {
-               Log.d("HjemFragment", t.message.toString())
-           }
-       })
-    }
-
-    fun hentKategorier() {
-        RetrofitInstance.api.hentKategorier().enqueue(object : Callback<KategoriListe>{
+    private fun getAllCategories() {
+        RetrofitInstance.api.hentKategorier().enqueue(object : Callback<KategoriListe> {
             override fun onResponse(call: Call<KategoriListe>, response: Response<KategoriListe>) {
-                response.body()?.let { kategoriListe ->  
-                    kategorierLiveData.postValue(kategoriListe.categories)
-                }
+                mutableCategory.value = response.body()
             }
 
             override fun onFailure(call: Call<KategoriListe>, t: Throwable) {
-                Log.e("HjemViewModel", t.message.toString())
+                Log.d(TAG, t.message.toString())
             }
         })
     }
 
-    fun hentOppskriftMedId(id:String) {
-        RetrofitInstance.api.hentOppskriftDetaljer(id).enqueue(object : Callback<OppskriftListe>{
-            override fun onResponse(
-                call: Call<OppskriftListe>,
-                response: Response<OppskriftListe>
-            ) {
-                val oppskrift = response.body()?.meals?.first()
-                oppskrift?.let{ oppskrift ->
-                    bunnDialogOppskriftLiveData.postValue(oppskrift)
-                }
+    private fun getRandomMeal() {
+        RetrofitInstance.api.hentTilfeldigOppskrift().enqueue(object : Callback<RandomMealResponse> {
+            override fun onResponse(call: Call<RandomMealResponse>, response: Response<RandomMealResponse>) {
+                mutableRandomMeal.value = response.body()
             }
 
-            override fun onFailure(call: Call<OppskriftListe>, t: Throwable) {
-                Log.e("HjemViewModel",t.message.toString())
+            override fun onFailure(call: Call<RandomMealResponse>, t: Throwable) {
+                Log.e(TAG, t.message.toString())
             }
+
         })
     }
 
-    fun slettOppskrift(oppskrift:Meal){
-        viewModelScope.launch {
-            oppskriftDB.oppskriftDao().slettOppskrift(oppskrift)
-        }
-    }
-    fun insertOppskrift(oppskrift: Meal) {
-        viewModelScope.launch {
-            oppskriftDB.oppskriftDao().upsert(oppskrift)
-        }
+    private fun getMealsByCategory(kategori:String) {
+
+        RetrofitInstance.api.hentOppskriftFraKategori(kategori).enqueue(object : Callback<MealsResponse> {
+            override fun onResponse(call: Call<MealsResponse>, response: Response<MealsResponse>) {
+                mutableMealsByCategory.value = response.body()
+            }
+
+            override fun onFailure(call: Call<MealsResponse>, t: Throwable) {
+                Log.e(TAG, t.message.toString())
+            }
+
+        })
     }
 
-    fun observeTilfeldigOppskriftLiveData():LiveData<Meal>{
-        return randomOppskriftLiveData
+    fun observeMealByCategory(): LiveData<MealsResponse> {
+        return mutableMealsByCategory
     }
 
-    fun observePopulareRetterLiveData():LiveData<List<OppskriftFraKategori>>{
-        return populareRetterLiveData
+    fun observeRandomMeal(): LiveData<RandomMealResponse> {
+        return mutableRandomMeal
     }
 
-    fun observeKategorierLiveData():LiveData<List<Kategori>>{
-        return kategorierLiveData
+    fun observeCategories(): LiveData<KategoriListe> {
+        return mutableCategory
     }
 
-    fun observerFavorittOppskrifterLiveData():LiveData<List<Meal>>{
-        return favorittOppskriftLiveData
-    }
-    fun observerBunnDialogOppskrift() : LiveData<Meal> = bunnDialogOppskriftLiveData
 }

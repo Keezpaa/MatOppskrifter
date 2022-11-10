@@ -26,10 +26,12 @@
         <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/layout/activity_logg_inn.xml" value="0.128125" />
         <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/layout/activity_oppskrift.xml" value="0.16" />
+        <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/layout/activity_oppskrift_detaljer.xml" value="0.3614583333333333" />
         <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/layout/activity_rediger_profil.xml" value="0.1921875" />
         <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/layout/activity_registrer.xml" value="0.2" />
         <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/layout/activity_splash.xml" value="0.2" />
         <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/layout/enkel_oppskrift_kort.xml" value="0.1757852077001013" />
+        <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/layout/fav_oppskrift_kort.xml" value="0.3614583333333333" />
         <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/layout/fragment_favoritt.xml" value="0.3555253623188406" />
         <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/layout/fragment_hjem.xml" value="0.19270833333333334" />
         <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/layout/fragment_kategorier.xml" value="0.3555253623188406" />
@@ -42,7 +44,9 @@
         <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/layout/last_opp_profilbilde_valg.xml" value="0.3046875" />
         <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/layout/oppdater_bruker_detaljer.xml" value="0.3046875" />
         <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/layout/oppskrift_element.xml" value="0.2418478260869565" />
+        <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/layout/oppskrift_kort.xml" value="0.3625" />
         <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/layout/populare_retter.xml" value="0.6659619450317125" />
+        <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/layout/single_meal_card.xml" value="0.2965811965811966" />
         <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/menu/bunn_meny.xml" value="0.2" />
       </map>
     </option>

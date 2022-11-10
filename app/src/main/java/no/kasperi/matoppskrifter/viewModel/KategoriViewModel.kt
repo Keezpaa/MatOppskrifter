@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import no.kasperi.matoppskrifter.pojo.Kategori
+import no.kasperi.matoppskrifter.pojo.KategoriListe
 import no.kasperi.matoppskrifter.pojo.OppskriftFraKategori
 import no.kasperi.matoppskrifter.pojo.OppskriftFraKategoriListe
 import no.kasperi.matoppskrifter.retrofit.RetrofitInstance
@@ -13,26 +15,26 @@ import retrofit2.Response
 
 class KategoriViewModel : ViewModel() {
 
-    val oppskrifterLiveData = MutableLiveData<List<OppskriftFraKategori>>()
+    private var categories: MutableLiveData<List<Kategori>> = MutableLiveData<List<Kategori>>()
 
-    fun hentOppskriftFraKategori(kategoriNavn:String){
-        RetrofitInstance.api.hentOppskrftFraKategori(kategoriNavn).enqueue(object : Callback<OppskriftFraKategoriListe>{
-            override fun onResponse(
-                call: Call<OppskriftFraKategoriListe>,
-                response: Response<OppskriftFraKategoriListe>
-            ) {
-                response.body()?.let { oppskriftListe ->
-                    oppskrifterLiveData.postValue(oppskriftListe.meals)
-                }
+    init {
+        getCategories()
+    }
+
+    private fun getCategories(){
+        RetrofitInstance.api.hentKategorier().enqueue(object : Callback<KategoriListe>{
+            override fun onResponse(call: Call<KategoriListe>, response: Response<KategoriListe>) {
+                categories.value = response.body()!!.categories
             }
 
-            override fun onFailure(call: Call<OppskriftFraKategoriListe>, t: Throwable) {
-                Log.e("KategoriViewModel", t.message.toString())
+            override fun onFailure(call: Call<KategoriListe>, t: Throwable) {
+                Log.d(TAG,t.message.toString())
             }
+
         })
     }
 
-    fun observeOppskrifterLiveData():LiveData<List<OppskriftFraKategori>>{
-        return oppskrifterLiveData
+    fun observeCategories():LiveData<List<Kategori>>{
+        return categories
     }
 }

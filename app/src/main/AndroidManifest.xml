@@ -33,7 +33,7 @@
             android:name="no.kasperi.matoppskrifter.ui.intro.IntroActivity"
             android:exported="false" />
         <activity
-            android:name="no.kasperi.matoppskrifter.aktiviteter.KategoriActivity"
+            android:name="no.kasperi.matoppskrifter.aktiviteter.OppskriftDetaljerActivity"
             android:exported="false" />
         <activity
             android:name="no.kasperi.matoppskrifter.aktiviteter.OppskriftActivity"

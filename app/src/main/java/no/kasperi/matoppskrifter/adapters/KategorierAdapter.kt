@@ -9,16 +9,18 @@ import no.kasperi.matoppskrifter.pojo.Kategori
 
 class KategorierAdapter():RecyclerView.Adapter<KategorierAdapter.KategoriViewHolder>() {
 
-    private var kategoriListe = ArrayList<Kategori>()
-    var onItemClick : ((Kategori) -> Unit)? = null
+    private var kategoriListe: List<Kategori> = ArrayList()
+    private lateinit var onItemClick: OnItemCategoryClicked
 
     fun setKategoriListe(kategoriListe:List<Kategori>){
-        this.kategoriListe = kategoriListe as ArrayList<Kategori>
+        this.kategoriListe = kategoriListe
         notifyDataSetChanged()
     }
 
-    inner class KategoriViewHolder(val binding:KategoriElementBinding):RecyclerView.ViewHolder(binding.root)
-
+    fun onItemClicked(onItemClick: OnItemCategoryClicked){
+        this.onItemClick = onItemClick
+    }
+    class KategoriViewHolder(val binding:KategoriElementBinding):RecyclerView.ViewHolder(binding.root)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): KategoriViewHolder {
         return KategoriViewHolder(
             KategoriElementBinding.inflate(
@@ -28,15 +30,23 @@ class KategorierAdapter():RecyclerView.Adapter<KategorierAdapter.KategoriViewHol
     }
 
     override fun onBindViewHolder(holder: KategoriViewHolder, position: Int) {
-        Glide.with(holder.itemView).load(kategoriListe[position].strCategoryThumb).into(holder.binding.imgKategori)
-        holder.binding.tvKategoriNavn.text = kategoriListe[position].strCategory
+        holder.binding.apply {
+            tvKategoriNavn.text = kategoriListe[position].strCategory
 
-        holder.itemView.setOnClickListener{
-            onItemClick!!.invoke(kategoriListe[position])
+            Glide.with(holder.itemView)
+                .load(kategoriListe[position].strCategoryThumb)
+                .into(imgKategori)
+        }
+
+        holder.itemView.setOnClickListener {
+            onItemClick.onClickListener(kategoriListe[position])
         }
     }
 
     override fun getItemCount(): Int {
         return kategoriListe.size
+    }
+    interface OnItemCategoryClicked{
+        fun onClickListener(category:Kategori)
     }
 }

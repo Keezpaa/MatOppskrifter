@@ -1,46 +1,69 @@
 package no.kasperi.matoppskrifter.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import no.kasperi.matoppskrifter.databinding.PopulareRetterBinding
+import no.kasperi.matoppskrifter.pojo.Meal
 import no.kasperi.matoppskrifter.pojo.OppskriftFraKategori
 
-class MestPopulareAdapter(): RecyclerView.Adapter<MestPopulareAdapter.PopularOppskriftViewHolder>() {
-    lateinit var onItemClick:((OppskriftFraKategori) -> Unit)
-    var onLongItemClick:((OppskriftFraKategori) -> Unit)?=null
-    private var oppskriftListe = ArrayList<OppskriftFraKategori>()
-
-    fun setOppskrifter(oppskriftListe:ArrayList<OppskriftFraKategori>){
-        this.oppskriftListe = oppskriftListe
+class MestPopulareAdapter : RecyclerView.Adapter<MestPopulareAdapter.MostPopularMealViewHolder>(){
+    private var mealsList: List<Meal> = ArrayList()
+    private lateinit var onItemClick: OnItemClick
+    private lateinit var onLongItemClick: OnLongItemClick
+    fun setMealList(mealsList: List<Meal>) {
+        this.mealsList = mealsList
         notifyDataSetChanged()
     }
 
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PopularOppskriftViewHolder {
-        return PopularOppskriftViewHolder(PopulareRetterBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+    fun setOnClickListener(onItemClick: OnItemClick){
+        this.onItemClick = onItemClick
     }
 
-    override fun onBindViewHolder(holder: PopularOppskriftViewHolder, position: Int) {
-        Glide.with(holder.itemView)
-            .load(oppskriftListe[position].strMealThumb)
-            .into(holder.binding.bildePopOppskriftElement)
+    fun setOnLongCLickListener(onLongItemClick:OnLongItemClick){
+        this.onLongItemClick = onLongItemClick
+    }
+
+    class MostPopularMealViewHolder(val binding: PopulareRetterBinding) :
+        RecyclerView.ViewHolder(binding.root)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MostPopularMealViewHolder {
+        return MostPopularMealViewHolder(PopulareRetterBinding.inflate(LayoutInflater.from(parent.context)))
+    }
+
+    override fun onBindViewHolder(holder: MostPopularMealViewHolder, position: Int) {
+        val i = position
+        holder.binding.apply {
+            Glide.with(holder.itemView)
+                .load(mealsList[position].strMealThumb)
+                .into(bildePopOppskrift)
+
+        }
 
         holder.itemView.setOnClickListener {
-            onItemClick.invoke(oppskriftListe[position])
+            onItemClick.onItemClick(mealsList[position])
         }
 
-        holder.itemView.setOnLongClickListener {
-            onLongItemClick?.invoke(oppskriftListe[position])
-            true
-        }
+        holder.itemView.setOnLongClickListener(object : View.OnLongClickListener{
+            override fun onLongClick(p0: View?): Boolean {
+                onLongItemClick.onItemLongClick(mealsList[i])
+                return true
+            }
 
+        })
     }
 
     override fun getItemCount(): Int {
-        return oppskriftListe.size
+        return mealsList.size
     }
+}
 
-    class PopularOppskriftViewHolder(var binding:PopulareRetterBinding):RecyclerView.ViewHolder(binding.root)
+interface OnItemClick{
+    fun onItemClick(meal:Meal)
+}
+
+interface OnLongItemClick{
+    fun onItemLongClick(meal:Meal)
 }

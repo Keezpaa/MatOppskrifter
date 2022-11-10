@@ -4,11 +4,9 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
-import no.kasperi.matoppskrifter.pojo.Meal
+import no.kasperi.matoppskrifter.pojo.MealDB
 
-@Database(entities = [Meal::class], version = 1)
-@TypeConverters(OppskriftTypeConverter::class)
+@Database(entities = [MealDB::class], version = 6)
 abstract class OppskriftDB : RoomDatabase() {
     abstract fun oppskriftDao(): OppskriftDao
 
