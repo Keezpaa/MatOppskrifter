@@ -4,21 +4,17 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.launch
 import no.kasperi.matoppskrifter.pojo.*
-import no.kasperi.matoppskrifter.db.OppskriftDB
 import no.kasperi.matoppskrifter.retrofit.RetrofitInstance
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.http.Query
 
 const val TAG = "HjemViewModel"
 
-class HjemViewModel : ViewModel() {
+class HjemViewModel: ViewModel() {
 
-    private val mutableCategory = MutableLiveData<KategoriListe>()
+    private val mutableCategory = MutableLiveData<CategoryResponse>()
     private val mutableRandomMeal = MutableLiveData<RandomMealResponse>()
     private val mutableMealsByCategory = MutableLiveData<MealsResponse>()
 
@@ -26,17 +22,17 @@ class HjemViewModel : ViewModel() {
     init {
         getRandomMeal()
         getAllCategories()
-        getMealsByCategory("beef")
+        getMealsByCategory()
     }
 
 
     private fun getAllCategories() {
-        RetrofitInstance.api.hentKategorier().enqueue(object : Callback<KategoriListe> {
-            override fun onResponse(call: Call<KategoriListe>, response: Response<KategoriListe>) {
+        RetrofitInstance.api.hentKategorier().enqueue(object : Callback<CategoryResponse> {
+            override fun onResponse(call: Call<CategoryResponse>, response: Response<CategoryResponse>) {
                 mutableCategory.value = response.body()
             }
 
-            override fun onFailure(call: Call<KategoriListe>, t: Throwable) {
+            override fun onFailure(call: Call<CategoryResponse>, t: Throwable) {
                 Log.d(TAG, t.message.toString())
             }
         })
@@ -55,9 +51,10 @@ class HjemViewModel : ViewModel() {
         })
     }
 
-    private fun getMealsByCategory(kategori:String) {
 
-        RetrofitInstance.api.hentOppskriftFraKategori(kategori).enqueue(object : Callback<MealsResponse> {
+
+    private fun getMealsByCategory() {
+        RetrofitInstance.api.getMealsByCategory("beef").enqueue(object : Callback<MealsResponse> {
             override fun onResponse(call: Call<MealsResponse>, response: Response<MealsResponse>) {
                 mutableMealsByCategory.value = response.body()
             }
@@ -77,7 +74,7 @@ class HjemViewModel : ViewModel() {
         return mutableRandomMeal
     }
 
-    fun observeCategories(): LiveData<KategoriListe> {
+    fun observeCategories(): LiveData<CategoryResponse> {
         return mutableCategory
     }
 

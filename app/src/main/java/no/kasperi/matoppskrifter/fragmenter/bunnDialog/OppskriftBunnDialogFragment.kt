@@ -70,7 +70,7 @@ class OppskriftBunnDialogFragment  : BottomSheetDialogFragment() {
         val tvMealName = view.findViewById<TextView>(R.id.tv_bunn_kategori_navn)
         val tvMealCategory = view.findViewById<TextView>(R.id.bunn_dialog_kategori)
         val tvMealCountry = view.findViewById<TextView>(R.id.bunn_dialog_sted)
-        val imgMeal = view.findViewById<ImageView>(R.id.img_kategori)
+        val imgMeal = view.findViewById<ImageView>(R.id.img_bunn_dialog)
 
         Glide.with(view)
             .load(mealImg)

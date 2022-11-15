@@ -13,15 +13,12 @@ interface OppskriftApi {
     @GET("lookup.php")
     fun hentOppskriftDetaljer(@Query("i") id:String) : Call<RandomMealResponse>
 
-    @GET("filter.php")
-    fun hentPopulareRetter(@Query("c") kategoriNavn:String) : Call<OppskriftFraKategoriListe>
-
     @GET("categories.php")
-    fun hentKategorier() : Call<KategoriListe>
+    fun hentKategorier() : Call<CategoryResponse>
 
-    @GET("filter.php")
-    fun hentOppskriftFraKategori(@Query("c") kategori: String) : Call<MealsResponse>
+    @GET("filter.php?")
+    fun getMealsByCategory(@Query("c") category:String):Call<MealsResponse>
 
-    @GET("search.php")
-    fun sokEtterOppskrift(@Query("s") searchQuery:String) : Call<OppskriftListe>
+    @GET("search.php?")
+    fun sokEtterOppskrift(@Query("s") searchQuery:String) : Call<RandomMealResponse>
 }

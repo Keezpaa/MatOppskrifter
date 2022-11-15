@@ -21,7 +21,7 @@ class OppskriftActivity : AppCompatActivity() {
     private lateinit var mealActivityMvvm: OppskriftViewModel
     private lateinit var binding: ActivityKategoriBinding
     private lateinit var myAdapter: OppskriftAdapter
-    private var categoryNme = "\"com.example.easyfood.fragments.categoryName\""
+    private var categoryNme = "no.kasperi.matoppskrifter.fragmenter.categoryName"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityKategoriBinding.inflate(layoutInflater)

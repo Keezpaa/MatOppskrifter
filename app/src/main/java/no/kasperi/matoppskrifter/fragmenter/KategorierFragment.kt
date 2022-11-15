@@ -6,15 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import no.kasperi.matoppskrifter.R
 import no.kasperi.matoppskrifter.adapters.KategorierAdapter
 import no.kasperi.matoppskrifter.aktiviteter.OppskriftActivity
 import no.kasperi.matoppskrifter.databinding.FragmentKategorierBinding
 import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.CATEGORY_NAME
-import no.kasperi.matoppskrifter.pojo.Kategori
+import no.kasperi.matoppskrifter.pojo.Category
 import no.kasperi.matoppskrifter.viewModel.KategoriViewModel
 
 
@@ -27,7 +26,7 @@ class KategorierFragment : Fragment(R.layout.fragment_kategorier) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         myAdapter = KategorierAdapter()
-        categoryMvvm = ViewModelProviders.of(this)[KategoriViewModel::class.java]
+        categoryMvvm = ViewModelProvider(this)[KategoriViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -48,7 +47,7 @@ class KategorierFragment : Fragment(R.layout.fragment_kategorier) {
 
     private fun onCategoryClick() {
         myAdapter.onItemClicked(object : KategorierAdapter.OnItemCategoryClicked{
-            override fun onClickListener(category: Kategori) {
+            override fun onClickListener(category: Category) {
                 val intent = Intent(context, OppskriftActivity::class.java)
                 intent.putExtra(CATEGORY_NAME,category.strCategory)
                 startActivity(intent)

@@ -11,13 +11,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import no.kasperi.matoppskrifter.adapters.OppskriftAdapter
-import no.kasperi.matoppskrifter.aktiviteter.OppskriftActivity
+import no.kasperi.matoppskrifter.aktiviteter.OppskriftDetaljerActivity
 import no.kasperi.matoppskrifter.databinding.FragmentSokBinding
 import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.OPPSKRIFT_BILDE
 import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.OPPSKRIFT_ID
 import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.OPPSKRIFT_NAVN
-import no.kasperi.matoppskrifter.pojo.Meal
-import no.kasperi.matoppskrifter.pojo.OppskriftListe
+import no.kasperi.matoppskrifter.pojo.MealDetail
 import no.kasperi.matoppskrifter.viewModel.SokViewModel
 
 
@@ -55,7 +54,7 @@ class SokFragment : Fragment() {
 
     private fun setOnOppskriftKortClick() {
         binding.oppskriftKort.setOnClickListener {
-            val intent = Intent(context, OppskriftActivity::class.java)
+            val intent = Intent(context, OppskriftDetaljerActivity::class.java)
 
             intent.putExtra(OPPSKRIFT_ID, oppskriftId)
             intent.putExtra(OPPSKRIFT_NAVN, oppskriftNavn)
@@ -77,16 +76,16 @@ class SokFragment : Fragment() {
 
     private fun observerSokLiveData() {
         sokViewModel.observerSoktLiveData()
-            .observe(viewLifecycleOwner, object : Observer<Meal> {
-                override fun onChanged(t: Meal?) {
+            .observe(viewLifecycleOwner, object : Observer<MealDetail> {
+                override fun onChanged(t: MealDetail?) {
                     if (t == null) {
                         Toast.makeText(context, "Ingen oppskrift med det navnet", Toast.LENGTH_SHORT).show()
                     } else {
                         binding.apply {
 
                             oppskriftId = t.idMeal
-                            oppskriftNavn = t.strMeal.toString()
-                            oppskriftBilde = t.strMealThumb.toString()
+                            oppskriftNavn = t.strMeal
+                            oppskriftBilde = t.strMealThumb
 
                             Glide.with(context!!.applicationContext)
                                 .load(t.strMealThumb)

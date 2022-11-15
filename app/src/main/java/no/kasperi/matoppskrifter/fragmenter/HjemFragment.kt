@@ -10,18 +10,14 @@ import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.fragment_hjem.*
 import no.kasperi.matoppskrifter.R
 import no.kasperi.matoppskrifter.adapters.KategorierAdapter
 import no.kasperi.matoppskrifter.adapters.MestPopulareAdapter
 import no.kasperi.matoppskrifter.adapters.OnItemClick
 import no.kasperi.matoppskrifter.adapters.OnLongItemClick
-import no.kasperi.matoppskrifter.aktiviteter.MainActivity
 import no.kasperi.matoppskrifter.aktiviteter.OppskriftActivity
 import no.kasperi.matoppskrifter.aktiviteter.OppskriftDetaljerActivity
 import no.kasperi.matoppskrifter.databinding.FragmentHjemBinding
@@ -35,11 +31,10 @@ class HjemFragment : Fragment() {
     private lateinit var meal: RandomMealResponse
     private lateinit var detailMvvm: DetaljerViewModel
     private var randomMealId = "no.kasperi.matoppskrifter.fragmenter.randomMealId"
-
     companion object {
         const val OPPSKRIFT_ID = "no.kasperi.matoppskrifter.fragmenter.idMeal"
         const val OPPSKRIFT_NAVN = "no.kasperi.matoppskrifter.fragmenter.strMeal"
-        const val OPPSKRIFT_BILDE= "no.kasperi.matoppskrifter.fragmenter.mealThumb"
+        const val OPPSKRIFT_BILDE = "no.kasperi.matoppskrifter.fragmenter.thumbMeal"
         const val CATEGORY_NAME = "no.kasperi.matoppskrifter.fragmenter.categoryName"
         const val MEAL_AREA = "no.kasperi.matoppskrifter.fragmenter.strArea"
         const val MEAL_NAME = "no.kasperi.matoppskrifter.fragmenter.strMeal"
@@ -52,7 +47,7 @@ class HjemFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        detailMvvm = ViewModelProviders.of(this)[DetaljerViewModel::class.java]
+        detailMvvm = ViewModelProvider(this)[DetaljerViewModel::class.java]
         binding = FragmentHjemBinding.inflate(layoutInflater)
         myAdapter = KategorierAdapter()
         mostPopularFoodAdapter = MestPopulareAdapter()
@@ -78,20 +73,17 @@ class HjemFragment : Fragment() {
         onRandomLongClick()
 
 
-        mainFragMVVM.observeMealByCategory().observe(viewLifecycleOwner, object :
-            Observer<MealsResponse> {
+        mainFragMVVM.observeMealByCategory().observe(viewLifecycleOwner, object : Observer<MealsResponse> {
             override fun onChanged(t: MealsResponse?) {
                 val meals = t!!.meals
                 setMealsByCategoryAdapter(meals)
                 cancelLoadingCase()
             }
-
-
         })
 
         mainFragMVVM.observeCategories().observe(viewLifecycleOwner, object :
-            Observer<KategoriListe> {
-            override fun onChanged(t: KategoriListe?) {
+            Observer<CategoryResponse> {
+            override fun onChanged(t: CategoryResponse?) {
                 val categories = t!!.categories
                 setCategoryAdapter(categories)
 
@@ -124,7 +116,7 @@ class HjemFragment : Fragment() {
         })
 
         myAdapter.onItemClicked(object : KategorierAdapter.OnItemCategoryClicked {
-            override fun onClickListener(category: Kategori) {
+            override fun onClickListener(category: Category) {
                 val intent = Intent(activity, OppskriftActivity::class.java)
                 intent.putExtra(CATEGORY_NAME, category.strCategory)
                 startActivity(intent)
@@ -190,11 +182,11 @@ class HjemFragment : Fragment() {
 
     private fun showLoadingCase() {
         binding.apply {
-            linear_header.visibility = View.INVISIBLE
+            linearHeader.visibility = View.INVISIBLE
             tvSubheader.visibility = View.INVISIBLE
             randomOppskrift.visibility = View.INVISIBLE
             tvPopRetter.visibility = View.INVISIBLE
-            recyclerViewKategorier.visibility = View.INVISIBLE
+            recSePopRetter.visibility = View.INVISIBLE
             tvKategori.visibility = View.INVISIBLE
             categoryCard.visibility = View.INVISIBLE
             rootHjem.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
@@ -204,11 +196,11 @@ class HjemFragment : Fragment() {
 
     private fun cancelLoadingCase() {
         binding.apply {
-            linear_header.visibility = View.VISIBLE
+            linearHeader.visibility = View.VISIBLE
             tvSubheader.visibility = View.VISIBLE
             randomOppskrift.visibility = View.VISIBLE
             tvPopRetter.visibility = View.VISIBLE
-            recyclerViewKategorier.visibility = View.VISIBLE
+            recSePopRetter.visibility = View.VISIBLE
             tvKategori.visibility = View.VISIBLE
             categoryCard.visibility = View.VISIBLE
             rootHjem.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
@@ -220,7 +212,7 @@ class HjemFragment : Fragment() {
         mostPopularFoodAdapter.setMealList(meals)
     }
 
-    private fun setCategoryAdapter(categories: List<Kategori>) {
+    private fun setCategoryAdapter(categories: List<Category>) {
         myAdapter.setKategoriListe(categories)
     }
 

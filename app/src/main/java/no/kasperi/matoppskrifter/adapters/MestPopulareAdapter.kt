@@ -7,12 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import no.kasperi.matoppskrifter.databinding.PopulareRetterBinding
 import no.kasperi.matoppskrifter.pojo.Meal
-import no.kasperi.matoppskrifter.pojo.OppskriftFraKategori
 
 class MestPopulareAdapter : RecyclerView.Adapter<MestPopulareAdapter.MostPopularMealViewHolder>(){
     private var mealsList: List<Meal> = ArrayList()
     private lateinit var onItemClick: OnItemClick
-    private lateinit var onLongItemClick: OnLongItemClick
+    private lateinit var onLongItemClick:OnLongItemClick
     fun setMealList(mealsList: List<Meal>) {
         this.mealsList = mealsList
         notifyDataSetChanged()
@@ -26,21 +25,19 @@ class MestPopulareAdapter : RecyclerView.Adapter<MestPopulareAdapter.MostPopular
         this.onLongItemClick = onLongItemClick
     }
 
-    class MostPopularMealViewHolder(val binding: PopulareRetterBinding) :
-        RecyclerView.ViewHolder(binding.root)
+    class MostPopularMealViewHolder(val binding:PopulareRetterBinding):RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MostPopularMealViewHolder {
-        return MostPopularMealViewHolder(PopulareRetterBinding.inflate(LayoutInflater.from(parent.context)))
+        return MostPopularMealViewHolder(PopulareRetterBinding.inflate(LayoutInflater.from(parent.context),parent,false))
     }
 
     override fun onBindViewHolder(holder: MostPopularMealViewHolder, position: Int) {
         val i = position
-        holder.binding.apply {
+
             Glide.with(holder.itemView)
                 .load(mealsList[position].strMealThumb)
-                .into(bildePopOppskrift)
+                .into(holder.binding.imgPopularOppskrift)
 
-        }
 
         holder.itemView.setOnClickListener {
             onItemClick.onItemClick(mealsList[position])

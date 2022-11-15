@@ -21,10 +21,10 @@ import no.kasperi.matoppskrifter.viewModel.DetaljerViewModel
 class OppskriftDetaljerActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOppskriftBinding
     private lateinit var detailsMVVM: DetaljerViewModel
-    private var mealId = "\"com.example.easyfood.fragments.idMeal\""
-    private var mealStr = "\"com.example.easyfood.fragments.strMeal\""
-    private var mealThumb = "\"com.example.easyfood.fragments.thumbMeal\""
-    private var ytUrl = "\"com.example.easyfood.fragments.ytUrl\""
+    private var mealId = "no.kasperi.matoppskrifter.fragmenter.idMeal"
+    private var mealStr = "no.kasperi.matoppskrifter.fragmenter.strMeal"
+    private var mealThumb = "no.kasperi.matoppskrifter.fragmenter.thumbMeal"
+    private var ytUrl = "no.kasperi.matoppskrifter.fragmenter.ytUrl"
     private lateinit var dtMeal: MealDetail
 
 

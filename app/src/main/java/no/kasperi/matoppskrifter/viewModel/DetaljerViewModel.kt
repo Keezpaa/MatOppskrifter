@@ -2,10 +2,7 @@ package no.kasperi.matoppskrifter.viewModel
 
 import android.app.Application
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -20,7 +17,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class DetaljerViewModel (application: Application) : AndroidViewModel(application) {
+class DetaljerViewModel(application: Application) : AndroidViewModel(application) {
     private val mutableMealDetail = MutableLiveData<List<MealDetail>>()
     private val mutableMealBottomSheet = MutableLiveData<List<MealDetail>>()
     private  var allMeals: LiveData<List<MealDB>>

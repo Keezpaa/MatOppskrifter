@@ -1,5 +1,5 @@
 package no.kasperi.matoppskrifter.pojo
 
-class MealsResponse (
+data class MealsResponse(
     val meals: List<Meal>
 )

@@ -1,6 +1,6 @@
 package no.kasperi.matoppskrifter.pojo
 
-data class Kategori(
+data class Category(
     val idCategory: String,
     val strCategory: String,
     val strCategoryDescription: String,

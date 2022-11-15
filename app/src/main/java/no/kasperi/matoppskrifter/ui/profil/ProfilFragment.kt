@@ -1,7 +1,6 @@
 package no.kasperi.matoppskrifter.ui.profil
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -12,12 +11,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -26,13 +22,8 @@ import kotlinx.android.synthetic.main.last_opp_profilbilde_valg.view.*
 import no.kasperi.matoppskrifter.R
 import no.kasperi.matoppskrifter.abstraction.AbstractFragment
 import no.kasperi.matoppskrifter.adapters.OppskriftAdapter
-import no.kasperi.matoppskrifter.aktiviteter.MainActivity
-import no.kasperi.matoppskrifter.databinding.FragmentHjemBinding
 import no.kasperi.matoppskrifter.databinding.FragmentProfilBinding
-import no.kasperi.matoppskrifter.listeners.OppskriftClickListener
-import no.kasperi.matoppskrifter.pojo.OppskriftFraKategori
 import no.kasperi.matoppskrifter.ui.redigerProfil.RedigerProfilActivity
-import no.kasperi.matoppskrifter.viewModel.DetaljerViewModel
 import no.kasperi.matoppskrifter.viewModel.HjemViewModel
 
 class ProfilFragment: AbstractFragment(R.layout.fragment_profil) {

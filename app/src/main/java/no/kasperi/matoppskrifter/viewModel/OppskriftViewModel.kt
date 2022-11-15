@@ -4,14 +4,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import no.kasperi.matoppskrifter.db.OppskriftDB
 import no.kasperi.matoppskrifter.pojo.Meal
 import no.kasperi.matoppskrifter.pojo.MealsResponse
-import no.kasperi.matoppskrifter.pojo.OppskriftListe
 import no.kasperi.matoppskrifter.retrofit.RetrofitInstance
 import retrofit2.Call
 import retrofit2.Callback
@@ -21,7 +15,7 @@ class OppskriftViewModel():ViewModel() {
     private var mutableMeal = MutableLiveData<List<Meal>>()
 
     fun getMealsByCategory(category:String){
-        RetrofitInstance.api.hentOppskriftFraKategori(category).enqueue(object : Callback<MealsResponse>{
+        RetrofitInstance.api.getMealsByCategory(category).enqueue(object : Callback<MealsResponse>{
             override fun onResponse(call: Call<MealsResponse>, response: Response<MealsResponse>) {
                 mutableMeal.value = response.body()!!.meals
             }

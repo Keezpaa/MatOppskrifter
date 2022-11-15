@@ -13,4 +13,4 @@ data class MealDB(
         val mealInstruction:String,
         val mealThumb:String,
         val mealYoutubeLink:String
-    )
+        )

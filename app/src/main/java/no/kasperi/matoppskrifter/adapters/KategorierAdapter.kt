@@ -5,14 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import no.kasperi.matoppskrifter.databinding.KategoriElementBinding
-import no.kasperi.matoppskrifter.pojo.Kategori
+import no.kasperi.matoppskrifter.pojo.Category
 
 class KategorierAdapter():RecyclerView.Adapter<KategorierAdapter.KategoriViewHolder>() {
 
-    private var kategoriListe: List<Kategori> = ArrayList()
+    private var kategoriListe: List<Category> = ArrayList()
     private lateinit var onItemClick: OnItemCategoryClicked
 
-    fun setKategoriListe(kategoriListe:List<Kategori>){
+    fun setKategoriListe(kategoriListe:List<Category>){
         this.kategoriListe = kategoriListe
         notifyDataSetChanged()
     }
@@ -47,6 +47,6 @@ class KategorierAdapter():RecyclerView.Adapter<KategorierAdapter.KategoriViewHol
         return kategoriListe.size
     }
     interface OnItemCategoryClicked{
-        fun onClickListener(category:Kategori)
+        fun onClickListener(category:Category)
     }
 }
