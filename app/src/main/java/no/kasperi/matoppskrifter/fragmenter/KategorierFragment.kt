@@ -13,7 +13,7 @@ import no.kasperi.matoppskrifter.adapters.KategorierAdapter
 import no.kasperi.matoppskrifter.aktiviteter.OppskriftActivity
 import no.kasperi.matoppskrifter.databinding.FragmentKategorierBinding
 import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.CATEGORY_NAME
-import no.kasperi.matoppskrifter.pojo.Category
+import no.kasperi.matoppskrifter.pojo.Kategori
 import no.kasperi.matoppskrifter.viewModel.KategoriViewModel
 
 
@@ -47,9 +47,9 @@ class KategorierFragment : Fragment(R.layout.fragment_kategorier) {
 
     private fun onCategoryClick() {
         myAdapter.onItemClicked(object : KategorierAdapter.OnItemCategoryClicked{
-            override fun onClickListener(category: Category) {
+            override fun onClickListener(kategori: Kategori) {
                 val intent = Intent(context, OppskriftActivity::class.java)
-                intent.putExtra(CATEGORY_NAME,category.strCategory)
+                intent.putExtra(CATEGORY_NAME,kategori.strCategory)
                 startActivity(intent)
             }
         })

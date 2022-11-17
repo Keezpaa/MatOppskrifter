@@ -14,26 +14,26 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class SokViewModel : ViewModel()  {
-    private val soktOppskriftLiveData = MutableLiveData<MealDetail>()
+    private val soktEtterOppskriftLiveData = MutableLiveData<MealDetail>()
 
 
     fun sokOppskriftDetaljer(name: String,context: Context?) {
-        RetrofitInstance.api.sokEtterOppskrift(name).enqueue(object : Callback<RandomMealResponse> {
-            override fun onResponse(call: Call<RandomMealResponse>, response: Response<RandomMealResponse>) {
+        RetrofitInstance.api.sokEtterOppskrift(name).enqueue(object : Callback<TilfeldigOppskriftRespons> {
+            override fun onResponse(call: Call<TilfeldigOppskriftRespons>, response: Response<TilfeldigOppskriftRespons>) {
                 if (response.body()?.meals == null)
                     Toast.makeText(context?.applicationContext, "Ingen oppskrift med det navnet", Toast.LENGTH_SHORT).show()
                 else
-                    soktOppskriftLiveData.value = response.body()!!.meals[0]
+                    soktEtterOppskriftLiveData.value = response.body()!!.meals[0]
             }
 
-            override fun onFailure(call: Call<RandomMealResponse>, t: Throwable) {
-                Log.e("HjemViewModel", t.message.toString())
+            override fun onFailure(call: Call<TilfeldigOppskriftRespons>, t: Throwable) {
+                Log.e(TAG, t.message.toString())
             }
 
         })
     }
 
     fun observerSoktLiveData(): LiveData<MealDetail> {
-        return soktOppskriftLiveData
+        return soktEtterOppskriftLiveData
     }
 }

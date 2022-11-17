@@ -15,13 +15,13 @@ interface OppskriftDao {
     @Update
     fun updateFavorite(meal:MealDB)
 
-    @Query("SELECT * FROM meal_information order by mealId asc")
+    @Query("SELECT * FROM oppskrift_informasjon order by mealId asc")
     fun getAllSavedMeals():LiveData<List<MealDB>>
 
-    @Query("SELECT * FROM meal_information WHERE mealId =:id")
+    @Query("SELECT * FROM oppskrift_informasjon WHERE mealId =:id")
     fun getMealById(id:String):MealDB
 
-    @Query("DELETE FROM meal_information WHERE mealId =:id")
+    @Query("DELETE FROM oppskrift_informasjon WHERE mealId =:id")
     fun deleteMealById(id:String)
 
     @Delete

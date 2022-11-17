@@ -26,20 +26,20 @@ import no.kasperi.matoppskrifter.viewModel.HjemViewModel
 
 
 class OppskriftBunnDialogFragment  : BottomSheetDialogFragment() {
-    private var mealName = "no.kasperi.matoppskrifter.mealName"
-    private var mealId ="no.kasperi.matoppskrifter.mealId"
-    private var mealImg = "no.kasperi.matoppskrifter.thumbMeal"
-    private var mealCountry = "no.kasperi.matoppskrifter.mealCountry"
-    private var mealCategory = "no.kasperi.matoppskrifter.mealCategory"
+    private var matNavn = "no.kasperi.matoppskrifter.mealName"
+    private var matId ="no.kasperi.matoppskrifter.mealId"
+    private var matBilde = "no.kasperi.matoppskrifter.thumbMeal"
+    private var matSted = "no.kasperi.matoppskrifter.mealCountry"
+    private var matKategori = "no.kasperi.matoppskrifter.mealCategory"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val b = arguments
-        mealName = b!!.getString(OPPSKRIFT_NAVN).toString()
-        mealId =b!!.getString(OPPSKRIFT_ID).toString()
-        mealImg =b!!.getString(OPPSKRIFT_BILDE).toString()
-        mealCategory =b!!.getString(CATEGORY_NAME).toString()
-        mealCountry =b!!.getString(MEAL_AREA).toString()
+        matNavn = b!!.getString(OPPSKRIFT_NAVN).toString()
+        matId =b!!.getString(OPPSKRIFT_ID).toString()
+        matBilde =b!!.getString(OPPSKRIFT_BILDE).toString()
+        matKategori =b!!.getString(CATEGORY_NAME).toString()
+        matSted =b!!.getString(MEAL_AREA).toString()
     }
 
     override fun onCreateView(
@@ -58,9 +58,9 @@ class OppskriftBunnDialogFragment  : BottomSheetDialogFragment() {
 
         view.setOnClickListener {
             val intent = Intent(context, OppskriftDetaljerActivity::class.java)
-            intent.putExtra(OPPSKRIFT_ID,mealId)
-            intent.putExtra(OPPSKRIFT_NAVN,mealName)
-            intent.putExtra(OPPSKRIFT_BILDE,mealImg)
+            intent.putExtra(OPPSKRIFT_ID,matId)
+            intent.putExtra(OPPSKRIFT_NAVN,matNavn)
+            intent.putExtra(OPPSKRIFT_BILDE,matBilde)
             startActivity(intent)
         }
 
@@ -73,11 +73,11 @@ class OppskriftBunnDialogFragment  : BottomSheetDialogFragment() {
         val imgMeal = view.findViewById<ImageView>(R.id.img_bunn_dialog)
 
         Glide.with(view)
-            .load(mealImg)
+            .load(matBilde)
             .into(imgMeal)
-        tvMealName.text = mealName
-        tvMealCategory.text = mealCategory
-        tvMealCountry.text = mealCountry
+        tvMealName.text = matNavn
+        tvMealCategory.text = matKategori
+        tvMealCountry.text = matSted
     }
 
 

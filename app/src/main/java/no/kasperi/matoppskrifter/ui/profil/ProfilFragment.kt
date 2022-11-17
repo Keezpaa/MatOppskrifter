@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -21,17 +22,25 @@ import kotlinx.android.synthetic.main.fragment_profil.*
 import kotlinx.android.synthetic.main.last_opp_profilbilde_valg.view.*
 import no.kasperi.matoppskrifter.R
 import no.kasperi.matoppskrifter.abstraction.AbstractFragment
+import no.kasperi.matoppskrifter.adapters.FavorittOppskriftAdapter
 import no.kasperi.matoppskrifter.adapters.OppskriftAdapter
+import no.kasperi.matoppskrifter.aktiviteter.OppskriftDetaljerActivity
 import no.kasperi.matoppskrifter.databinding.FragmentProfilBinding
+import no.kasperi.matoppskrifter.fragmenter.HjemFragment
+import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.OPPSKRIFT_BILDE
+import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.OPPSKRIFT_ID
+import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.OPPSKRIFT_NAVN
+import no.kasperi.matoppskrifter.pojo.MealDB
 import no.kasperi.matoppskrifter.ui.redigerProfil.RedigerProfilActivity
+import no.kasperi.matoppskrifter.viewModel.DetaljerViewModel
 import no.kasperi.matoppskrifter.viewModel.HjemViewModel
 
 class ProfilFragment: AbstractFragment(R.layout.fragment_profil) {
+    lateinit var recView:RecyclerView
     private lateinit var binding:FragmentProfilBinding
     private lateinit var profilViewModel: ProfilViewModel
-    private lateinit var viewModel: HjemViewModel
-    private lateinit var oppskriftAdapter:OppskriftAdapter
-    lateinit var recView:RecyclerView
+    private lateinit var detailsMVVM: DetaljerViewModel
+    private lateinit var favorittAdapter: FavorittOppskriftAdapter
     private val REQUEST_IMAGE_CAPTURE = 100
     private val IMAGE_PICK_CODE = 200
     private val PERMISSION_CODE = 201
@@ -39,9 +48,9 @@ class ProfilFragment: AbstractFragment(R.layout.fragment_profil) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        favorittAdapter = FavorittOppskriftAdapter()
+        detailsMVVM = ViewModelProvider(this)[DetaljerViewModel::class.java]
 
-        viewModel = ViewModelProvider(this)[HjemViewModel::class.java]
-        oppskriftAdapter = OppskriftAdapter()
     }
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,7 +63,20 @@ class ProfilFragment: AbstractFragment(R.layout.fragment_profil) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        prepareRecyclerView(view)
+        onFavoriteMealClick()
 
+        detailsMVVM.observeSaveMeal().observe(viewLifecycleOwner,object : Observer<List<MealDB>>{
+            override fun onChanged(t: List<MealDB>?) {
+                favorittAdapter.setFavoriteMealsList(t!!)
+                if(t.isEmpty())
+                    binding.tvFavTom.visibility = View.VISIBLE
+
+                else
+                    binding.tvFavTom.visibility = View.GONE
+
+            }
+        })
     }
 
 
@@ -170,5 +192,24 @@ class ProfilFragment: AbstractFragment(R.layout.fragment_profil) {
                 }
             }
         }
+    }
+    private fun prepareRecyclerView(v:View) {
+        recView =v.findViewById<RecyclerView>(R.id.rec_favoritter_profil)
+        recView.adapter = favorittAdapter
+        recView.layoutManager = GridLayoutManager(context,2,GridLayoutManager.VERTICAL,false)
+    }
+
+
+    private fun onFavoriteMealClick(){
+        favorittAdapter.setOnFavoriteMealClickListener(object : FavorittOppskriftAdapter.OnFavoriteClickListener{
+            override fun onFavoriteClick(meal: MealDB) {
+                val intent = Intent(context, OppskriftDetaljerActivity::class.java)
+                intent.putExtra(OPPSKRIFT_ID,meal.mealId.toString())
+                intent.putExtra(OPPSKRIFT_NAVN,meal.mealName)
+                intent.putExtra(OPPSKRIFT_BILDE,meal.mealThumb)
+                startActivity(intent)
+            }
+
+        })
     }
 }

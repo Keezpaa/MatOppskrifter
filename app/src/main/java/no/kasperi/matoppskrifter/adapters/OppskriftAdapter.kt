@@ -9,44 +9,44 @@ import com.bumptech.glide.Glide
 import no.kasperi.matoppskrifter.databinding.OppskriftKortBinding
 import no.kasperi.matoppskrifter.pojo.Meal
 
-class OppskriftAdapter : RecyclerView.Adapter<OppskriftAdapter.MealViewHolder>() {
+class OppskriftAdapter : RecyclerView.Adapter<OppskriftAdapter.OppskriftViewHolder>() {
 
-    private var mealList: List<Meal> = ArrayList()
-    private lateinit var setOnMealClickListener: SetOnMealClickListener
+    private var oppskriftListe: List<Meal> = ArrayList()
+    private lateinit var setOnOppskriftClickListener: SetOnOppskriftClickListener
 
-    fun setCategoryList(mealList: List<Meal>) {
-        this.mealList = mealList
+    fun setCategoryList(oppskriftListe: List<Meal>) {
+        this.oppskriftListe = oppskriftListe
         notifyDataSetChanged()
     }
 
-    fun setOnMealClickListener(setOnMealClickListener: SetOnMealClickListener) {
-        this.setOnMealClickListener = setOnMealClickListener
+    fun setOnOppskriftClickListener(setOnOppskriftClickListener: SetOnOppskriftClickListener) {
+        this.setOnOppskriftClickListener = setOnOppskriftClickListener
     }
 
-    class MealViewHolder(val binding: OppskriftKortBinding) : RecyclerView.ViewHolder(binding.root)
+    class OppskriftViewHolder(val binding: OppskriftKortBinding) : RecyclerView.ViewHolder(binding.root)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MealViewHolder {
-        return MealViewHolder(OppskriftKortBinding.inflate(LayoutInflater.from(parent.context)))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OppskriftViewHolder {
+        return OppskriftViewHolder(OppskriftKortBinding.inflate(LayoutInflater.from(parent.context)))
     }
 
-    override fun onBindViewHolder(holder: MealViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: OppskriftViewHolder, position: Int) {
         holder.binding.apply {
-            tvOppskriftNavn.text = mealList[position].strMeal
+            tvOppskriftNavn.text = oppskriftListe[position].strMeal
             Glide.with(holder.itemView)
-                .load(mealList[position].strMealThumb)
+                .load(oppskriftListe[position].strMealThumb)
                 .into(imgOppskrift)
         }
 
         holder.itemView.setOnClickListener {
-            setOnMealClickListener.setOnClickListener(mealList[position])
+            setOnOppskriftClickListener.setOnClickListener(oppskriftListe[position])
         }
     }
 
     override fun getItemCount(): Int {
-        return mealList.size
+        return oppskriftListe.size
     }
 }
 
-interface SetOnMealClickListener {
+interface SetOnOppskriftClickListener {
     fun setOnClickListener(meal: Meal)
 }

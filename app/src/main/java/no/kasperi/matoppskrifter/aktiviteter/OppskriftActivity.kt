@@ -8,7 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import no.kasperi.matoppskrifter.adapters.OppskriftAdapter
-import no.kasperi.matoppskrifter.adapters.SetOnMealClickListener
+import no.kasperi.matoppskrifter.adapters.SetOnOppskriftClickListener
 import no.kasperi.matoppskrifter.databinding.ActivityKategoriBinding
 import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.CATEGORY_NAME
 import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.OPPSKRIFT_BILDE
@@ -18,31 +18,30 @@ import no.kasperi.matoppskrifter.pojo.Meal
 import no.kasperi.matoppskrifter.viewModel.OppskriftViewModel
 
 class OppskriftActivity : AppCompatActivity() {
-    private lateinit var mealActivityMvvm: OppskriftViewModel
+    private lateinit var oppskriftViewModel: OppskriftViewModel
     private lateinit var binding: ActivityKategoriBinding
-    private lateinit var myAdapter: OppskriftAdapter
-    private var categoryNme = "no.kasperi.matoppskrifter.fragmenter.categoryName"
+    private lateinit var oppskriftAdapter: OppskriftAdapter
+    private var kategoriNavn = "no.kasperi.matoppskrifter.fragmenter.categoryName"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityKategoriBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        mealActivityMvvm = ViewModelProvider(this)[OppskriftViewModel::class.java]
+        oppskriftViewModel = ViewModelProvider(this)[OppskriftViewModel::class.java]
         prepareRecyclerView()
-        mealActivityMvvm.getMealsByCategory(getCategory())
-        mealActivityMvvm.observeMeal().observe(this, object : Observer<List<Meal>> {
+        oppskriftViewModel.hentOppskriftEtterKategori(hentKategori())
+        oppskriftViewModel.observeMeal().observe(this, object : Observer<List<Meal>> {
             override fun onChanged(t: List<Meal>?) {
                 if(t==null){
-                    Toast.makeText(applicationContext, "No meals in this category", Toast.LENGTH_SHORT).show()
-                    onBackPressed()
+                    Toast.makeText(applicationContext, "Ingen oppskrifter i denne kategorien", Toast.LENGTH_SHORT).show()
                 }else {
-                    myAdapter.setCategoryList(t!!)
-                    binding.tvKategoriAntall.text = categoryNme + " : " + t.size.toString()
+                    oppskriftAdapter.setCategoryList(t!!)
+                    binding.tvKategoriAntall.text = kategoriNavn  + " : " + t.size.toString()
 
                 }
             }
         })
 
-        myAdapter.setOnMealClickListener(object : SetOnMealClickListener {
+        oppskriftAdapter.setOnOppskriftClickListener(object : SetOnOppskriftClickListener {
             override fun setOnClickListener(meal: Meal) {
                 val intent = Intent(applicationContext, OppskriftDetaljerActivity::class.java)
                 intent.putExtra(OPPSKRIFT_ID, meal.idMeal)
@@ -55,17 +54,17 @@ class OppskriftActivity : AppCompatActivity() {
 
 
 
-    private fun getCategory(): String {
+    private fun hentKategori(): String {
         val tempIntent = intent
         val x = intent.getStringExtra(CATEGORY_NAME)!!
-        categoryNme = x
+        kategoriNavn = x
         return x
     }
 
     private fun prepareRecyclerView() {
-        myAdapter = OppskriftAdapter()
+        oppskriftAdapter = OppskriftAdapter()
         binding.oppskriftRecyclerview.apply {
-            adapter = myAdapter
+            adapter = oppskriftAdapter
             layoutManager = GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
         }
     }

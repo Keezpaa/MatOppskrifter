@@ -12,39 +12,39 @@ import retrofit2.Response
 
 const val TAG = "HjemViewModel"
 
-class HjemViewModel: ViewModel() {
+class HjemViewModel:ViewModel() {
 
-    private val mutableCategory = MutableLiveData<CategoryResponse>()
-    private val mutableRandomMeal = MutableLiveData<RandomMealResponse>()
-    private val mutableMealsByCategory = MutableLiveData<MealsResponse>()
+    private val mutableCategory = MutableLiveData<KategoriRespons>()
+    private val mutableRandomMeal = MutableLiveData<TilfeldigOppskriftRespons>()
+    private val mutableMealsByCategory = MutableLiveData<OppskriftRespons>()
 
 
     init {
-        getRandomMeal()
-        getAllCategories()
-        getMealsByCategory()
+        hentTilfeldigOppskrift()
+        hentAlleKategorier()
+        hentOppskriftEtterKategori()
     }
 
 
-    private fun getAllCategories() {
-        RetrofitInstance.api.hentKategorier().enqueue(object : Callback<CategoryResponse> {
-            override fun onResponse(call: Call<CategoryResponse>, response: Response<CategoryResponse>) {
+    private fun hentAlleKategorier() {
+        RetrofitInstance.api.hentKategorier().enqueue(object : Callback<KategoriRespons> {
+            override fun onResponse(call: Call<KategoriRespons>, response: Response<KategoriRespons>) {
                 mutableCategory.value = response.body()
             }
 
-            override fun onFailure(call: Call<CategoryResponse>, t: Throwable) {
+            override fun onFailure(call: Call<KategoriRespons>, t: Throwable) {
                 Log.d(TAG, t.message.toString())
             }
         })
     }
 
-    private fun getRandomMeal() {
-        RetrofitInstance.api.hentTilfeldigOppskrift().enqueue(object : Callback<RandomMealResponse> {
-            override fun onResponse(call: Call<RandomMealResponse>, response: Response<RandomMealResponse>) {
+    private fun hentTilfeldigOppskrift() {
+        RetrofitInstance.api.hentTilfeldigOppskrift().enqueue(object : Callback<TilfeldigOppskriftRespons> {
+            override fun onResponse(call: Call<TilfeldigOppskriftRespons>, response: Response<TilfeldigOppskriftRespons>) {
                 mutableRandomMeal.value = response.body()
             }
 
-            override fun onFailure(call: Call<RandomMealResponse>, t: Throwable) {
+            override fun onFailure(call: Call<TilfeldigOppskriftRespons>, t: Throwable) {
                 Log.e(TAG, t.message.toString())
             }
 
@@ -53,28 +53,28 @@ class HjemViewModel: ViewModel() {
 
 
 
-    private fun getMealsByCategory() {
-        RetrofitInstance.api.getMealsByCategory("beef").enqueue(object : Callback<MealsResponse> {
-            override fun onResponse(call: Call<MealsResponse>, response: Response<MealsResponse>) {
+    private fun hentOppskriftEtterKategori() {
+        RetrofitInstance.api.hentOppskriftEtterKategori("beef").enqueue(object : Callback<OppskriftRespons> {
+            override fun onResponse(call: Call<OppskriftRespons>, response: Response<OppskriftRespons>) {
                 mutableMealsByCategory.value = response.body()
             }
 
-            override fun onFailure(call: Call<MealsResponse>, t: Throwable) {
+            override fun onFailure(call: Call<OppskriftRespons>, t: Throwable) {
                 Log.e(TAG, t.message.toString())
             }
 
         })
     }
 
-    fun observeMealByCategory(): LiveData<MealsResponse> {
+    fun observeMealByCategory(): LiveData<OppskriftRespons> {
         return mutableMealsByCategory
     }
 
-    fun observeRandomMeal(): LiveData<RandomMealResponse> {
+    fun observeRandomMeal(): LiveData<TilfeldigOppskriftRespons> {
         return mutableRandomMeal
     }
 
-    fun observeCategories(): LiveData<CategoryResponse> {
+    fun observeCategories(): LiveData<KategoriRespons> {
         return mutableCategory
     }
 

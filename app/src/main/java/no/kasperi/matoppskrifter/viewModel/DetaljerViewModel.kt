@@ -11,7 +11,7 @@ import no.kasperi.matoppskrifter.db.OppskriftDB
 import no.kasperi.matoppskrifter.db.Repository
 import no.kasperi.matoppskrifter.pojo.MealDB
 import no.kasperi.matoppskrifter.pojo.MealDetail
-import no.kasperi.matoppskrifter.pojo.RandomMealResponse
+import no.kasperi.matoppskrifter.pojo.TilfeldigOppskriftRespons
 import no.kasperi.matoppskrifter.retrofit.RetrofitInstance
 import retrofit2.Call
 import retrofit2.Callback
@@ -47,12 +47,12 @@ class DetaljerViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun getMealById(id: String) {
-        RetrofitInstance.api.hentOppskriftDetaljer(id).enqueue(object : Callback<RandomMealResponse> {
-            override fun onResponse(call: Call<RandomMealResponse>, response: Response<RandomMealResponse>) {
+        RetrofitInstance.api.hentOppskriftDetaljer(id).enqueue(object : Callback<TilfeldigOppskriftRespons> {
+            override fun onResponse(call: Call<TilfeldigOppskriftRespons>, response: Response<TilfeldigOppskriftRespons>) {
                 mutableMealDetail.value = response.body()!!.meals
             }
 
-            override fun onFailure(call: Call<RandomMealResponse>, t: Throwable) {
+            override fun onFailure(call: Call<TilfeldigOppskriftRespons>, t: Throwable) {
                 Log.e(TAG, t.message.toString())
             }
 
@@ -77,12 +77,12 @@ class DetaljerViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun getMealByIdBottomSheet(id: String) {
-        RetrofitInstance.api.hentOppskriftDetaljer(id).enqueue(object : Callback<RandomMealResponse> {
-            override fun onResponse(call: Call<RandomMealResponse>, response: Response<RandomMealResponse>) {
+        RetrofitInstance.api.hentOppskriftDetaljer(id).enqueue(object : Callback<TilfeldigOppskriftRespons> {
+            override fun onResponse(call: Call<TilfeldigOppskriftRespons>, response: Response<TilfeldigOppskriftRespons>) {
                 mutableMealBottomSheet.value = response.body()!!.meals
             }
 
-            override fun onFailure(call: Call<RandomMealResponse>, t: Throwable) {
+            override fun onFailure(call: Call<TilfeldigOppskriftRespons>, t: Throwable) {
                 Log.e(TAG, t.message.toString())
             }
 

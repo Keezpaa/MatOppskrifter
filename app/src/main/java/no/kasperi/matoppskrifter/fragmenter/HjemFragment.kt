@@ -2,6 +2,7 @@ package no.kasperi.matoppskrifter.fragmenter
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -23,12 +24,17 @@ import no.kasperi.matoppskrifter.aktiviteter.OppskriftDetaljerActivity
 import no.kasperi.matoppskrifter.databinding.FragmentHjemBinding
 import no.kasperi.matoppskrifter.fragmenter.bunnDialog.OppskriftBunnDialogFragment
 import no.kasperi.matoppskrifter.pojo.*
+import no.kasperi.matoppskrifter.retrofit.RetrofitInstance
 import no.kasperi.matoppskrifter.viewModel.DetaljerViewModel
 import no.kasperi.matoppskrifter.viewModel.HjemViewModel
+import no.kasperi.matoppskrifter.viewModel.TAG
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class HjemFragment : Fragment() {
-    private lateinit var meal: RandomMealResponse
+    private lateinit var meal: TilfeldigOppskriftRespons
     private lateinit var detailMvvm: DetaljerViewModel
     private var randomMealId = "no.kasperi.matoppskrifter.fragmenter.randomMealId"
     companion object {
@@ -73,8 +79,8 @@ class HjemFragment : Fragment() {
         onRandomLongClick()
 
 
-        mainFragMVVM.observeMealByCategory().observe(viewLifecycleOwner, object : Observer<MealsResponse> {
-            override fun onChanged(t: MealsResponse?) {
+        mainFragMVVM.observeMealByCategory().observe(viewLifecycleOwner, object : Observer<OppskriftRespons> {
+            override fun onChanged(t: OppskriftRespons?) {
                 val meals = t!!.meals
                 setMealsByCategoryAdapter(meals)
                 cancelLoadingCase()
@@ -82,17 +88,18 @@ class HjemFragment : Fragment() {
         })
 
         mainFragMVVM.observeCategories().observe(viewLifecycleOwner, object :
-            Observer<CategoryResponse> {
-            override fun onChanged(t: CategoryResponse?) {
+            Observer<KategoriRespons> {
+            override fun onChanged(t: KategoriRespons?) {
                 val categories = t!!.categories
                 setCategoryAdapter(categories)
 
             }
         })
 
+
         mainFragMVVM.observeRandomMeal().observe(viewLifecycleOwner, object :
-            Observer<RandomMealResponse> {
-            override fun onChanged(t: RandomMealResponse?) {
+           Observer<TilfeldigOppskriftRespons> {
+            override fun onChanged(t: TilfeldigOppskriftRespons?) {
                 val mealImage = view.findViewById<ImageView>(R.id.img_random_oppskrift)
                 val imageUrl = t!!.meals[0].strMealThumb
                 randomMealId = t.meals[0].idMeal
@@ -102,7 +109,7 @@ class HjemFragment : Fragment() {
                 meal = t
             }
 
-        })
+       })
 
         mostPopularFoodAdapter.setOnClickListener(object : OnItemClick {
             override fun onItemClick(meal: Meal) {
@@ -116,9 +123,9 @@ class HjemFragment : Fragment() {
         })
 
         myAdapter.onItemClicked(object : KategorierAdapter.OnItemCategoryClicked {
-            override fun onClickListener(category: Category) {
+            override fun onClickListener(kategori: Kategori) {
                 val intent = Intent(activity, OppskriftActivity::class.java)
-                intent.putExtra(CATEGORY_NAME, category.strCategory)
+                intent.putExtra(CATEGORY_NAME, kategori.strCategory)
                 startActivity(intent)
             }
 
@@ -212,7 +219,7 @@ class HjemFragment : Fragment() {
         mostPopularFoodAdapter.setMealList(meals)
     }
 
-    private fun setCategoryAdapter(categories: List<Category>) {
+    private fun setCategoryAdapter(categories: List<Kategori>) {
         myAdapter.setKategoriListe(categories)
     }
 
@@ -229,5 +236,7 @@ class HjemFragment : Fragment() {
             layoutManager = GridLayoutManager(context, 1, GridLayoutManager.HORIZONTAL, false)
         }
     }
+
+
 
 }

@@ -87,13 +87,24 @@
             android:text="Mine favoritter"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/profil_email" />
+    <TextView
+        android:id="@+id/tv_fav_tom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/accent"
+        android:text="Ingen favoritter..."
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rec_favoritter"
-        android:layout_width="408dp"
+        android:id="@+id/rec_favoritter_profil"
+        android:layout_width="379dp"
         android:layout_height="438dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/profil_favoritter_tittel" />

@@ -101,8 +101,8 @@ class FavorittFragment : Fragment() {
     }
 
     private fun showDeleteSnackBar(favoriteMeal:MealDB) {
-        Snackbar.make(requireView(),"Meal was deleted",Snackbar.LENGTH_LONG).apply {
-            setAction("undo",View.OnClickListener {
+        Snackbar.make(requireView(),"Favorittoppskrift fjernet!",Snackbar.LENGTH_LONG).apply {
+            setAction("ANGRE",View.OnClickListener {
                 detailsMVVM.insertMeal(favoriteMeal)
             }).show()
         }
@@ -116,10 +116,10 @@ class FavorittFragment : Fragment() {
                 b.putString(CATEGORY_NAME,t!![0].strCategory)
                 b.putString(MEAL_AREA,t[0].strArea)
                 b.putString(MEAL_NAME,t[0].strMeal)
-                b.putString(OPPSKRIFT_NAVN,t[0].strMealThumb)
+                b.putString(OPPSKRIFT_BILDE,t[0].strMealThumb)
                 b.putString(OPPSKRIFT_ID,t[0].idMeal)
                 bottomDialog.arguments = b
-                bottomDialog.show(childFragmentManager,"Favorite bottom dialog")
+                bottomDialog.show(childFragmentManager,"Favoritt bunndialog")
             }
 
         })

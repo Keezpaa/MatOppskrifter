@@ -76,7 +76,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Kategori: "
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     app:drawableLeftCompat="@drawable/ic_kategorier"

@@ -8,17 +8,17 @@ import retrofit2.http.Query
 interface OppskriftApi {
 
     @GET("random.php")
-    fun hentTilfeldigOppskrift():Call<RandomMealResponse>
+    fun hentTilfeldigOppskrift():Call<TilfeldigOppskriftRespons>
 
     @GET("lookup.php")
-    fun hentOppskriftDetaljer(@Query("i") id:String) : Call<RandomMealResponse>
+    fun hentOppskriftDetaljer(@Query("i") id:String) : Call<TilfeldigOppskriftRespons>
 
     @GET("categories.php")
-    fun hentKategorier() : Call<CategoryResponse>
+    fun hentKategorier() : Call<KategoriRespons>
 
     @GET("filter.php?")
-    fun getMealsByCategory(@Query("c") category:String):Call<MealsResponse>
+    fun hentOppskriftEtterKategori(@Query("c") kategori:String):Call<OppskriftRespons>
 
     @GET("search.php?")
-    fun sokEtterOppskrift(@Query("s") searchQuery:String) : Call<RandomMealResponse>
+    fun sokEtterOppskrift(@Query("s") searchQuery:String) : Call<TilfeldigOppskriftRespons>
 }
