@@ -6,21 +6,21 @@ import no.kasperi.matoppskrifter.pojo.MealDB
 
 class Repository(private val mealDao: OppskriftDao) {
 
-    val mealList: LiveData<List<MealDB>> = mealDao.getAllSavedMeals()
+    val oppskriftListe: LiveData<List<MealDB>> = mealDao.hentAlleLagredeOppskrifter()
 
-    suspend fun insertFavoriteMeal(meal: MealDB) {
-        mealDao.insertFavorite(meal)
+    suspend fun leggTilFavorittOppskrift(meal: MealDB) {
+        mealDao.leggTilFavoritt(meal)
     }
 
-    suspend fun getMealById(mealId: String): MealDB {
-        return mealDao.getMealById(mealId)
+    suspend fun hentOppskriftEtterId(mealId: String): MealDB {
+        return mealDao.hentOppskriftEtterId(mealId)
     }
 
-    suspend fun deleteMealById(mealId: String) {
-        mealDao.deleteMealById(mealId)
+    suspend fun slettOppskriftEtterId(mealId: String) {
+        mealDao.slettOppskriftEtterId(mealId)
     }
 
-    suspend fun deleteMeal(meal: MealDB) = mealDao.deleteMeal(meal)
+    suspend fun slettOppskrift(meal: MealDB) = mealDao.slettOppskrift(meal)
 
 
 }

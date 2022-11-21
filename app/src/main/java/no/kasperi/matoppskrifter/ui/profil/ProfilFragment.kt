@@ -64,11 +64,12 @@ class ProfilFragment: AbstractFragment(R.layout.fragment_profil) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         prepareRecyclerView(view)
-        onFavoriteMealClick()
+        onFavorittOppskriftClick()
+        onFavorittLongOppskriftClick()
 
-        detailsMVVM.observeSaveMeal().observe(viewLifecycleOwner,object : Observer<List<MealDB>>{
+        detailsMVVM.observerLagretOppskrift().observe(viewLifecycleOwner,object : Observer<List<MealDB>>{
             override fun onChanged(t: List<MealDB>?) {
-                favorittAdapter.setFavoriteMealsList(t!!)
+                favorittAdapter.setFavorittOppskriftListe(t!!)
                 if(t.isEmpty())
                     binding.tvFavTom.visibility = View.VISIBLE
 
@@ -188,7 +189,7 @@ class ProfilFragment: AbstractFragment(R.layout.fragment_profil) {
                     uploadFromGallery()
                 } else {
                     //permission from popup denied
-                    Toast.makeText(context, "Permission denied", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Ingen tilgang", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -200,14 +201,22 @@ class ProfilFragment: AbstractFragment(R.layout.fragment_profil) {
     }
 
 
-    private fun onFavoriteMealClick(){
-        favorittAdapter.setOnFavoriteMealClickListener(object : FavorittOppskriftAdapter.OnFavoriteClickListener{
-            override fun onFavoriteClick(meal: MealDB) {
+    private fun onFavorittOppskriftClick(){
+        favorittAdapter.setOnFavorittOppskriftClickListener(object : FavorittOppskriftAdapter.OnFavorittClickListener{
+            override fun onFavorittClick(meal: MealDB) {
                 val intent = Intent(context, OppskriftDetaljerActivity::class.java)
                 intent.putExtra(OPPSKRIFT_ID,meal.mealId.toString())
                 intent.putExtra(OPPSKRIFT_NAVN,meal.mealName)
                 intent.putExtra(OPPSKRIFT_BILDE,meal.mealThumb)
                 startActivity(intent)
+            }
+
+        })
+    }
+    private fun onFavorittLongOppskriftClick() {
+        favorittAdapter.setOnFavorittLongClickListener(object : FavorittOppskriftAdapter.OnFavorittLongClickListener{
+            override fun onFavorittLongCLick(meal: MealDB) {
+                detailsMVVM.hentOppskriftEtterIdBunnDialog(meal.mealId.toString())
             }
 
         })

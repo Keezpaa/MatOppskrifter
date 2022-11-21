@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:text="Beef"
             android:textColor="@color/black"
-            android:drawableStart="@drawable/ic_kategorier"
+            android:drawableStart="@drawable/ic_kategorier_sort"
             android:layout_weight="1"/>
     </LinearLayout>
 

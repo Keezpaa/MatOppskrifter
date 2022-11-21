@@ -10,14 +10,14 @@ import no.kasperi.matoppskrifter.pojo.Kategori
 class KategorierAdapter():RecyclerView.Adapter<KategorierAdapter.KategoriViewHolder>() {
 
     private var kategoriListe: List<Kategori> = ArrayList()
-    private lateinit var onItemClick: OnItemCategoryClicked
+    private lateinit var onItemClick: OnItemKategoriClicked
 
     fun setKategoriListe(kategoriListe:List<Kategori>){
         this.kategoriListe = kategoriListe
         notifyDataSetChanged()
     }
 
-    fun onItemClicked(onItemClick: OnItemCategoryClicked){
+    fun onItemClicked(onItemClick: OnItemKategoriClicked){
         this.onItemClick = onItemClick
     }
     class KategoriViewHolder(val binding:KategoriElementBinding):RecyclerView.ViewHolder(binding.root)
@@ -46,7 +46,7 @@ class KategorierAdapter():RecyclerView.Adapter<KategorierAdapter.KategoriViewHol
     override fun getItemCount(): Int {
         return kategoriListe.size
     }
-    interface OnItemCategoryClicked{
+    interface OnItemKategoriClicked{
         fun onClickListener(kategori:Kategori)
     }
 }

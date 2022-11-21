@@ -17,39 +17,40 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+/* TAG = HjemViewModel */
 class DetaljerViewModel(application: Application) : AndroidViewModel(application) {
-    private val mutableMealDetail = MutableLiveData<List<MealDetail>>()
-    private val mutableMealBottomSheet = MutableLiveData<List<MealDetail>>()
-    private  var allMeals: LiveData<List<MealDB>>
-    private  var repository: Repository
+    private val mutableOppskriftDetaljer = MutableLiveData<List<MealDetail>>()
+    private val mutableOppskriftBunnDialog = MutableLiveData<List<MealDetail>>()
+    private var alleOppskrifter: LiveData<List<MealDB>>
+    private var repository: Repository
 
     init {
-        val mealDao = OppskriftDB.hentInstance(application).oppskriftDao()
-        repository = Repository(mealDao)
-        allMeals = repository.mealList
+        val oppskriftDao = OppskriftDB.hentInstance(application).oppskriftDao()
+        repository = Repository(oppskriftDao)
+        alleOppskrifter = repository.oppskriftListe
     }
 
-    fun getAllSavedMeals() {
+    fun hentAlleLagredeOppskrifter() {
         viewModelScope.launch(Dispatchers.Main) {
         }
     }
 
-    fun insertMeal(meal: MealDB) {
+    fun leggTilOppskrift(meal: MealDB) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.insertFavoriteMeal(meal)
+            repository.leggTilFavorittOppskrift(meal)
             withContext(Dispatchers.Main) {
             }
         }
     }
 
-    fun deleteMeal(meal:MealDB) = viewModelScope.launch(Dispatchers.IO) {
-        repository.deleteMeal(meal)
+    fun slettOppskrift(meal:MealDB) = viewModelScope.launch(Dispatchers.IO) {
+        repository.slettOppskrift(meal)
     }
 
-    fun getMealById(id: String) {
+    fun hentOppskriftEtterId(id: String) {
         RetrofitInstance.api.hentOppskriftDetaljer(id).enqueue(object : Callback<TilfeldigOppskriftRespons> {
             override fun onResponse(call: Call<TilfeldigOppskriftRespons>, response: Response<TilfeldigOppskriftRespons>) {
-                mutableMealDetail.value = response.body()!!.meals
+                mutableOppskriftDetaljer.value = response.body()!!.meals
             }
 
             override fun onFailure(call: Call<TilfeldigOppskriftRespons>, t: Throwable) {
@@ -59,10 +60,10 @@ class DetaljerViewModel(application: Application) : AndroidViewModel(application
         })
     }
 
-    fun isMealSavedInDatabase(mealId: String): Boolean {
+    fun erOppskriftLagretIDatabasen(mealId: String): Boolean {
         var meal: MealDB? = null
         runBlocking(Dispatchers.IO) {
-            meal = repository.getMealById(mealId)
+            meal = repository.hentOppskriftEtterId(mealId)
         }
         if (meal == null)
             return false
@@ -70,16 +71,16 @@ class DetaljerViewModel(application: Application) : AndroidViewModel(application
 
     }
 
-    fun deleteMealById(mealId:String){
+    fun slettOppskriftEtterId(mealId:String){
         viewModelScope.launch(Dispatchers.IO) {
-            repository.deleteMealById(mealId)
+            repository.slettOppskriftEtterId(mealId)
         }
     }
 
-    fun getMealByIdBottomSheet(id: String) {
+    fun hentOppskriftEtterIdBunnDialog(id: String) {
         RetrofitInstance.api.hentOppskriftDetaljer(id).enqueue(object : Callback<TilfeldigOppskriftRespons> {
             override fun onResponse(call: Call<TilfeldigOppskriftRespons>, response: Response<TilfeldigOppskriftRespons>) {
-                mutableMealBottomSheet.value = response.body()!!.meals
+                mutableOppskriftBunnDialog.value = response.body()!!.meals
             }
 
             override fun onFailure(call: Call<TilfeldigOppskriftRespons>, t: Throwable) {
@@ -89,15 +90,15 @@ class DetaljerViewModel(application: Application) : AndroidViewModel(application
         })
     }
 
-    fun observeMealDetail(): LiveData<List<MealDetail>> {
-        return mutableMealDetail
+    fun observerOppskriftDetaljer(): LiveData<List<MealDetail>> {
+        return mutableOppskriftDetaljer
     }
 
-    fun observeMealBottomSheet(): LiveData<List<MealDetail>> {
-        return mutableMealBottomSheet
+    fun observerOppskriftBunnDialog(): LiveData<List<MealDetail>> {
+        return mutableOppskriftBunnDialog
     }
 
-    fun observeSaveMeal(): LiveData<List<MealDB>> {
-        return allMeals
+    fun observerLagretOppskrift(): LiveData<List<MealDB>> {
+        return alleOppskrifter
     }
 }

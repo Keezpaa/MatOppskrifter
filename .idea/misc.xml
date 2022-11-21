@@ -3,12 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
         <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/drawable/ic_favoritter.xml" value="0.1155" />
         <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/drawable/ic_fylt_hjerte.xml" value="0.1155" />
         <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/drawable/ic_hjem.xml" value="0.175" />
         <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/drawable/ic_hjerte.xml" value="0.1155" />
         <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/drawable/ic_hoyre_pil.xml" value="0.1385" />
         <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/drawable/ic_kategorier.xml" value="0.249" />
+        <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/drawable/ic_kategorier_sort.xml" value="0.1" />
+        <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/drawable/ic_profil.xml" value="0.2715" />
         <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/drawable/ic_yt_logo.xml" value="0.175" />
         <entry key="..\:/Users/kaspe/AndroidStudioProjects/MatOppskrifter/app/src/main/res/drawable/ikon_email.xml" value="0.168" />

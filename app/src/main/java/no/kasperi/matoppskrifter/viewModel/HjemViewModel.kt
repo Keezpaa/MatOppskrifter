@@ -14,9 +14,9 @@ const val TAG = "HjemViewModel"
 
 class HjemViewModel:ViewModel() {
 
-    private val mutableCategory = MutableLiveData<KategoriRespons>()
-    private val mutableRandomMeal = MutableLiveData<TilfeldigOppskriftRespons>()
-    private val mutableMealsByCategory = MutableLiveData<OppskriftRespons>()
+    private val mutableKategori = MutableLiveData<KategoriRespons>()
+    private val mutableTilfeldigOppskrift = MutableLiveData<TilfeldigOppskriftRespons>()
+    private val mutableOppskriftEtterKategori = MutableLiveData<OppskriftRespons>()
 
 
     init {
@@ -29,7 +29,7 @@ class HjemViewModel:ViewModel() {
     private fun hentAlleKategorier() {
         RetrofitInstance.api.hentKategorier().enqueue(object : Callback<KategoriRespons> {
             override fun onResponse(call: Call<KategoriRespons>, response: Response<KategoriRespons>) {
-                mutableCategory.value = response.body()
+                mutableKategori.value = response.body()
             }
 
             override fun onFailure(call: Call<KategoriRespons>, t: Throwable) {
@@ -41,7 +41,7 @@ class HjemViewModel:ViewModel() {
     private fun hentTilfeldigOppskrift() {
         RetrofitInstance.api.hentTilfeldigOppskrift().enqueue(object : Callback<TilfeldigOppskriftRespons> {
             override fun onResponse(call: Call<TilfeldigOppskriftRespons>, response: Response<TilfeldigOppskriftRespons>) {
-                mutableRandomMeal.value = response.body()
+                mutableTilfeldigOppskrift.value = response.body()
             }
 
             override fun onFailure(call: Call<TilfeldigOppskriftRespons>, t: Throwable) {
@@ -54,9 +54,9 @@ class HjemViewModel:ViewModel() {
 
 
     private fun hentOppskriftEtterKategori() {
-        RetrofitInstance.api.hentOppskriftEtterKategori("beef").enqueue(object : Callback<OppskriftRespons> {
+        RetrofitInstance.api.hentOppskriftEtterKategori("chicken").enqueue(object : Callback<OppskriftRespons> {
             override fun onResponse(call: Call<OppskriftRespons>, response: Response<OppskriftRespons>) {
-                mutableMealsByCategory.value = response.body()
+                mutableOppskriftEtterKategori.value = response.body()
             }
 
             override fun onFailure(call: Call<OppskriftRespons>, t: Throwable) {
@@ -66,16 +66,16 @@ class HjemViewModel:ViewModel() {
         })
     }
 
-    fun observeMealByCategory(): LiveData<OppskriftRespons> {
-        return mutableMealsByCategory
+    fun observerOppskriftEtterKategori(): LiveData<OppskriftRespons> {
+        return mutableOppskriftEtterKategori
     }
 
-    fun observeRandomMeal(): LiveData<TilfeldigOppskriftRespons> {
-        return mutableRandomMeal
+    fun observerTilfeldigOppskrift(): LiveData<TilfeldigOppskriftRespons> {
+        return mutableTilfeldigOppskrift
     }
 
-    fun observeCategories(): LiveData<KategoriRespons> {
-        return mutableCategory
+    fun observerKategorier(): LiveData<KategoriRespons> {
+        return mutableKategori
     }
 
 }

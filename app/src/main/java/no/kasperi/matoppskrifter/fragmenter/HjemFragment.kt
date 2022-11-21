@@ -34,8 +34,9 @@ import retrofit2.Response
 
 
 class HjemFragment : Fragment() {
-    private lateinit var meal: TilfeldigOppskriftRespons
-    private lateinit var detailMvvm: DetaljerViewModel
+    private lateinit var oppskrift: TilfeldigOppskriftRespons
+    /* MVVM = ModelView ViewModel */
+    private lateinit var detaljerMVVM: DetaljerViewModel
     private var randomMealId = "no.kasperi.matoppskrifter.fragmenter.randomMealId"
     companion object {
         const val OPPSKRIFT_ID = "no.kasperi.matoppskrifter.fragmenter.idMeal"
@@ -53,7 +54,7 @@ class HjemFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        detailMvvm = ViewModelProvider(this)[DetaljerViewModel::class.java]
+        detaljerMVVM = ViewModelProvider(this)[DetaljerViewModel::class.java]
         binding = FragmentHjemBinding.inflate(layoutInflater)
         myAdapter = KategorierAdapter()
         mostPopularFoodAdapter = MestPopulareAdapter()
@@ -75,11 +76,11 @@ class HjemFragment : Fragment() {
 
         prepareCategoryRecyclerView()
         preparePopularMeals()
-        onRndomMealClick()
+        onRandomMealClick()
         onRandomLongClick()
 
 
-        mainFragMVVM.observeMealByCategory().observe(viewLifecycleOwner, object : Observer<OppskriftRespons> {
+        mainFragMVVM.observerOppskriftEtterKategori().observe(viewLifecycleOwner, object : Observer<OppskriftRespons> {
             override fun onChanged(t: OppskriftRespons?) {
                 val meals = t!!.meals
                 setMealsByCategoryAdapter(meals)
@@ -87,7 +88,7 @@ class HjemFragment : Fragment() {
             }
         })
 
-        mainFragMVVM.observeCategories().observe(viewLifecycleOwner, object :
+        mainFragMVVM.observerKategorier().observe(viewLifecycleOwner, object :
             Observer<KategoriRespons> {
             override fun onChanged(t: KategoriRespons?) {
                 val categories = t!!.categories
@@ -97,7 +98,7 @@ class HjemFragment : Fragment() {
         })
 
 
-        mainFragMVVM.observeRandomMeal().observe(viewLifecycleOwner, object :
+        mainFragMVVM.observerTilfeldigOppskrift().observe(viewLifecycleOwner, object :
            Observer<TilfeldigOppskriftRespons> {
             override fun onChanged(t: TilfeldigOppskriftRespons?) {
                 val mealImage = view.findViewById<ImageView>(R.id.img_random_oppskrift)
@@ -106,7 +107,7 @@ class HjemFragment : Fragment() {
                 Glide.with(this@HjemFragment)
                     .load(imageUrl)
                     .into(mealImage)
-                meal = t
+                oppskrift = t
             }
 
        })
@@ -122,7 +123,7 @@ class HjemFragment : Fragment() {
 
         })
 
-        myAdapter.onItemClicked(object : KategorierAdapter.OnItemCategoryClicked {
+        myAdapter.onItemClicked(object : KategorierAdapter.OnItemKategoriClicked {
             override fun onClickListener(kategori: Kategori) {
                 val intent = Intent(activity, OppskriftActivity::class.java)
                 intent.putExtra(CATEGORY_NAME, kategori.strCategory)
@@ -133,12 +134,12 @@ class HjemFragment : Fragment() {
 
         mostPopularFoodAdapter.setOnLongCLickListener(object : OnLongItemClick {
             override fun onItemLongClick(meal: Meal) {
-                detailMvvm.getMealByIdBottomSheet(meal.idMeal)
+                detaljerMVVM.hentOppskriftEtterIdBunnDialog(meal.idMeal)
             }
 
         })
 
-        detailMvvm.observeMealBottomSheet()
+        detaljerMVVM.observerOppskriftBunnDialog()
             .observe(viewLifecycleOwner, object : Observer<List<MealDetail>> {
                 override fun onChanged(t: List<MealDetail>?) {
                     val bottomSheetFragment = OppskriftBunnDialogFragment()
@@ -157,16 +158,16 @@ class HjemFragment : Fragment() {
             })
 
 
-        // on search icon click
+        // Klikk på søkeikon på hjemside for søk av spesifik matoppskrift
         binding.imgSearch.setOnClickListener {
             findNavController().navigate(R.id.action_hjemFragment_to_sokFragment)
         }
     }
 
 
-    private fun onRndomMealClick() {
+    private fun onRandomMealClick() {
         binding.randomOppskrift.setOnClickListener {
-            val temp = meal.meals[0]
+            val temp = oppskrift.meals[0]
             val intent = Intent(activity, OppskriftDetaljerActivity::class.java)
             intent.putExtra(OPPSKRIFT_ID, temp.idMeal)
             intent.putExtra(OPPSKRIFT_NAVN, temp.strMeal)
@@ -177,10 +178,9 @@ class HjemFragment : Fragment() {
     }
 
     private fun onRandomLongClick() {
-
         binding.randomOppskrift.setOnLongClickListener(object : View.OnLongClickListener {
             override fun onLongClick(p0: View?): Boolean {
-                detailMvvm.getMealByIdBottomSheet(randomMealId)
+                detaljerMVVM.hentOppskriftEtterIdBunnDialog(randomMealId)
                 return true
             }
 
@@ -216,7 +216,7 @@ class HjemFragment : Fragment() {
     }
 
     private fun setMealsByCategoryAdapter(meals: List<Meal>) {
-        mostPopularFoodAdapter.setMealList(meals)
+        mostPopularFoodAdapter.setOppskriftListe(meals)
     }
 
     private fun setCategoryAdapter(categories: List<Kategori>) {

@@ -10,22 +10,22 @@ interface OppskriftDao {
 
 
     @Insert
-    fun insertFavorite(meal: MealDB)
+    fun leggTilFavoritt(meal: MealDB)
 
     @Update
-    fun updateFavorite(meal:MealDB)
+    fun oppdaterFavoritt(meal:MealDB)
 
     @Query("SELECT * FROM oppskrift_informasjon order by mealId asc")
-    fun getAllSavedMeals():LiveData<List<MealDB>>
+    fun hentAlleLagredeOppskrifter():LiveData<List<MealDB>>
 
     @Query("SELECT * FROM oppskrift_informasjon WHERE mealId =:id")
-    fun getMealById(id:String):MealDB
+    fun hentOppskriftEtterId(id:String):MealDB
 
     @Query("DELETE FROM oppskrift_informasjon WHERE mealId =:id")
-    fun deleteMealById(id:String)
+    fun slettOppskriftEtterId(id:String)
 
     @Delete
-    fun deleteMeal(meal:MealDB)
+    fun slettOppskrift(meal:MealDB)
 
 
 

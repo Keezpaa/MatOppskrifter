@@ -28,7 +28,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Food4U"
+        android:text="MatOppskrifter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/logginn_btn"
         app:layout_constraintTop_toTopOf="parent"/>

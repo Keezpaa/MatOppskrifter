@@ -11,26 +11,26 @@ import no.kasperi.matoppskrifter.pojo.MealDB
 
 class FavorittOppskriftAdapter :
     RecyclerView.Adapter<FavorittOppskriftAdapter.FavorittViewHolder>() {
-    private var favoriteMeals: List<MealDB> = ArrayList()
-    private lateinit var onFavoriteClickListener: OnFavoriteClickListener
-    private lateinit var onFavoriteLongClickListener: OnFavoriteLongClickListener
+    private var favorittOppskrifter: List<MealDB> = ArrayList()
+    private lateinit var onFavorittClickListener: OnFavorittClickListener
+    private lateinit var onFavorittLongClickListener: OnFavorittLongClickListener
 
-    fun setFavoriteMealsList(favoriteMeals: List<MealDB>) {
-        this.favoriteMeals = favoriteMeals
+    fun setFavorittOppskriftListe(favorittOppskrifter: List<MealDB>) {
+        this.favorittOppskrifter = favorittOppskrifter
         notifyDataSetChanged()
     }
 
-    fun getMelaByPosition(position: Int):MealDB{
-        return favoriteMeals[position]
+    fun hentOppskriftEtterPosisjon(position: Int):MealDB{
+        return favorittOppskrifter[position]
     }
 
 
-    fun setOnFavoriteMealClickListener(onFavoriteClickListener: OnFavoriteClickListener) {
-        this.onFavoriteClickListener = onFavoriteClickListener
+    fun setOnFavorittOppskriftClickListener(onFavorittClickListener: OnFavorittClickListener) {
+        this.onFavorittClickListener = onFavorittClickListener
     }
 
-    fun setOnFavoriteLongClickListener(onFavoriteLongClickListener: OnFavoriteLongClickListener) {
-        this.onFavoriteLongClickListener = onFavoriteLongClickListener
+    fun setOnFavorittLongClickListener(onFavorittLongClickListener: OnFavorittLongClickListener) {
+        this.onFavorittLongClickListener = onFavorittLongClickListener
     }
 
     class FavorittViewHolder(val binding: FavOppskriftKortBinding) :
@@ -43,34 +43,34 @@ class FavorittOppskriftAdapter :
     override fun onBindViewHolder(holder: FavorittViewHolder, position: Int) {
         val i = position
         holder.binding.apply {
-            tvOppskriftNavn.text = favoriteMeals[position].mealName
+            tvOppskriftNavn.text = favorittOppskrifter[position].mealName
             Glide.with(holder.itemView)
-                .load(favoriteMeals[position].mealThumb)
+                .load(favorittOppskrifter[position].mealThumb)
                 .error(R.drawable.matoppskrifter_logo)
                 .into(imgOppskrift)
         }
 
         holder.itemView.setOnClickListener {
-            onFavoriteClickListener.onFavoriteClick(favoriteMeals[position])
+            onFavorittClickListener.onFavorittClick(favorittOppskrifter[position])
         }
 
         holder.itemView.setOnLongClickListener(object : View.OnLongClickListener {
             override fun onLongClick(p0: View?): Boolean {
-                onFavoriteLongClickListener.onFavoriteLongCLick(favoriteMeals[i])
+                onFavorittLongClickListener.onFavorittLongCLick(favorittOppskrifter[i])
                 return true
             }
         })
     }
 
     override fun getItemCount(): Int {
-        return favoriteMeals.size
+        return favorittOppskrifter.size
     }
 
-    interface OnFavoriteClickListener {
-        fun onFavoriteClick(meal: MealDB)
+    interface OnFavorittClickListener {
+        fun onFavorittClick(meal: MealDB)
     }
 
-    interface OnFavoriteLongClickListener {
-        fun onFavoriteLongCLick(meal: MealDB)
+    interface OnFavorittLongClickListener {
+        fun onFavorittLongCLick(meal: MealDB)
     }
 }

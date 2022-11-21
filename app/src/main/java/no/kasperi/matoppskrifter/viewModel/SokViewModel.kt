@@ -13,6 +13,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+/* TAG = HjemViewModel */
 class SokViewModel : ViewModel()  {
     private val soktEtterOppskriftLiveData = MutableLiveData<MealDetail>()
 

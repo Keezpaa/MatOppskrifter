@@ -20,18 +20,6 @@ class RedigerProfilActivity : AbstractActivity(R.layout.activity_rediger_profil)
 
     override fun init() {
         viewModel = ViewModelProvider(this).get(RedigerProfilViewModel::class.java)
-
-        /*
-        *
-        * As a user, I want to be able to edit my profile data
-        *
-        * Functionalities to be implemented:
-        * a. Upload photo
-        * b. Change e-mail
-        * c. Change username
-        * d. View my profile data vertically
-        *
-         */
     }
 
     override fun running() {

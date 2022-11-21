@@ -14,7 +14,7 @@ class OppskriftAdapter : RecyclerView.Adapter<OppskriftAdapter.OppskriftViewHold
     private var oppskriftListe: List<Meal> = ArrayList()
     private lateinit var setOnOppskriftClickListener: SetOnOppskriftClickListener
 
-    fun setCategoryList(oppskriftListe: List<Meal>) {
+    fun setKategoriListe(oppskriftListe: List<Meal>) {
         this.oppskriftListe = oppskriftListe
         notifyDataSetChanged()
     }

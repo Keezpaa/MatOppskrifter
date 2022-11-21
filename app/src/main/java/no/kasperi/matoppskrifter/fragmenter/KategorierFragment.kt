@@ -46,7 +46,7 @@ class KategorierFragment : Fragment(R.layout.fragment_kategorier) {
     }
 
     private fun onCategoryClick() {
-        myAdapter.onItemClicked(object : KategorierAdapter.OnItemCategoryClicked{
+        myAdapter.onItemClicked(object : KategorierAdapter.OnItemKategoriClicked {
             override fun onClickListener(kategori: Kategori) {
                 val intent = Intent(context, OppskriftActivity::class.java)
                 intent.putExtra(CATEGORY_NAME,kategori.strCategory)
@@ -56,7 +56,7 @@ class KategorierFragment : Fragment(R.layout.fragment_kategorier) {
     }
 
     private fun observeCategories() {
-        categoryMvvm.observeCategories().observe(viewLifecycleOwner
+        categoryMvvm.observerKategorier().observe(viewLifecycleOwner
         ) { t -> myAdapter.setKategoriListe(t!!) }
     }
 

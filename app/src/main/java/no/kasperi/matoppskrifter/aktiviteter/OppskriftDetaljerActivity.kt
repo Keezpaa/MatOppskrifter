@@ -39,11 +39,11 @@ class OppskriftDetaljerActivity : AppCompatActivity() {
 
         getMealInfoFromIntent()
         setUpViewWithMealInformation()
-        setFloatingButtonStatues()
+        settFavorittKnappeStatus()
 
-        detailsMVVM.getMealById(mealId)
+        detailsMVVM.hentOppskriftEtterId(mealId)
 
-        detailsMVVM.observeMealDetail().observe(this, object : Observer<List<MealDetail>> {
+        detailsMVVM.observerOppskriftDetaljer().observe(this, object : Observer<List<MealDetail>> {
             override fun onChanged(t: List<MealDetail>?) {
                 setTextsInViews(t!![0])
                 stopLoading()
@@ -57,7 +57,7 @@ class OppskriftDetaljerActivity : AppCompatActivity() {
 
 
         binding.btnFavoritt.setOnClickListener {
-            if(isMealSavedInDatabase()){
+            if(erOppskriftLagretIDatabasen()){
                 deleteMeal()
                 binding.btnFavoritt.setImageResource(R.drawable.ic_hjerte)
                 Snackbar.make(
@@ -79,19 +79,19 @@ class OppskriftDetaljerActivity : AppCompatActivity() {
 
 
     private fun deleteMeal() {
-        detailsMVVM.deleteMealById(mealId)
+        detailsMVVM.slettOppskriftEtterId(mealId)
     }
 
-    private fun setFloatingButtonStatues() {
-        if(isMealSavedInDatabase()){
+    private fun settFavorittKnappeStatus() {
+        if(erOppskriftLagretIDatabasen()){
             binding.btnFavoritt.setImageResource(R.drawable.ic_fylt_hjerte)
         }else{
             binding.btnFavoritt.setImageResource(R.drawable.ic_hjerte)
         }
     }
 
-    private fun isMealSavedInDatabase(): Boolean {
-        return detailsMVVM.isMealSavedInDatabase(mealId)
+    private fun erOppskriftLagretIDatabasen(): Boolean {
+        return detailsMVVM.erOppskriftLagretIDatabasen(mealId)
     }
 
     private fun saveMeal() {
@@ -103,7 +103,7 @@ class OppskriftDetaljerActivity : AppCompatActivity() {
             dtMeal.strMealThumb,
             dtMeal.strYoutube)
 
-        detailsMVVM.insertMeal(meal)
+        detailsMVVM.leggTilOppskrift(meal)
     }
 
     private fun showLoading() {

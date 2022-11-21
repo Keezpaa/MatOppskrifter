@@ -11,18 +11,20 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+/* TAG = HjemViewModel */
 class KategoriViewModel : ViewModel() {
 
-    private var categories: MutableLiveData<List<Kategori>> = MutableLiveData<List<Kategori>>()
+    private var kategorier: MutableLiveData<List<Kategori>> = MutableLiveData<List<Kategori>>()
 
     init {
-        getCategories()
+        hentKategorier()
     }
 
-    private fun getCategories(){
+    private fun hentKategorier(){
         RetrofitInstance.api.hentKategorier().enqueue(object : Callback<KategoriRespons>{
             override fun onResponse(call: Call<KategoriRespons>, response: Response<KategoriRespons>) {
-                categories.value = response.body()!!.categories
+                /* Må stå categories på slutten av response.body() pga apiet er engelsk og krever det */
+                kategorier.value = response.body()!!.categories
             }
 
             override fun onFailure(call: Call<KategoriRespons>, t: Throwable) {
@@ -32,7 +34,7 @@ class KategoriViewModel : ViewModel() {
         })
     }
 
-    fun observeCategories():LiveData<List<Kategori>>{
-        return categories
+    fun observerKategorier():LiveData<List<Kategori>>{
+        return kategorier
     }
 }

@@ -27,14 +27,14 @@ class OppskriftActivity : AppCompatActivity() {
         binding = ActivityKategoriBinding.inflate(layoutInflater)
         setContentView(binding.root)
         oppskriftViewModel = ViewModelProvider(this)[OppskriftViewModel::class.java]
-        prepareRecyclerView()
+        forberedRecyclerView()
         oppskriftViewModel.hentOppskriftEtterKategori(hentKategori())
         oppskriftViewModel.observeMeal().observe(this, object : Observer<List<Meal>> {
             override fun onChanged(t: List<Meal>?) {
                 if(t==null){
                     Toast.makeText(applicationContext, "Ingen oppskrifter i denne kategorien", Toast.LENGTH_SHORT).show()
                 }else {
-                    oppskriftAdapter.setCategoryList(t!!)
+                    oppskriftAdapter.setKategoriListe(t!!)
                     binding.tvKategoriAntall.text = kategoriNavn  + " : " + t.size.toString()
 
                 }
@@ -52,8 +52,6 @@ class OppskriftActivity : AppCompatActivity() {
         })
     }
 
-
-
     private fun hentKategori(): String {
         val tempIntent = intent
         val x = intent.getStringExtra(CATEGORY_NAME)!!
@@ -61,7 +59,7 @@ class OppskriftActivity : AppCompatActivity() {
         return x
     }
 
-    private fun prepareRecyclerView() {
+    private fun forberedRecyclerView() {
         oppskriftAdapter = OppskriftAdapter()
         binding.oppskriftRecyclerview.apply {
             adapter = oppskriftAdapter

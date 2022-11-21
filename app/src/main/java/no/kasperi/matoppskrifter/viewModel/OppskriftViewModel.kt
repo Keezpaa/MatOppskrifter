@@ -11,6 +11,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+/* TAG = HjemViewModel */
 class OppskriftViewModel():ViewModel() {
     private var mutableOppskrift= MutableLiveData<List<Meal>>()
 

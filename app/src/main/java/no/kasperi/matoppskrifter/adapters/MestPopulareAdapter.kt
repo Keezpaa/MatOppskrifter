@@ -9,11 +9,11 @@ import no.kasperi.matoppskrifter.databinding.PopulareRetterBinding
 import no.kasperi.matoppskrifter.pojo.Meal
 
 class MestPopulareAdapter : RecyclerView.Adapter<MestPopulareAdapter.MostPopularMealViewHolder>(){
-    private var mealsList: List<Meal> = ArrayList()
+    private var oppskriftListe: List<Meal> = ArrayList()
     private lateinit var onItemClick: OnItemClick
     private lateinit var onLongItemClick:OnLongItemClick
-    fun setMealList(mealsList: List<Meal>) {
-        this.mealsList = mealsList
+    fun setOppskriftListe(oppskriftListe: List<Meal>) {
+        this.oppskriftListe = oppskriftListe
         notifyDataSetChanged()
     }
 
@@ -35,17 +35,17 @@ class MestPopulareAdapter : RecyclerView.Adapter<MestPopulareAdapter.MostPopular
         val i = position
 
             Glide.with(holder.itemView)
-                .load(mealsList[position].strMealThumb)
+                .load(oppskriftListe[position].strMealThumb)
                 .into(holder.binding.imgPopularOppskrift)
 
 
         holder.itemView.setOnClickListener {
-            onItemClick.onItemClick(mealsList[position])
+            onItemClick.onItemClick(oppskriftListe[position])
         }
 
         holder.itemView.setOnLongClickListener(object : View.OnLongClickListener{
             override fun onLongClick(p0: View?): Boolean {
-                onLongItemClick.onItemLongClick(mealsList[i])
+                onLongItemClick.onItemLongClick(oppskriftListe[i])
                 return true
             }
 
@@ -53,7 +53,7 @@ class MestPopulareAdapter : RecyclerView.Adapter<MestPopulareAdapter.MostPopular
     }
 
     override fun getItemCount(): Int {
-        return mealsList.size
+        return oppskriftListe.size
     }
 }
 
