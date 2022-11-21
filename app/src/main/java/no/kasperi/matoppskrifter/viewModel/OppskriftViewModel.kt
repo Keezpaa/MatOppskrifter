@@ -27,7 +27,7 @@ class OppskriftViewModel():ViewModel() {
         })
     }
 
-    fun observeMeal():LiveData<List<Meal>>{
+    fun observerOppskrift():LiveData<List<Meal>>{
         return mutableOppskrift
     }
 }

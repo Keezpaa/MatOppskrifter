@@ -8,31 +8,24 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import no.kasperi.matoppskrifter.R
 import no.kasperi.matoppskrifter.adapters.FavorittOppskriftAdapter
-import no.kasperi.matoppskrifter.adapters.OppskriftAdapter
-import no.kasperi.matoppskrifter.aktiviteter.MainActivity
-import no.kasperi.matoppskrifter.aktiviteter.OppskriftActivity
 import no.kasperi.matoppskrifter.aktiviteter.OppskriftDetaljerActivity
 import no.kasperi.matoppskrifter.databinding.FragmentFavorittBinding
-import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.CATEGORY_NAME
-import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.MEAL_AREA
-import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.MEAL_NAME
+import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.KATEGORI_NAVN
 import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.OPPSKRIFT_BILDE
 import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.OPPSKRIFT_ID
 import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.OPPSKRIFT_NAVN
+import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.OPPSKRIFT_STED
+import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.OPPSKRIFT_TITTEL
 import no.kasperi.matoppskrifter.fragmenter.bunnDialog.OppskriftBunnDialogFragment
-import no.kasperi.matoppskrifter.pojo.Meal
 import no.kasperi.matoppskrifter.pojo.MealDB
 import no.kasperi.matoppskrifter.pojo.MealDetail
 import no.kasperi.matoppskrifter.viewModel.DetaljerViewModel
-import no.kasperi.matoppskrifter.viewModel.HjemViewModel
-import no.kasperi.matoppskrifter.viewModel.OppskriftViewModel
 
 
 class FavorittFragment : Fragment() {
@@ -115,9 +108,9 @@ class FavorittFragment : Fragment() {
             override fun onChanged(t: List<MealDetail>?) {
                 val bunnDialog = OppskriftBunnDialogFragment()
                 val b = Bundle()
-                b.putString(CATEGORY_NAME,t!![0].strCategory)
-                b.putString(MEAL_AREA,t[0].strArea)
-                b.putString(MEAL_NAME,t[0].strMeal)
+                b.putString(KATEGORI_NAVN,t!![0].strCategory)
+                b.putString(OPPSKRIFT_STED,t[0].strArea)
+                b.putString(OPPSKRIFT_TITTEL,t[0].strMeal)
                 b.putString(OPPSKRIFT_BILDE,t[0].strMealThumb)
                 b.putString(OPPSKRIFT_ID,t[0].idMeal)
                 bunnDialog.arguments = b

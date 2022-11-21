@@ -8,7 +8,7 @@ import com.bumptech.glide.Glide
 import no.kasperi.matoppskrifter.databinding.PopulareRetterBinding
 import no.kasperi.matoppskrifter.pojo.Meal
 
-class MestPopulareAdapter : RecyclerView.Adapter<MestPopulareAdapter.MostPopularMealViewHolder>(){
+class MestPopulareAdapter : RecyclerView.Adapter<MestPopulareAdapter.MestPopularOppskriftViewHolder>(){
     private var oppskriftListe: List<Meal> = ArrayList()
     private lateinit var onItemClick: OnItemClick
     private lateinit var onLongItemClick:OnLongItemClick
@@ -25,13 +25,13 @@ class MestPopulareAdapter : RecyclerView.Adapter<MestPopulareAdapter.MostPopular
         this.onLongItemClick = onLongItemClick
     }
 
-    class MostPopularMealViewHolder(val binding:PopulareRetterBinding):RecyclerView.ViewHolder(binding.root)
+    class MestPopularOppskriftViewHolder(val binding:PopulareRetterBinding):RecyclerView.ViewHolder(binding.root)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MostPopularMealViewHolder {
-        return MostPopularMealViewHolder(PopulareRetterBinding.inflate(LayoutInflater.from(parent.context),parent,false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MestPopularOppskriftViewHolder {
+        return MestPopularOppskriftViewHolder(PopulareRetterBinding.inflate(LayoutInflater.from(parent.context),parent,false))
     }
 
-    override fun onBindViewHolder(holder: MostPopularMealViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MestPopularOppskriftViewHolder, position: Int) {
         val i = position
 
             Glide.with(holder.itemView)

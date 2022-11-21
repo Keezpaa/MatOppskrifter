@@ -15,13 +15,11 @@ import no.kasperi.matoppskrifter.R
 import no.kasperi.matoppskrifter.aktiviteter.MainActivity
 import no.kasperi.matoppskrifter.aktiviteter.OppskriftActivity
 import no.kasperi.matoppskrifter.aktiviteter.OppskriftDetaljerActivity
-import no.kasperi.matoppskrifter.databinding.FragmentOppskriftBunnDialogBinding
-import no.kasperi.matoppskrifter.fragmenter.HjemFragment
-import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.CATEGORY_NAME
-import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.MEAL_AREA
+import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.KATEGORI_NAVN
 import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.OPPSKRIFT_BILDE
 import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.OPPSKRIFT_ID
 import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.OPPSKRIFT_NAVN
+import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.OPPSKRIFT_STED
 import no.kasperi.matoppskrifter.viewModel.HjemViewModel
 
 
@@ -38,8 +36,8 @@ class OppskriftBunnDialogFragment  : BottomSheetDialogFragment() {
         matNavn = b!!.getString(OPPSKRIFT_NAVN).toString()
         matId =b!!.getString(OPPSKRIFT_ID).toString()
         matBilde =b!!.getString(OPPSKRIFT_BILDE).toString()
-        matKategori =b!!.getString(CATEGORY_NAME).toString()
-        matSted =b!!.getString(MEAL_AREA).toString()
+        matKategori =b!!.getString(KATEGORI_NAVN).toString()
+        matSted =b!!.getString(OPPSKRIFT_STED).toString()
     }
 
     override fun onCreateView(
@@ -54,7 +52,7 @@ class OppskriftBunnDialogFragment  : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        prepareView(view)
+        forberedView(view)
 
         view.setOnClickListener {
             val intent = Intent(context, OppskriftDetaljerActivity::class.java)
@@ -66,18 +64,18 @@ class OppskriftBunnDialogFragment  : BottomSheetDialogFragment() {
 
     }
 
-    fun prepareView(view:View){
-        val tvMealName = view.findViewById<TextView>(R.id.tv_bunn_kategori_navn)
-        val tvMealCategory = view.findViewById<TextView>(R.id.bunn_dialog_kategori)
-        val tvMealCountry = view.findViewById<TextView>(R.id.bunn_dialog_sted)
-        val imgMeal = view.findViewById<ImageView>(R.id.img_bunn_dialog)
+    fun forberedView(view:View){
+        val tvOppskriftNavn = view.findViewById<TextView>(R.id.tv_bunn_kategori_navn)
+        val tvOppskriftKategori = view.findViewById<TextView>(R.id.bunn_dialog_kategori)
+        val tvOppskriftSted = view.findViewById<TextView>(R.id.bunn_dialog_sted)
+        val imgOppskrift = view.findViewById<ImageView>(R.id.img_bunn_dialog)
 
         Glide.with(view)
             .load(matBilde)
-            .into(imgMeal)
-        tvMealName.text = matNavn
-        tvMealCategory.text = matKategori
-        tvMealCountry.text = matSted
+            .into(imgOppskrift)
+        tvOppskriftNavn.text = matNavn
+        tvOppskriftKategori.text = matKategori
+        tvOppskriftSted.text = matSted
     }
 
 

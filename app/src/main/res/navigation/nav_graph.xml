@@ -30,8 +30,14 @@
         android:label="fragment_sok"
         tools:layout="@layout/fragment_sok" />
     <fragment
+        android:id="@+id/pieChartFragment"
+        android:name="no.kasperi.matoppskrifter.fragmenter.PieChartFragment"
+        android:label="fragment_piechart"
+        tools:layout="@layout/fragment_piechart" />
+    <fragment
         android:id="@+id/profilFragment"
         android:name="no.kasperi.matoppskrifter.ui.profil.ProfilFragment"
         android:label="fragment_profil"
         tools:layout="@layout/fragment_profil"/>
+
 </navigation>

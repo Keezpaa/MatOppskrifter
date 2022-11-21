@@ -18,7 +18,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:background="@drawable/soke_box_bakgrunn"
         android:paddingLeft="15dp"
-        android:hint="Type meal name ..."
+        android:hint="Søk etter spesifik oppskrift ..."
         android:textSize="16sp"
         android:inputType="text"
         android:maxLines="1"/>

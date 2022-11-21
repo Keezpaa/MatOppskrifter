@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import no.kasperi.matoppskrifter.adapters.OppskriftAdapter
 import no.kasperi.matoppskrifter.adapters.SetOnOppskriftClickListener
 import no.kasperi.matoppskrifter.databinding.ActivityKategoriBinding
-import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.CATEGORY_NAME
+import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.KATEGORI_NAVN
 import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.OPPSKRIFT_BILDE
 import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.OPPSKRIFT_ID
 import no.kasperi.matoppskrifter.fragmenter.HjemFragment.Companion.OPPSKRIFT_NAVN
@@ -18,18 +18,22 @@ import no.kasperi.matoppskrifter.pojo.Meal
 import no.kasperi.matoppskrifter.viewModel.OppskriftViewModel
 
 class OppskriftActivity : AppCompatActivity() {
+
     private lateinit var oppskriftViewModel: OppskriftViewModel
     private lateinit var binding: ActivityKategoriBinding
     private lateinit var oppskriftAdapter: OppskriftAdapter
     private var kategoriNavn = "no.kasperi.matoppskrifter.fragmenter.categoryName"
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityKategoriBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        oppskriftViewModel = ViewModelProvider(this)[OppskriftViewModel::class.java]
         forberedRecyclerView()
+        oppskriftViewModel = ViewModelProvider(this)[OppskriftViewModel::class.java]
         oppskriftViewModel.hentOppskriftEtterKategori(hentKategori())
-        oppskriftViewModel.observeMeal().observe(this, object : Observer<List<Meal>> {
+        oppskriftViewModel.observerOppskrift().observe(this, object : Observer<List<Meal>> {
+
             override fun onChanged(t: List<Meal>?) {
                 if(t==null){
                     Toast.makeText(applicationContext, "Ingen oppskrifter i denne kategorien", Toast.LENGTH_SHORT).show()
@@ -54,7 +58,7 @@ class OppskriftActivity : AppCompatActivity() {
 
     private fun hentKategori(): String {
         val tempIntent = intent
-        val x = intent.getStringExtra(CATEGORY_NAME)!!
+        val x = intent.getStringExtra(KATEGORI_NAVN)!!
         kategoriNavn = x
         return x
     }

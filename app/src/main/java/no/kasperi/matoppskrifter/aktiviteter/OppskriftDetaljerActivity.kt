@@ -20,33 +20,32 @@ import no.kasperi.matoppskrifter.viewModel.DetaljerViewModel
 
 class OppskriftDetaljerActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOppskriftBinding
-    private lateinit var detailsMVVM: DetaljerViewModel
-    private var mealId = "no.kasperi.matoppskrifter.fragmenter.idMeal"
-    private var mealStr = "no.kasperi.matoppskrifter.fragmenter.strMeal"
-    private var mealThumb = "no.kasperi.matoppskrifter.fragmenter.thumbMeal"
+    /* MVVM = ModeView ViewModel */
+    private lateinit var detaljerMVVM: DetaljerViewModel
+    private var oppskriftId = "no.kasperi.matoppskrifter.fragmenter.idMeal"
+    private var oppskriftNavn = "no.kasperi.matoppskrifter.fragmenter.strMeal"
+    private var oppskriftBilde = "no.kasperi.matoppskrifter.fragmenter.thumbMeal"
     private var ytUrl = "no.kasperi.matoppskrifter.fragmenter.ytUrl"
-    private lateinit var dtMeal: MealDetail
-
+    private lateinit var dtOppskrift: MealDetail
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        detailsMVVM = ViewModelProvider(this)[DetaljerViewModel::class.java]
+        detaljerMVVM = ViewModelProvider(this)[DetaljerViewModel::class.java]
         binding = ActivityOppskriftBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        showLoading()
-
-        getMealInfoFromIntent()
-        setUpViewWithMealInformation()
+        visLasting()
+        hentOppskriftInfoFraIntent()
+        settOppViewMedOppskriftInfo()
         settFavorittKnappeStatus()
 
-        detailsMVVM.hentOppskriftEtterId(mealId)
+        detaljerMVVM.hentOppskriftEtterId(oppskriftId)
 
-        detailsMVVM.observerOppskriftDetaljer().observe(this, object : Observer<List<MealDetail>> {
+        detaljerMVVM.observerOppskriftDetaljer().observe(this, object : Observer<List<MealDetail>> {
             override fun onChanged(t: List<MealDetail>?) {
-                setTextsInViews(t!![0])
-                stopLoading()
+                settTextIViews(t!![0])
+                stoppLasting()
             }
 
         })
@@ -58,14 +57,14 @@ class OppskriftDetaljerActivity : AppCompatActivity() {
 
         binding.btnFavoritt.setOnClickListener {
             if(erOppskriftLagretIDatabasen()){
-                deleteMeal()
+                slettOppskrift()
                 binding.btnFavoritt.setImageResource(R.drawable.ic_hjerte)
                 Snackbar.make(
                     findViewById(android.R.id.content),
                     "Oppskrift fjernet fra favoritter!",
                     Snackbar.LENGTH_SHORT).show()
             }else{
-                saveMeal()
+                lagreOppskrift()
                 binding.btnFavoritt.setImageResource(R.drawable.ic_fylt_hjerte)
                 Snackbar.make(
                     findViewById(android.R.id.content),
@@ -78,8 +77,8 @@ class OppskriftDetaljerActivity : AppCompatActivity() {
 
 
 
-    private fun deleteMeal() {
-        detailsMVVM.slettOppskriftEtterId(mealId)
+    private fun slettOppskrift() {
+        detaljerMVVM.slettOppskriftEtterId(oppskriftId)
     }
 
     private fun settFavorittKnappeStatus() {
@@ -91,38 +90,36 @@ class OppskriftDetaljerActivity : AppCompatActivity() {
     }
 
     private fun erOppskriftLagretIDatabasen(): Boolean {
-        return detailsMVVM.erOppskriftLagretIDatabasen(mealId)
+        return detaljerMVVM.erOppskriftLagretIDatabasen(oppskriftId)
     }
 
-    private fun saveMeal() {
-        val meal = MealDB(dtMeal.idMeal.toInt(),
-            dtMeal.strMeal,
-            dtMeal.strArea,
-            dtMeal.strCategory,
-            dtMeal.strInstructions,
-            dtMeal.strMealThumb,
-            dtMeal.strYoutube)
+    private fun lagreOppskrift() {
+        val meal = MealDB(dtOppskrift.idMeal.toInt(),
+            dtOppskrift.strMeal,
+            dtOppskrift.strArea,
+            dtOppskrift.strCategory,
+            dtOppskrift.strInstructions,
+            dtOppskrift.strMealThumb,
+            dtOppskrift.strYoutube)
 
-        detailsMVVM.leggTilOppskrift(meal)
+        detaljerMVVM.leggTilOppskrift(meal)
     }
 
-    private fun showLoading() {
+    private fun visLasting() {
         binding.progressBar.visibility = View.VISIBLE
         binding.btnFavoritt.visibility = View.GONE
         binding.imgYt.visibility = View.INVISIBLE
     }
 
 
-    private fun stopLoading() {
+    private fun stoppLasting() {
         binding.progressBar.visibility = View.INVISIBLE
         binding.btnFavoritt.visibility = View.VISIBLE
-
         binding.imgYt.visibility = View.VISIBLE
-
     }
 
-    private fun setTextsInViews(meal: MealDetail) {
-        this.dtMeal = meal
+    private fun settTextIViews(meal: MealDetail) {
+        this.dtOppskrift = meal
         ytUrl = meal.strYoutube
         binding.apply {
             tvIngredienser.text = "Ingredienser: "
@@ -157,22 +154,22 @@ class OppskriftDetaljerActivity : AppCompatActivity() {
     }
 
 
-    private fun setUpViewWithMealInformation() {
+    private fun settOppViewMedOppskriftInfo() {
         binding.apply {
-            collapsingToolbar.title = mealStr
+            collapsingToolbar.title = oppskriftNavn
             Glide.with(applicationContext)
-                .load(mealThumb)
+                .load(oppskriftBilde)
                 .into(imgOppskriftDetaljer)
         }
 
     }
 
-    private fun getMealInfoFromIntent() {
+    private fun hentOppskriftInfoFraIntent() {
         val tempIntent = intent
 
-        this.mealId = tempIntent.getStringExtra(OPPSKRIFT_ID)!!
-        this.mealStr = tempIntent.getStringExtra(OPPSKRIFT_NAVN)!!
-        this.mealThumb = tempIntent.getStringExtra(OPPSKRIFT_BILDE)!!
+        this.oppskriftId = tempIntent.getStringExtra(OPPSKRIFT_ID)!!
+        this.oppskriftNavn = tempIntent.getStringExtra(OPPSKRIFT_NAVN)!!
+        this.oppskriftBilde = tempIntent.getStringExtra(OPPSKRIFT_BILDE)!!
     }
 
 }

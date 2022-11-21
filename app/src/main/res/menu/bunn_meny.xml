@@ -9,7 +9,11 @@
     <item android:title="Kategorier"
         android:icon="@drawable/ic_kategorier"
         android:id="@+id/kategorierFragment"/>
+    <item android:title="PieChart"
+        android:icon="@drawable/ic_piechart"
+        android:id="@+id/pieChartFragment"/>
     <item android:title="Profil"
         android:icon="@drawable/ikon_profil"
         android:id="@+id/profilFragment"/>
+
 </menu>

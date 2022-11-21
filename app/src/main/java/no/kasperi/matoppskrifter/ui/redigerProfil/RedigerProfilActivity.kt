@@ -38,16 +38,15 @@ class RedigerProfilActivity : AbstractActivity(R.layout.activity_rediger_profil)
         }
 
         rediger_profil_lagre_btn.setOnClickListener{
-            //save user input from all fields
+            //Lagre brukerinput fra alle feltene; brukernavn, e-mail og telefon
             if (oldUserEmail != rediger_profil_email.text.toString()) {
                 val newEmail = rediger_profil_email.text.toString()
                 showLoginDialogue(newEmail)
-                Toast.makeText(this,"Informasjon lagret!", Toast.LENGTH_SHORT).show()
             }
 
             viewModel.saveUsernameToDb(rediger_profil_brukernavn.text.toString())
             viewModel.savePhoneToDb(rediger_profil_tlf.text.toString())
-
+            Toast.makeText(this,"Brukerdetaljer lagret!", Toast.LENGTH_SHORT).show()
         }
 
         rediger_profil_loggut_btn.setOnClickListener {

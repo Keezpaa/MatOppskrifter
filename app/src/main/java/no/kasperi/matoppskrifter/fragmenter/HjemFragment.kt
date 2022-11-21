@@ -37,27 +37,26 @@ class HjemFragment : Fragment() {
     private lateinit var oppskrift: TilfeldigOppskriftRespons
     /* MVVM = ModelView ViewModel */
     private lateinit var detaljerMVVM: DetaljerViewModel
-    private var randomMealId = "no.kasperi.matoppskrifter.fragmenter.randomMealId"
+    private var tilfeldigOppskriftId = "no.kasperi.matoppskrifter.fragmenter.randomMealId"
+    private lateinit var kategoriAdapter: KategorierAdapter
+    private lateinit var mestPopulareAdapter: MestPopulareAdapter
+    lateinit var binding: FragmentHjemBinding
+
     companion object {
         const val OPPSKRIFT_ID = "no.kasperi.matoppskrifter.fragmenter.idMeal"
         const val OPPSKRIFT_NAVN = "no.kasperi.matoppskrifter.fragmenter.strMeal"
         const val OPPSKRIFT_BILDE = "no.kasperi.matoppskrifter.fragmenter.thumbMeal"
-        const val CATEGORY_NAME = "no.kasperi.matoppskrifter.fragmenter.categoryName"
-        const val MEAL_AREA = "no.kasperi.matoppskrifter.fragmenter.strArea"
-        const val MEAL_NAME = "no.kasperi.matoppskrifter.fragmenter.strMeal"
+        const val KATEGORI_NAVN = "no.kasperi.matoppskrifter.fragmenter.categoryName"
+        const val OPPSKRIFT_STED = "no.kasperi.matoppskrifter.fragmenter.strArea"
+        const val OPPSKRIFT_TITTEL = "no.kasperi.matoppskrifter.fragmenter.strMeal"
     }
-
-    private lateinit var myAdapter: KategorierAdapter
-    private lateinit var mostPopularFoodAdapter: MestPopulareAdapter
-    lateinit var binding: FragmentHjemBinding
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         detaljerMVVM = ViewModelProvider(this)[DetaljerViewModel::class.java]
         binding = FragmentHjemBinding.inflate(layoutInflater)
-        myAdapter = KategorierAdapter()
-        mostPopularFoodAdapter = MestPopulareAdapter()
+        kategoriAdapter = KategorierAdapter()
+        mestPopulareAdapter = MestPopulareAdapter()
     }
 
     override fun onCreateView(
@@ -70,17 +69,18 @@ class HjemFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val mainFragMVVM = ViewModelProvider(this)[HjemViewModel::class.java]
+        /* MVVM = ModelView ViewModel */
+        val hjemMVVM = ViewModelProvider(this)[HjemViewModel::class.java]
         showLoadingCase()
 
 
-        prepareCategoryRecyclerView()
-        preparePopularMeals()
+        forberedKategorierRecyclerView()
+        forberedPopulareOppskrifter()
         onRandomMealClick()
         onRandomLongClick()
 
 
-        mainFragMVVM.observerOppskriftEtterKategori().observe(viewLifecycleOwner, object : Observer<OppskriftRespons> {
+        hjemMVVM.observerOppskriftEtterKategori().observe(viewLifecycleOwner, object : Observer<OppskriftRespons> {
             override fun onChanged(t: OppskriftRespons?) {
                 val meals = t!!.meals
                 setMealsByCategoryAdapter(meals)
@@ -88,7 +88,7 @@ class HjemFragment : Fragment() {
             }
         })
 
-        mainFragMVVM.observerKategorier().observe(viewLifecycleOwner, object :
+        hjemMVVM.observerKategorier().observe(viewLifecycleOwner, object :
             Observer<KategoriRespons> {
             override fun onChanged(t: KategoriRespons?) {
                 val categories = t!!.categories
@@ -98,12 +98,12 @@ class HjemFragment : Fragment() {
         })
 
 
-        mainFragMVVM.observerTilfeldigOppskrift().observe(viewLifecycleOwner, object :
+        hjemMVVM.observerTilfeldigOppskrift().observe(viewLifecycleOwner, object :
            Observer<TilfeldigOppskriftRespons> {
             override fun onChanged(t: TilfeldigOppskriftRespons?) {
                 val mealImage = view.findViewById<ImageView>(R.id.img_random_oppskrift)
                 val imageUrl = t!!.meals[0].strMealThumb
-                randomMealId = t.meals[0].idMeal
+                tilfeldigOppskriftId = t.meals[0].idMeal
                 Glide.with(this@HjemFragment)
                     .load(imageUrl)
                     .into(mealImage)
@@ -112,7 +112,7 @@ class HjemFragment : Fragment() {
 
        })
 
-        mostPopularFoodAdapter.setOnClickListener(object : OnItemClick {
+        mestPopulareAdapter.setOnClickListener(object : OnItemClick {
             override fun onItemClick(meal: Meal) {
                 val intent = Intent(activity, OppskriftDetaljerActivity::class.java)
                 intent.putExtra(OPPSKRIFT_ID, meal.idMeal)
@@ -123,16 +123,16 @@ class HjemFragment : Fragment() {
 
         })
 
-        myAdapter.onItemClicked(object : KategorierAdapter.OnItemKategoriClicked {
+        kategoriAdapter.onItemClicked(object : KategorierAdapter.OnItemKategoriClicked {
             override fun onClickListener(kategori: Kategori) {
                 val intent = Intent(activity, OppskriftActivity::class.java)
-                intent.putExtra(CATEGORY_NAME, kategori.strCategory)
+                intent.putExtra(KATEGORI_NAVN, kategori.strCategory)
                 startActivity(intent)
             }
 
         })
 
-        mostPopularFoodAdapter.setOnLongCLickListener(object : OnLongItemClick {
+        mestPopulareAdapter.setOnLongCLickListener(object : OnLongItemClick {
             override fun onItemLongClick(meal: Meal) {
                 detaljerMVVM.hentOppskriftEtterIdBunnDialog(meal.idMeal)
             }
@@ -142,17 +142,17 @@ class HjemFragment : Fragment() {
         detaljerMVVM.observerOppskriftBunnDialog()
             .observe(viewLifecycleOwner, object : Observer<List<MealDetail>> {
                 override fun onChanged(t: List<MealDetail>?) {
-                    val bottomSheetFragment = OppskriftBunnDialogFragment()
+                    val bunnDialogFrag = OppskriftBunnDialogFragment()
                     val b = Bundle()
-                    b.putString(CATEGORY_NAME, t!![0].strCategory)
-                    b.putString(MEAL_AREA, t[0].strArea)
-                    b.putString(MEAL_NAME, t[0].strMeal)
+                    b.putString(KATEGORI_NAVN, t!![0].strCategory)
+                    b.putString(OPPSKRIFT_STED, t[0].strArea)
+                    b.putString(OPPSKRIFT_TITTEL, t[0].strMeal)
                     b.putString(OPPSKRIFT_BILDE, t[0].strMealThumb)
                     b.putString(OPPSKRIFT_ID, t[0].idMeal)
 
-                    bottomSheetFragment.arguments = b
+                    bunnDialogFrag.arguments = b
 
-                    bottomSheetFragment.show(childFragmentManager, "BottomSheetDialog")
+                    bunnDialogFrag.show(childFragmentManager, "Bunndialog")
                 }
 
             })
@@ -180,7 +180,7 @@ class HjemFragment : Fragment() {
     private fun onRandomLongClick() {
         binding.randomOppskrift.setOnLongClickListener(object : View.OnLongClickListener {
             override fun onLongClick(p0: View?): Boolean {
-                detaljerMVVM.hentOppskriftEtterIdBunnDialog(randomMealId)
+                detaljerMVVM.hentOppskriftEtterIdBunnDialog(tilfeldigOppskriftId)
                 return true
             }
 
@@ -216,23 +216,23 @@ class HjemFragment : Fragment() {
     }
 
     private fun setMealsByCategoryAdapter(meals: List<Meal>) {
-        mostPopularFoodAdapter.setOppskriftListe(meals)
+        mestPopulareAdapter.setOppskriftListe(meals)
     }
 
     private fun setCategoryAdapter(categories: List<Kategori>) {
-        myAdapter.setKategoriListe(categories)
+        kategoriAdapter.setKategoriListe(categories)
     }
 
-    private fun prepareCategoryRecyclerView() {
+    private fun forberedKategorierRecyclerView() {
         binding.recyclerViewKategorier.apply {
-            adapter = myAdapter
+            adapter = kategoriAdapter
             layoutManager = GridLayoutManager(context, 3, GridLayoutManager.VERTICAL, false)
         }
     }
 
-    private fun preparePopularMeals() {
+    private fun forberedPopulareOppskrifter() {
         binding.recSePopRetter.apply {
-            adapter = mostPopularFoodAdapter
+            adapter = mestPopulareAdapter
             layoutManager = GridLayoutManager(context, 1, GridLayoutManager.HORIZONTAL, false)
         }
     }
