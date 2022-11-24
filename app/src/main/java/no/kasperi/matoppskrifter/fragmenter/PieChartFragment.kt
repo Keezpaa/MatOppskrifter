@@ -11,7 +11,6 @@ import com.anychart.chart.common.dataentry.DataEntry
 import com.anychart.chart.common.dataentry.ValueDataEntry
 import com.anychart.charts.Pie
 import no.kasperi.matoppskrifter.R
-import no.kasperi.matoppskrifter.databinding.FragmentKategorierBinding
 import no.kasperi.matoppskrifter.databinding.FragmentPiechartBinding
 
 

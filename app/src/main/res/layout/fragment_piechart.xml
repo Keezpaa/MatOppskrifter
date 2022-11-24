@@ -5,7 +5,9 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragmenter.PieChartFragment">
-
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <com.anychart.AnyChartView
         android:id="@+id/pieChart"
         android:layout_marginVertical="15sp"
@@ -15,5 +17,5 @@
         app:layout_constraintBaseline_toTopOf="parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-
+    </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

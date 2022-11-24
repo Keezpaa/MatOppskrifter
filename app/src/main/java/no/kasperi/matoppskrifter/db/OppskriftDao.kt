@@ -8,7 +8,6 @@ import no.kasperi.matoppskrifter.pojo.MealDB
 @Dao
 interface OppskriftDao {
 
-
     @Insert
     fun leggTilFavoritt(meal: MealDB)
 
@@ -26,8 +25,5 @@ interface OppskriftDao {
 
     @Delete
     fun slettOppskrift(meal:MealDB)
-
-
-
 
 }

@@ -4,7 +4,7 @@
         <!-- Primary brand color. -->
         <item name="colorPrimaryVariant">@color/accent</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondaryVariant">@color/gray</item>
+        <item name="colorSecondaryVariant">@color/seed</item>
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/md_theme_light_primary</item>
         <item name="colorOnPrimary">@color/md_theme_light_onPrimary</item>
@@ -32,5 +32,20 @@
         <item name="colorOnSurfaceInverse">@color/md_theme_light_inverseOnSurface</item>
         <item name="colorSurfaceInverse">@color/md_theme_light_inverseSurface</item>
         <item name="colorPrimaryInverse">@color/md_theme_light_inversePrimary</item>
+    </style>
+
+    <!-- Light Mode -->
+    <!-- Bakgrunn når light mode er aktivert -->
+    <style name="SCREEN">
+        <item name="android:background">#FFF</item>
+    </style>
+    <!-- Tekstbakgrunn når light mode er aktivert -->
+    <style name="TEXT">
+        <item name="android:textColor">#000</item>
+    </style>
+    <!-- Knappebakgrunn når light mode er aktivert -->
+    <style name="BUTTON">
+        <item name="android:background">@color/md_theme_dark_inversePrimary</item>
+        <item name="android:textColor">#FFF</item>
     </style>
 </resources>

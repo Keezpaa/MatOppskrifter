@@ -18,8 +18,6 @@
         android:id="@+id/morkere_bakgrunnsbilde"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:alpha="0.5"
-        android:background="@color/md_theme_dark_background"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -147,6 +145,16 @@
         android:padding="5dp"
         app:layout_constraintEnd_toEndOf="@id/rediger_profil_lagre_btn"
         app:layout_constraintTop_toTopOf="@id/rediger_profil_tlf" />
+
+
+    <ImageView
+        android:layout_width="254dp"
+        android:layout_height="246dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginBottom="80dp"
+        android:src="@drawable/qr_code"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/rediger_profil_loggut_btn"

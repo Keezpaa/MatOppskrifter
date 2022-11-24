@@ -14,8 +14,6 @@ import no.kasperi.matoppskrifter.ui.intro.IntroActivity
 
 class SplashActivity : AppCompatActivity() {
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)

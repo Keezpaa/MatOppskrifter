@@ -123,26 +123,26 @@ class OppskriftDetaljerActivity : AppCompatActivity() {
         ytUrl = meal.strYoutube
         binding.apply {
             tvIngredienser.text = "Ingredienser: "
-            tvIngredienser.text = "${meal.strIngredient1}: ${meal.strMeasure1}\n" +
-                    "${meal.strIngredient2}: ${meal.strMeasure2}\n" +
-                    "${meal.strIngredient3}: ${meal.strMeasure3}\n" +
-                    "${meal.strIngredient4}: ${meal.strMeasure4}\n" +
-                    "${meal.strIngredient5}: ${meal.strMeasure5}\n" +
-                    "${meal.strIngredient6}: ${meal.strMeasure6}\n" +
-                    "${meal.strIngredient7}: ${meal.strMeasure7}\n" +
-                    "${meal.strIngredient8}: ${meal.strMeasure8}\n" +
-                    "${meal.strIngredient9}: ${meal.strMeasure9}\n" +
-                    "${meal.strIngredient10}: ${meal.strMeasure10}\n" +
-                    "${meal.strIngredient11}: ${meal.strMeasure11}\n" +
-                    "${meal.strIngredient12}: ${meal.strMeasure12}\n" +
-                    "${meal.strIngredient13}: ${meal.strMeasure13}\n" +
-                    "${meal.strIngredient14}: ${meal.strMeasure14}\n" +
-                    "${meal.strIngredient15}: ${meal.strMeasure15}\n" +
-                    "${meal.strIngredient16}: ${meal.strMeasure16}\n" +
-                    "${meal.strIngredient17}: ${meal.strMeasure17}\n" +
-                    "${meal.strIngredient18}: ${meal.strMeasure18}\n" +
-                    "${meal.strIngredient19}: ${meal.strMeasure19}\n" +
-                    "${meal.strIngredient20}: ${meal.strMeasure20}"
+            tvIngredienser.text = "${meal.strIngredient1} ${meal.strMeasure1}\n" +
+                    "${meal.strIngredient2} ${meal.strMeasure2}\n" +
+                    "${meal.strIngredient3} ${meal.strMeasure3}\n" +
+                    "${meal.strIngredient4} ${meal.strMeasure4}\n" +
+                    "${meal.strIngredient5} ${meal.strMeasure5}\n" +
+                    "${meal.strIngredient6} ${meal.strMeasure6}\n" +
+                    "${meal.strIngredient7} ${meal.strMeasure7}\n" +
+                    "${meal.strIngredient8} ${meal.strMeasure8}\n" +
+                    "${meal.strIngredient9} ${meal.strMeasure9}\n" +
+                    "${meal.strIngredient10} ${meal.strMeasure10}\n" +
+                    "${meal.strIngredient11} ${meal.strMeasure11}\n" +
+                    "${meal.strIngredient12} ${meal.strMeasure12}\n" +
+                    "${meal.strIngredient13} ${meal.strMeasure13}\n" +
+                    "${meal.strIngredient14} ${meal.strMeasure14}\n" +
+                    "${meal.strIngredient15} ${meal.strMeasure15}\n" +
+                    "${meal.strIngredient16} ${meal.strMeasure16}\n" +
+                    "${meal.strIngredient17} ${meal.strMeasure17}\n" +
+                    "${meal.strIngredient18} ${meal.strMeasure18}\n" +
+                    "${meal.strIngredient19} ${meal.strMeasure19}\n" +
+                    "${meal.strIngredient20} ${meal.strMeasure20}"
             tvInstruksjoner.text = "Instruksjoner: "
             tvInstruksjonerText.text = meal.strInstructions
             tvSted.visibility = View.VISIBLE

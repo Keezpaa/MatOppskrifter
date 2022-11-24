@@ -5,6 +5,8 @@
     android:layout_height="match_parent"
     tools:context="no.kasperi.matoppskrifter.fragmenter.KategorierFragment">
 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <TextView
         android:id="@+id/kategorier_tittel"
         style="@style/h3_tittel_bold"
@@ -21,5 +23,6 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="50dp"
         android:text="Kategori fragment" />
+
 
 </FrameLayout>
